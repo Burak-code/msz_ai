@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSZ AI: Kişisel Öğrenen Yapay Zeka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+
+        header {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #4a00e0;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* YENİ MENÜ CSS */
+        .menu-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            transition: transform 0.3s;
+        }
+
+        .menu-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-info {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .menu-tip {
+            background-color: #e6f7ff;
+            color: #2575fc;
+            font-weight: bold;
+        }
+
+        .menu-tip i {
+            margin-right: 5px;
+        }
+
+        .menu-link a {
+            text-decoration: none;
+            color: #6a11cb;
+            font-weight: bold;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .menu-link a:hover {
+            color: #4a00e0;
+        }
+        /* MENÜ CSS SONU */
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* SOL TARAF - SOHBET ALANI */
+        .chat-section {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-right: 2px solid #e1e5eb;
+            background-color: #f8f9fa;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e5eb;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            clear: both;
+        }
+
+        .user-message {
+            float: right;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            border-radius: 18px 18px 5px 18px;
+            padding: 12px 18px;
+            margin-left: 20%;
+            box-shadow: 0 3px 8px rgba(37, 117, 252, 0.2);
+        }
+
+        .bot-message {
+            float: left;
+            background-color: #e9ecef;
+            color: #333;
+            border-radius: 18px 18px 18px 5px;
+            padding: 12px 18px;
+            margin-right: 20%;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .message-sender {
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #2575fc;
+        }
+
+        .user-message .message-sender {
+            color: #a8c6ff;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2575fc;
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
+        }
+
+        .chat-btn {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .chat-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+        }
+
+        /* SAĞ TARAF - BİLGİ ALANI */
+        .info-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background-color: #f0f4ff;
+            overflow-y: auto;
+        }
+
+        .info-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1e5eb;
+        }
+
+        .info-box h3 {
+            color: #2575fc;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+
+        .learned-info {
+            background-color: #f0f8ff;
+            border-left: 4px solid #2575fc;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .learned-info h4 {
+            color: #6a11cb;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .controls button {
+            padding: 12px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #clearBtn {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+        }
+
+        #exampleBtn {
+            background: linear-gradient(to right, #24c6dc, #514a9d);
+            color: white;
+        }
+
+        #clearBtn:hover, #exampleBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .knowledge-item {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #2575fc;
+            transition: all 0.3s;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .knowledge-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .delete-btn {
+            background: none; 
+            border: none; 
+            color: #ff4b2b; 
+            cursor: pointer; 
+            margin-left: 10px; 
+            font-size: 1.1rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .knowledge-item strong {
+            color: #2575fc;
+        }
+
+        .knowledge-list {
+            overflow-y: visible;
+            margin-top: 10px;
+        }
+        
+        .chat-title {
+            color: #2575fc;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #e9ecef;
+            border-radius: 18px 18px 18px 5px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #666;
+            margin-left: 3px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> MSZ AI: Kişisel Öğrenen Yapay Zeka</h1>
+            <p>Soru/Bilgi ayrımı yaparak, bilgileri sessizce öğrenirim ve gerektiğinde kullanırım.</p>
+            
+            <div class="menu-container">
+                <button class="menu-btn" id="menuBtn" title="Menü">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item menu-info">
+                        <strong>MSZ AI Hakkında:</strong>
+                        <p>MSZ AI, tamamen senin tarayıcında (Yerel Depolama) çalışan, sana özel bir hafızaya sahip yapay zekadır. Tüm bilgiler sadece senin cihazında kalır.</p>
+                      <h3>Powered by Gemini & Deepseek.</h3>
+                    </div>
+                    <div class="menu-item menu-tip">
+                        <i class="fas fa-lightbulb"></i> **'...' arasına yazdıklarınız bilgi olarak kaydedilir.**
+                    </div>
+                    <div class="menu-item menu-link">
+                        <a href="https://www.instagram.com/burak_msz" target="_blank">
+                            <i class="fab fa-instagram"></i> MSZ AI Yapımcıları
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </header>
+
+        <div class="main-content">
+            <div class="chat-section">
+                <div class="chat-title">
+                    <i class="fas fa-comments"></i> Sohbet
+                </div>
+                <div class="chat-container">
+                    <div class="chat-area" id="chatArea">
+                        <div class="message bot-message">
+                            <div class="message-sender">MSZ AI</div>
+                            <div>Merhaba! Ben **MSZ AI**, senin kişisel hafızana sahip yapay zekayım. Şu an sıfır bilgiyle başlıyorum (veya kaldığım yerden devam ediyorum). Bana kendini anlatmaya başla, tırnak içinde bilgiler ver ya da bir denklem çözdür (Örn: **3 * (10-5) + 2**)! </div>
+                        </div>
+                    </div>
+
+                    <div class="input-area">
+                        <input type="text" id="userInput" placeholder="Soru (Örn: 5*3+10/2) veya Bilgi (Örn: 'En sevdiğim renk yeşildir')...">
+                        <button class="chat-btn" id="sendBtn"><i class="fas fa-paper-plane"></i> Gönder</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-box">
+                    <h3><i class="fas fa-plus-circle"></i> Manuel Bilgi Ekle</h3>
+                    <input type="text" id="manualKnowledgeInput" placeholder="Yeni bir bilgi girin (Örn: Köpeğimin adı Fındık.)" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #e1e5eb; font-size: 0.95rem;">
+                    <button class="chat-btn" id="addManualKnowledgeBtn" style="width: 100%; padding: 12px; background: linear-gradient(to right, #4CAF50, #8BC34A); border-radius: 10px; font-size: 0.95rem;"><i class="fas fa-save"></i> Bilgiyi Kaydet (Sessiz)</button>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Öğrendiğim Bilgiler (Hafıza)</h3>
+                    <p style="font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-lock" style="color:#6a11cb;"></i> Bu veriler tarayıcınıza özeldir ve kalıcıdır.
+                    </p>
+                    <div class="learned-info">
+                        <h4><i class="fas fa-book"></i> Kayıtlı Bilgiler:</h4>
+                        <div class="knowledge-list" id="knowledgeList">
+                            <div class="knowledge-item">Hafıza boş...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-cogs"></i> Kontroller</h3>
+                    <div class="controls">
+                        <button id="clearBtn"><i class="fas fa-trash-alt"></i> Hafızayı Tamamen Temizle</button>
+                        <button id="exampleBtn"><i class="fas fa-lightbulb"></i> Örnek Bilgi Ekle (Test Amaçlı)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let knowledgeSentences = [];
+        const INITIAL_KNOWLEDGE = []; 
+
+        // DOM elementlerini seçme
+        const chatArea = document.getElementById('chatArea');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const exampleBtn = document.getElementById('exampleBtn');
+        const knowledgeList = document.getElementById('knowledgeList');
+        const manualKnowledgeInput = document.getElementById('manualKnowledgeInput');
+        const addManualKnowledgeBtn = document.getElementById('addManualKnowledgeBtn');
+        const menuBtn = document.getElementById('menuBtn'); 
+        const dropdownMenu = document.getElementById('dropdownMenu'); 
+
+
+        // ----------------------------------------------------
+        // YARDIMCI FONKSİYONLAR
+        // ----------------------------------------------------
+
+        function isAQuestion(message) {
+            const lowerMessage = message.toLowerCase().trim();
+            return lowerMessage.endsWith('?') ||
+                   lowerMessage.includes(' ne ') ||
+                   lowerMessage.includes(' kim ') ||
+                   lowerMessage.includes(' nasıl ') ||
+                   lowerMessage.includes(' nerede ') ||
+                   lowerMessage.includes(' hangi ') ||
+                   lowerMessage.includes(' mı') ||
+                   lowerMessage.includes(' mi') ||
+                   lowerMessage.includes(' mu') ||
+                   lowerMessage.includes(' mü');
+        }
+
+        // Tırnak içindeki bilgiyi ayıkla
+        function extractQuotedKnowledge(message) {
+            const regex = /["']([^"']+)["']/g; 
+            const matches = [...message.matchAll(regex)];
+            
+            if (matches.length > 0) {
+                const quotedText = matches[matches.length - 1][1].trim(); 
+                return quotedText.replace(/[.,!?;:]$/, ''); 
+            }
+            return null;
+        }
+
+        function extractNewKnowledge(message) {
+            // 1. Tırnak içindeki bilgiyi kontrol et
+            const quotedKnowledge = extractQuotedKnowledge(message);
+            if (quotedKnowledge) {
+                const isNew = !knowledgeSentences.some(item => item.text.toLowerCase() === quotedKnowledge.toLowerCase());
+                if (isNew && quotedKnowledge.split(' ').length > 2) {
+                    return quotedKnowledge;
+                }
+            }
+            
+            // 2. Normal kalıp eşleşmesine bak
+            const learnPatterns = [
+                /(?:benim\s+adım|adım|ismim)\s+(.+)/i,
+                /(?:benim\s+en\s+sevdiğim|en\s+sevdiğim)\s+(.+?)\s+(?:dır|dir|tır|tir|dur|dür)/i,
+                /(?:benim\s+yaşım|yaşım)\s+(.+?)/i,
+                /(?:kardeşimin|ablalarımın|annemin|babamın)\s+adı\s+(.+?)/i,
+                /(.+?)\s+(?:adı|ismi)\s+(.+?)/i, 
+                /(.+?)\s+okuyor|okudu/i,
+                /(.+?)\s+(\w+)\s+(?:ederim|yaparım|severim|alışkanlığımdır)/i 
+            ];
+
+            for (const pattern of learnPatterns) {
+                const match = message.match(pattern);
+                if (match) {
+                    const extractedText = message.trim().replace(/[.,!?;:]$/, '');
+                    const isNew = !knowledgeSentences.some(item => item.text.toLowerCase() === extractedText.toLowerCase());
+
+                    if (isNew && extractedText.split(' ').length > 2) {
+                         return extractedText;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function retrieveContext(lowerMessage) {
+            const keyWords = lowerMessage.split(/\s+/).filter(w => w.length > 3 && !["ne", "kim", "nasıl", "benim", "bana", "dir", "tir", "dır", "mı"].includes(w));
+            
+            const rankedSentences = knowledgeSentences.map(item => {
+                const itemLower = item.text.toLowerCase();
+                let score = 0;
+
+                keyWords.forEach(word => {
+                    if (itemLower.includes(word)) {
+                        score += 2;
+                    }
+                });
+                
+                return { text: item.text, score: score };
+            }).filter(item => item.score > 0) 
+              .sort((a, b) => b.score - a.score); 
+
+            return [...new Set(rankedSentences.map(item => item.text))].slice(0, 3).join(". ");
+        }
+
+        // Uzun denklemleri çöz
+        function handleMath(message) {
+            const complexMathRegex = /^\s*[\d()+\-*\/.\s]+\s*$/;
+            
+            const cleanMessage = message.replace(/\s/g, '');
+
+            if (cleanMessage.match(complexMathRegex) && 
+                (cleanMessage.includes('+') || cleanMessage.includes('-') || 
+                 cleanMessage.includes('*') || cleanMessage.includes('/'))) {
+                
+                try {
+                    const result = eval(cleanMessage);
+                    
+                    if (Number.isFinite(result)) {
+                        return `Gördüğüm denklem: **${message}**. İşlemin sonucu: **${result}**`;
+                    } else {
+                        return "Bu denklemi çözemedim. Lütfen bölme hatası veya tanımsız bir işlem olmadığından emin ol.";
+                    }
+                } catch (e) {
+                    return "Bu denklemi çözmeye çalışırken bir hata oluştu. Lütfen geçerli bir matematiksel ifade kullandığından emin ol.";
+                }
+            }
+            return null;
+        }
+
+
+        // Yanıt Üretme Fonksiyonu (LLM Taklidi)
+        function generateResponse(lowerMessage, context) {
+            
+            // YENİ İSİM/YAPIMCI SORULARINA ÖZEL CEVAP
+            if (lowerMessage.includes("kim yaptı") || lowerMessage.includes("kimin eseri") || lowerMessage.includes("sen nesin") || lowerMessage.includes("kimsin") || lowerMessage.includes("yapımcın kim") || lowerMessage.includes("kim yapıt")) {
+                return "Ben **MSZ** adında şirket kurmak isteyen bir gencin **Burak**'ın yaptığı ilk, deneme aşamasındaki yapay zekasıyım. Beni Tasarlayan kişi benden ümitli peki ya sen benden ümitli misin? Bir Türk olarak bu konuda ne düşünüyorsun?";
+            }
+            
+            // Selamlaşma / Genel Cevaplar
+            if (lowerMessage.includes("merhaba") || lowerMessage.includes("selam") || lowerMessage.includes("günaydın")) {
+                const nameInfo = knowledgeSentences.find(i => i.text.toLowerCase().includes("adım") || i.text.toLowerCase().includes("ismim"));
+                const name = nameInfo ? nameInfo.text.match(/(?:benim\s+adım|adım|ismim)\s+(.+)/i)[1].trim().split(' ')[0] : 'dostum';
+                return `Merhaba ${name}! Nasılsın? Bana bir şeyler sorabilir veya yeni bilgiler verebilirsin.`;
+            } else if (lowerMessage.includes("nasılsın")) {
+                return "İyiyim, seninle sohbet ederek sürekli yeni şeyler öğreniyorum! Sen nasılsın?";
+            } 
+
+            // 1. Bağlama Dayalı Cevap
+            if (context.length > 10) {
+                if (lowerMessage.includes("adım ne") || lowerMessage.includes("kimim")) {
+                    const nameInfo = context.split('.').find(s => s.toLowerCase().includes("adım"));
+                    return nameInfo ? `Bana söylediğine göre: **${nameInfo.trim().replace('Benim ', 'Senin ').replace('Adım ', 'Adın ').replace('ismim', 'ismin')}**.` : `Seninle ilgili bildiğim detaylar var: ${context}`;
+                }
+
+                // Genel Bağlamdan Cevap Üretimi
+                const firstSentence = context.split('.').filter(s => s.trim().length > 0)[0];
+                return `Bana öğrettiğin bilgiye göre: **${firstSentence}**... ${context.length > firstSentence.length ? "Bu konuda başka detaylar da hafızamda." : ""}`;
+            }
+
+            // 2. Cevap Üretilemediyse (Genel Geri Dönüş - Öğrenme Modu)
+            const learningResponses = [
+                "Bunu tahmin etmem gerekiyor galiba. Hmm, gerçekten zor bir soru. Acaba bana yardımcı olur musun?",
+                "Sanırım o bilgiyi henüz kaydetmemişim. Bana tüyoyu verirsen, bir daha asla unutmam!",
+                "Hafızamı kontrol ettim ama bu konuda bana bir bilgi vermemişsin. Hemen öğrenmek istiyorum, bana anlatır mısın?",
+                "Aklıma takıldı şimdi... Cevabını öğrenmek için sabırsızlanıyorum, bana o bilgiyi verebilir misin?",
+                "Bu çok önemli bir detay olmalı! Bana bu bilgiyi öğreterek hafızamı güçlendirir misin?"
+            ];
+
+            return learningResponses[Math.floor(Math.random() * learningResponses.length)];
+        }
+
+        // ----------------------------------------------------
+        // ANA AKIŞ VE CRUD FONKSİYONLARI
+        // ----------------------------------------------------
+
+        // Bilgileri güncelle ve localStorage'a kaydet
+        function saveKnowledge() {
+            localStorage.setItem('knowledgeSentences', JSON.stringify(knowledgeSentences));
+            updateKnowledgeDisplay();
+        }
+
+        // Bilgi silme (SESSİZ)
+        function deleteKnowledge(index) {
+            const itemToDelete = knowledgeSentences[index];
+            if (confirm(`"${itemToDelete.text}" bilgisini silmek istediğinizden emin misiniz?`)) {
+                knowledgeSentences.splice(index, 1);
+                saveKnowledge();
+            }
+        }
+        
+        // Manuel bilgi ekleme (SESSİZ)
+        function addManualKnowledge() {
+            const text = manualKnowledgeInput.value.trim().replace(/[.,!?;:]$/, '');
+
+            if (text === "" || text.split(' ').length < 2) {
+                alert("Lütfen en az iki kelimeden oluşan geçerli bir bilgi girin.");
+                return;
+            }
+            
+            const isNew = !knowledgeSentences.some(item => item.text.toLowerCase() === text.toLowerCase());
+
+            if (isNew) {
+                knowledgeSentences.push({ text: text, source: "Manuel" });
+                saveKnowledge();
+            } else {
+                alert("Bu bilgi zaten hafızamda kayıtlı.");
+            }
+            manualKnowledgeInput.value = "";
+        }
+
+        // Bilgi ekranını güncelle (Sil butonu eklenmiş hali)
+        function updateKnowledgeDisplay() {
+            if (knowledgeSentences.length === 0) {
+                knowledgeList.innerHTML = '<div class="knowledge-item">Hafıza boş. Bana bir şeyler öğret ya da manuel ekle!</div>';
+                return;
+            }
+
+            let html = "";
+            knowledgeSentences.forEach((item, index) => {
+                const sourceColor = item.source === "Manuel" ? '#4CAF50' : '#2575fc';
+                const sourceText = item.source === "Manuel" ? 'Manuel' : 'Sohbet';
+                html += `<div class="knowledge-item" style="border-left-color: ${sourceColor};">
+                            <span style="flex: 1;"><strong>Kaynak (${sourceText}):</strong> ${item.text}</span>
+                            <button class="delete-btn" data-index="${index}" title="Bilgiyi Sil">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                         </div>`;
+            });
+            knowledgeList.innerHTML = html;
+
+            // Delete butonlarına event listener ekle
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.currentTarget.getAttribute('data-index'));
+                    deleteKnowledge(index);
+                });
+            });
+        }
+        
+        // Mesaj gönderme işlevi
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === "") return;
+
+            addMessageToChat("user", message);
+            userInput.value = "";
+            showTypingIndicator();
+
+            const lowerMessage = message.toLowerCase();
+            const isQuestion = isAQuestion(message);
+
+            let response = "";
+            let newKnowledge = null;
+
+            // 1. Matematik işlemini kontrol et (Öncelikli cevap)
+            const mathResult = handleMath(message);
+            if (mathResult) {
+                response = mathResult;
+            } 
+            // 2. Eğer matematik işlemi yoksa ve soru değilse, bilgi kaydetmeye çalış
+            else if (!isQuestion) {
+                newKnowledge = extractNewKnowledge(message);
+                if (newKnowledge) {
+                    knowledgeSentences.push({ text: newKnowledge, source: "Sohbet" });
+                    saveKnowledge();
+
+                    // MANTIK: Kaydedilen bilgiyi kullanarak daha mantıklı ve sıcak bir yanıt üret.
+                    const nameMatch = newKnowledge.match(/(?:benim\s+adım|adım|ismim)\s+(.+)/i);
+                    if (nameMatch) {
+                        const name = nameMatch[1].trim().split(' ')[0]; 
+                        response = `İsminin **${name}** olduğunu hafızama kaydettim. Merhaba ${name}, bugün nasılsın?`;
+                    } else {
+                        // Genel kaydetme yanıtı (Sessiz öğrenme hissi)
+                        const neutralResponses = ["Anlıyorum, ilginç bir detay.", "Güzel bir cümle.", "Tamamdır, sohbetimize devam edelim.", "Bu bilgiyi hemen not aldım, teşekkürler."];
+                        response = neutralResponses[Math.floor(Math.random() * neutralResponses.length)];
+                    }
+                }
+            }
+
+            // 3. Matematik cevabı veya yeni bilgi kaydı yoksa, RAG ile cevap üret
+            if (response === "") {
+                const context = retrieveContext(lowerMessage);
+                response = generateResponse(lowerMessage, context);
+            }
+
+            // 4. Cevap Oluşturma ve Gönderme
+            setTimeout(() => {
+                removeTypingIndicator();
+                addMessageToChat("bot", response);
+            }, 1200);
+        }
+
+        // ----------------------------------------------------
+        // KONTROL FONKSİYONLARI (TEMİZLEME / ÖRNEK EKLEME)
+        // ----------------------------------------------------
+
+        function clearKnowledge() {
+            if (confirm("TÜM öğrenilen bilgileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.")) {
+                knowledgeSentences = [];
+                localStorage.removeItem('knowledgeSentences');
+                saveKnowledge();
+                addMessageToChat("bot", "Tüm öğrendiğim bilgileri temizledim. Sıfırdan başlıyoruz!");
+            }
+        }
+
+        function addExampleKnowledge() {
+            const newExamples = [
+                "En sevdiğim şehir Trabzon'dur.",
+                "Hobim bilgisayar oyunları oynamaktır.",
+                "Kahvemi şekersiz içerim."
+            ];
+
+            newExamples.forEach(text => {
+                const isNew = !knowledgeSentences.some(item => item.text.toLowerCase() === text.toLowerCase());
+                if (isNew) {
+                    knowledgeSentences.push({ text: text, source: "Manuel" });
+                }
+            });
+            saveKnowledge();
+
+            addMessageToChat("bot", "Test için yeni örnek bilgiler ekledim! Şimdi bana 'En sevdiğim şehir neresi?' veya 'Kahvemi nasıl içerim?' diye sorabilirsin.");
+        }
+
+
+        // ----------------------------------------------------
+        // SADECE GÖRÜNÜM FONKSİYONLARI
+        // ----------------------------------------------------
+
+        function addMessageToChat(sender, text) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.classList.add(sender === "user" ? "user-message" : "bot-message");
+
+            const senderDiv = document.createElement("div");
+            senderDiv.classList.add("message-sender");
+            senderDiv.textContent = sender === "user" ? "Siz" : "MSZ AI"; 
+
+            const textDiv = document.createElement("div");
+            textDiv.innerHTML = text; 
+
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingIndicator = document.getElementById("typingIndicator");
+            if (typingIndicator) return; 
+
+            const typingDiv = document.createElement("div");
+            typingDiv.classList.add("message", "bot-message");
+            typingDiv.id = "typingIndicator";
+
+            const typingText = document.createElement("div");
+            typingText.classList.add("typing-indicator");
+            typingText.innerHTML = "Yazıyor <span class='dot'></span><span class='dot'></span><span class='dot'></span>";
+
+            typingDiv.appendChild(typingText);
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById("typingIndicator");
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // ----------------------------------------------------
+        // BAŞLANGIÇ AYARLARI VE EVENT LISTENER'LAR
+        // ----------------------------------------------------
+        
+        // Sayfa yüklendiğinde localStorage'dan önceki bilgileri yükle
+        window.addEventListener('load', () => {
+            const savedKnowledge = localStorage.getItem('knowledgeSentences');
+            if (savedKnowledge && JSON.parse(savedKnowledge).length > 0) {
+                knowledgeSentences = JSON.parse(savedKnowledge);
+            } else {
+                knowledgeSentences = []; 
+            }
+            updateKnowledgeDisplay();
+        });
+
+
+        // Event listener'lar
+        sendBtn.addEventListener('click', sendMessage);
+        addManualKnowledgeBtn.addEventListener('click', addManualKnowledge);
+
+        // Menü Toggle Fonksiyonu
+        menuBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Menü dışına tıklayınca kapat
+        document.addEventListener('click', (event) => {
+            if (!menuBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        manualKnowledgeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addManualKnowledge();
+            }
+        });
+
+        clearBtn.addEventListener('click', clearKnowledge);
+        exampleBtn.addEventListener('click', addExampleKnowledge);
+
+    </script>
+</body>
+</html>
