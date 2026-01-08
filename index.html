@@ -282,7 +282,7 @@
             font-style: italic;
         }
 
-        /* Hafıza Paneli - Sol Üst Köşeye Aldım */
+        /* Hafıza Paneli */
         .memory-panel {
             position: absolute;
             top: 20px;
@@ -337,7 +337,7 @@
             <div class="dropdown-menu" id="dropdownMenu">
                 <div class="menu-item">
                     <h4><i class="fas fa-code"></i> Powered by</h4>
-                    <p><strong>Gemini and Deepseek</strong></p>
+                    <p><strong>Gemini & Deepseek & ChatGPT</strong></p>
                 </div>
                 <div class="menu-item">
                     <h4><i class="fas fa-user-cog"></i> Yapımcı</h4>
@@ -357,7 +357,7 @@
             <p>Sohbet eder ve detaylı internet araması yapar</p>
         </header>
 
-        <!-- Hafıza Paneli - Sol Üst Köşe -->
+        <!-- Hafıza Paneli -->
         <div class="memory-panel" id="memoryPanel" style="display: none;">
             <h4><i class="fas fa-brain"></i> Hafızam</h4>
             <div id="memoryList"></div>
@@ -578,9 +578,31 @@
             }
         }
 
-        // Smart response generator
+        // Smart response generator with MSZ AI knowledge
         function generateSmartResponse(message, isQuestion = false) {
             const lowerMsg = message.toLowerCase();
+            
+            // MSZ AI identity questions
+            if (lowerMsg.includes('kimsin') || lowerMsg.includes('sen kim') || lowerMsg.includes('adın ne')) {
+                return `Ben <strong>MSZ AI</strong>, Burak tarafından geliştirilen bir yapay zeka asistanıyım! 🔥<br><br>
+                        <strong>Özelliklerim:</strong><br>
+                        • Türkçe sohbet edebilirim<br>
+                        • Detaylı internet araştırması yapabilirim<br>
+                        • Matematik hesapları yapabilirim<br>
+                        • Hafızam var (konuşmalarını hatırlayabilirim)<br><br>
+                        Burak MSZ tarafından 2025 Aralık'ta Türkiye yapay zeka teknolojisine yardım etmek için geliştirildim!`;
+            }
+            
+            // Burak MSZ questions
+            if (lowerMsg.includes('burak') || lowerMsg.includes('msz') || lowerMsg.includes('kurucu')) {
+                return `Burak MSZ beni geliştiren yapımcı! 🚀<br><br>
+                        <strong>Hakkında:</strong><br>
+                        • Teknolojik gelişmelere ayak uydurur<br>
+                        • Yazılım geliştirici<br>
+                        • Instagram: @burak_msz<br>
+                        • "Eğitim herkesin hakkıdır" felsefesiyle beni geliştirdi<br>
+                        • Tamamen ücretsiz bir eğitim asistanı yapmak istedi!`;
+            }
             
             // Greetings
             if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('nasılsın')) {
@@ -599,15 +621,6 @@
                 }
             }
             
-            // Name/identity questions
-            if (lowerMsg.includes('adın ne') || lowerMsg.includes('kimsin') || lowerMsg.includes('sen nesin')) {
-                return 'Ben MSZ AI, Burak tarafından geliştirilen bir yapay zeka asistanıyım. Sohbet edebilir ve internette detaylı araştırma yapabilirim!';
-            }
-            
-            // If question, suggest web search
-            if (isQuestion) {
-                return `"${message}" sorusu için detaylı araştırma yapabilirim. Web'de aramamı ister misin? "ara: ${message}" yazabilir veya arama butonuna tıklayabilirsin.`;
-            }
             
             // Personal information - save to memory
             if (lowerMsg.includes('adım') || lowerMsg.includes('ismim') || 
@@ -619,6 +632,11 @@
                     saveMemory();
                     return 'Bu bilgiyi hafızama kaydettim! Devam edebiliriz.';
                 }
+            }
+            
+            // If question, suggest web search
+            if (isQuestion) {
+                return `"${message}" sorusu için detaylı araştırma yapabilirim. Web'de aramamı ister misin? "ara: ${message}" yazabilir veya arama butonuna tıklayabilirsin.`;
             }
             
             // Default responses
@@ -707,7 +725,15 @@
         // Initialize
         window.onload = () => {
             loadMemory();
-            addMessage('bot', 'MSZ AI aktif! Hem sohbet edebilir hem de detaylı internet araştırması yapabilirim. Merak ettiğin her şeyi sorabilirsin!');
+            // Add welcome message with MSZ AI info
+            addMessage('bot', `🎯 <strong>MSZ AI Aktif!</strong><br><br>
+                Ben Burak tarafından geliştirilen akıllı asistanım.<br>
+                <strong>Özelliklerim:</strong><br>
+                • Sohbet edebilirim<br>
+                • İnternette detaylı araştırma yapabilirim<br>
+                • Hafızam var (konuşmalarını hatırlarım)<br>
+                • Matematik hesapları yapabilirim<br><br>
+                Örnek: "ara: YKS nedir" veya "kimsin?" yazabilirsin!`);
         };
     </script>
 </body>
