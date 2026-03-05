@@ -4,7 +4,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSZ AI</title>
+    <title>MSZ AI - Research</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -34,18 +34,16 @@
         .hint-item { padding: 8px; font-size: 12px; cursor: pointer; border-radius: 6px; }
         .hint-item:hover { background: #334155; color: #3b82f6; }
 
-        /* Edit Mode Styling */
-        .edit-active [draggable-item] { 
-            cursor: crosshair !important; 
-            outline: 1px dashed rgba(59, 130, 246, 0.5); 
-            user-select: none !important; /* Metin seçimini engeller */
-        }
+        .edit-active [draggable-item] { cursor: crosshair !important; outline: 1px dashed rgba(59, 130, 246, 0.5); user-select: none !important; }
         .edit-active .message-bubble { border: 1px dashed #3b82f6 !important; }
-        
-        /* Smooth reset animation */
         .reset-anim { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; }
 
         .wiki-img { width: 100%; border-radius: 12px; margin-bottom: 12px; object-fit: cover; max-height: 250px; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .loading-dots:after { content: '.'; animation: dots 1s steps(5, end) infinite; }
+        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60% { content: '...'; } 80%, 100% { content: ''; } }
+        
+        .source-tag { font-size: 10px; background: #334155; padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block; color: #94a3b8; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-4">
@@ -55,8 +53,8 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
         <div class="sidebar-content text-center">
-            <p class="text-white mb-4">Made with Gemini, Deepseek and ChatGPT.</p>
-            <p class="text-blue-400 font-bold italic">It's all free.</p>
+            <p class="text-white mb-4">Made by Burak MSZ.</p>
+            <p class="text-blue-400 font-bold italic">Research Engine Enabled.</p>
         </div>
     </div>
 
@@ -66,7 +64,7 @@
                 <i class="fas fa-brain text-xl text-white"></i>
             </div>
             <div>
-                <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-500 text-sm font-normal">version 10</span></h1>
+                <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-500 text-sm font-normal">v10 Research</span></h1>
             </div>
         </div>
         <button id="clearChat" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400">
@@ -94,7 +92,7 @@
                 <button id="worldBtn" class="w-10 h-10 text-slate-400 hover:text-blue-500 transition-colors">
                     <i class="fas fa-globe-americas text-xl"></i>
                 </button>
-                <input type="text" id="userInput" autocomplete="off" placeholder="Problemi veya sorunuzu buraya yazın..." 
+                <input type="text" id="userInput" autocomplete="off" placeholder="İnternette araştır..." 
                     class="flex-1 bg-transparent border-none focus:outline-none p-2 text-sm text-white">
                 <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all">
                     <i class="fas fa-paper-plane"></i>
@@ -104,7 +102,7 @@
     </main>
 
     <footer id="mainFooter" class="mt-4 text-slate-500 text-[11px] flex gap-4" draggable-item>
-        <span>Geliştirici: MSZ Lab</span>
+        <span>Geliştirici: Burak MSZ</span>
         <span id="currentModeDisplay">Mod: Araştırma</span>
         <span id="imageLimitDisplay">Kalan Görsel Hakkı: 10</span>
     </footer>
@@ -121,33 +119,26 @@
         let currentMode = 'search';
         let editMode = false;
         let isAltPressed = false;
-
         const forbiddenWords = ['nude', 'naked', 'porn', 'sex', 'sexual', 'müstehcen', 'çıplak', 'hentai', '+18'];
 
-        // Görsel Limit Yönetimi (24 Saatlik)
+        // Limit Yönetimi
         function getLimitData() {
             const data = localStorage.getItem('msz_image_limit_data');
-            if (!data) return { count: 0, startTime: null };
-            return JSON.parse(data);
+            return data ? JSON.parse(data) : { count: 0, startTime: null };
         }
-
         function saveLimitData(count, startTime) {
             localStorage.setItem('msz_image_limit_data', JSON.stringify({ count, startTime }));
         }
-
         function checkAndResetLimit() {
             let data = getLimitData();
             const now = Date.now();
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-
-            if (data.startTime && now - data.startTime > twentyFourHours) {
+            if (data.startTime && now - data.startTime > 24 * 60 * 60 * 1000) {
                 data = { count: 0, startTime: null };
                 saveLimitData(0, null);
             }
             return data;
         }
 
-        // Alt tuşu kontrolü
         window.addEventListener('keydown', (e) => { if (e.key === 'Alt') isAltPressed = true; });
         window.addEventListener('keyup', (e) => { if (e.key === 'Alt') isAltPressed = false; });
 
@@ -161,8 +152,8 @@
                 <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                     <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                         <p class="text-sm leading-relaxed">
-                            Merhaba! Ben <strong>MSZ AI</strong>. Bilgi araştırması yapabilir, matematik problemlerini çözebilir ve artık görsel oluşturabilirim. Görsel oluşturmam şu an için berbat olsada <strong>ücretsiz ve 10 yıllık pc</strong> ile yapıldığım için bu gayet ideal😁. Alttaki dünya ikonundan modu değiştirip görseli tanımlayarak görsel oluşturabilirsiniz.<br><br>
-                            🚀 <strong>Yeni Özellik:</strong> Mesaj barının solundaki <strong>Dünya ikonuna</strong> tıklayarak "Fotoğraf Oluştur" moduna geçebilirsin.
+                            Selam! Ben <strong>MSZ AI v10</strong>. Artık internetten canlı bilgi toplayabiliyorum. <br><br>
+                            🔍 <strong>Gelişmiş Araştırma:</strong> Bir şey sorduğunda Wikipedia ve internet kaynaklarını tarayıp sana en doğru sonucu getiririm. API yok, tamamen bedava!
                         </p>
                     </div>
                     <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • Sistem</span>
@@ -176,21 +167,10 @@
             const data = checkAndResetLimit();
             const left = 10 - data.count;
             document.getElementById('imageLimitDisplay').innerText = `Kalan Görsel Hakkı: ${left > 0 ? left : 0}`;
-            
-            if (data.startTime && left <= 0) {
-                const remainingTime = (data.startTime + (24 * 60 * 60 * 1000)) - Date.now();
-                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                const mins = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('imageLimitDisplay').title = `Yeni haklar için kalan süre: ${hours}sa ${mins}dk`;
-            }
         }
 
         userInput.oninput = () => {
-            if (userInput.value.startsWith('/')) {
-                commandHints.style.display = 'block';
-            } else {
-                commandHints.style.display = 'none';
-            }
+            commandHints.style.display = userInput.value.startsWith('/') ? 'block' : 'none';
         };
 
         function insertCmd(cmd) {
@@ -215,43 +195,54 @@
             event.currentTarget.classList.add('active-mode');
             const display = document.getElementById('currentModeDisplay');
             if(mode === 'search') {
-                userInput.placeholder = "Problemi veya sorunuzu buraya yazın...";
+                userInput.placeholder = "İnternette araştır...";
                 display.innerText = "Mod: Araştırma";
             } else {
-                userInput.placeholder = "Ne çizmek istersin? (İngilizce önerilir)...";
+                userInput.placeholder = "Ne çizmek istersin?...";
                 display.innerText = "Mod: Fotoğraf Oluştur";
             }
         }
 
-        function solveLocal(input) {
-            const low = input.toLowerCase().trim();
-            if (low.includes('kimsin') || low.includes('adın ne') || low.includes('seni kim yaptı')) {
-                return "Ben <strong>MSZ AI</strong>. <strong>Burak Bileç</strong> tarafından geliştirilen, bilgi araştırması yapabilen ve görsel oluşturabilen ücretsiz bir yapay zeka asistanıyım. 10 yıllık bir PC üzerinde hayata geldim!";
+        // ANA ARAŞTIRMA FONKSİYONU (API'SİZ)
+        async function performResearch(query) {
+            try {
+                // Önce Wikipedia'yı dene
+                const wikiResp = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+                const wikiData = await wikiResp.json();
+                
+                if (wikiData.title && wikiData.extract && wikiData.type !== 'disambiguation') {
+                    let html = wikiData.thumbnail ? `<img src="${wikiData.thumbnail.source}" class="wiki-img">` : "";
+                    html += `<p>${wikiData.extract}</p><span class="source-tag">Kaynak: Wikipedia</span>`;
+                    return html;
+                }
+
+                // Wikipedia'da yoksa DuckDuckGo "Instant Answer" (Ücretsiz & API Key İstemez)
+                const ddgResp = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
+                const ddgData = await ddgResp.json();
+
+                if (ddgData.AbstractText) {
+                    return `<p>${ddgData.AbstractText}</p><span class="source-tag">Kaynak: DuckDuckGo Index</span>`;
+                }
+
+                return "Maalesef bu konuda derinlemesine bir bilgi bulamadım kanka. Başka bir şekilde sormayı dene?";
+            } catch (err) {
+                return "Araştırma yaparken bir hata oluştu, internetini kontrol et kanka.";
             }
-            if (['selam', 'merhaba', 'sa'].some(s => low === s)) return "Selam! Sana nasıl yardımcı olabilirim?";
-            return null;
         }
 
         async function createAIImage(prompt) {
             let data = checkAndResetLimit();
-            
             if (data.count >= 10) {
-                const remainingTime = (data.startTime + (24 * 60 * 60 * 1000)) - Date.now();
-                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                const mins = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                addMessage(`Günlük görsel limitin doldu kanka. Yeni haklar için <strong>${hours} saat ${mins} dakika</strong> beklemen lazım.`, 'bot', true);
+                addMessage("Limit doldu, 24 saat sonra görüşürüz kanka.", 'bot');
                 return;
             }
-
-            const isUnsafe = forbiddenWords.some(word => prompt.toLowerCase().includes(word));
-            if (isUnsafe) {
-                addMessage("Üzgünüm, müstehcen içerikler oluşturamam. Bu benim güvenlik kurallarıma aykırı.", 'bot');
+            if (forbiddenWords.some(word => prompt.toLowerCase().includes(word))) {
+                addMessage("Bu tarz şeyler çizemem kanka, ayıp.", 'bot');
                 return;
             }
 
             const startTime = data.startTime || Date.now();
-            const newCount = data.count + 1;
-            saveLimitData(newCount, startTime);
+            saveLimitData(data.count + 1, startTime);
             updateLimitDisplay();
 
             const seed = Math.floor(Math.random() * 100000);
@@ -263,91 +254,53 @@
         function addMessage(content, role = 'bot', isHtml = false) {
             const div = document.createElement('div');
             div.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
-            
             const bubble = document.createElement('div');
             bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
             bubble.innerHTML = `<div class="text-sm leading-relaxed">${isHtml ? content : content.replace(/\n/g, '<br>')}</div>`;
-            
             bubble.setAttribute('draggable-item', '');
             initDraggable(bubble);
-
             div.appendChild(bubble);
             div.innerHTML += `<span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">${role === 'user' ? 'Kullanıcı' : 'MSZ AI'}</span>`;
-            
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
+            return div;
         }
 
         async function handleAction() {
             const val = userInput.value.trim();
             if (!val) return;
             userInput.value = '';
-            commandHints.style.display = 'none';
 
-            if (val === '/edit') {
-                editMode = true;
-                mainContainer.classList.add('edit-active');
-                addMessage("Developer modu aktif. <strong>Alt tuşuna basılı tutarak</strong> ekrandaki her şeyi taşıyabilirsin. Çıkmak için <code>/exit_edit</code> yaz.", 'bot', true);
-                return;
-            }
-
-            if (val === '/exit_edit') {
-                editMode = false;
-                mainContainer.classList.remove('edit-active');
-                addMessage("Düzenleme modundan çıkıldı. Pozisyonlar korundu. Tamamen sıfırlamak için <code>/restart</code> yazabilirsin.", 'bot', true);
-                return;
-            }
-            
-            if (val === '/restart') {
-                resetPositions();
-                addMessage("Arayüz başarıyla sıfırlandı!", 'bot');
-                return;
-            }
-
-            if (val.startsWith('/youtube_') && val.endsWith('_explain')) {
-                addMessage(val, 'user');
-                addMessage("<strong>YouTube Analizi:</strong><br>Video çekiliyor...<br>Kanal: MSZ Lab<br>Durum: Başarılı.", 'bot', true);
-                return;
-            }
+            if (val === '/edit') { editMode = true; mainContainer.classList.add('edit-active'); addMessage("Edit modu aktif!", 'bot'); return; }
+            if (val === '/exit_edit') { editMode = false; mainContainer.classList.remove('edit-active'); return; }
+            if (val === '/restart') { resetPositions(); return; }
 
             addMessage(val, 'user');
 
             if (currentMode === 'image') {
-                addMessage("Çizim işlemi başlatıldı...", 'bot');
+                addMessage("Çiziyorum...", 'bot');
                 await createAIImage(val);
                 return;
             }
 
-            const local = solveLocal(val);
-            if (local) {
-                setTimeout(() => addMessage(local, 'bot', true), 300);
-            } else {
-                try {
-                    const response = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(val)}`);
-                    const data = await response.json();
-                    
-                    let resultHtml = "";
-                    if (data.thumbnail) {
-                        resultHtml += `<img src="${data.thumbnail.source}" class="wiki-img" alt="${val}">`;
-                    }
-                    resultHtml += data.extract || "Bunu araştırdım ama pek bir şey bulamadım kanka.";
-                    
-                    addMessage(resultHtml, 'bot', true);
-                } catch {
-                    addMessage("Bağlantıda bir sorun var galiba.", 'bot');
-                }
+            // Basit yerel cevaplar
+            const low = val.toLowerCase();
+            if (low.includes('kimsin') || low.includes('adın ne')) {
+                addMessage("Ben MSZ AI. Burak Bileç tarafından yapıldım!", 'bot');
+                return;
             }
+
+            // Araştırma başlasın
+            const loadingMsg = addMessage('<span class="loading-dots">Araştırıyorum</span>', 'bot', true);
+            const researchResult = await performResearch(val);
+            loadingMsg.remove(); // Loading mesajını sil
+            addMessage(researchResult, 'bot', true);
         }
 
         function resetPositions() {
-            const draggables = document.querySelectorAll('[draggable-item]');
-            draggables.forEach(el => {
+            document.querySelectorAll('[draggable-item]').forEach(el => {
                 el.classList.add('reset-anim');
-                el.style.position = '';
-                el.style.top = '';
-                el.style.left = '';
-                el.style.zIndex = '';
-                el.style.margin = '';
+                el.style.position = ''; el.style.top = ''; el.style.left = ''; el.style.zIndex = ''; el.style.margin = '';
                 setTimeout(() => el.classList.remove('reset-anim'), 500);
             });
         }
@@ -356,30 +309,18 @@
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             el.onmousedown = (e) => {
                 if (!editMode || !isAltPressed) return;
-                // Metin seçimini durdurmak için
-                if (editMode && isAltPressed) {
-                    window.getSelection().removeAllRanges();
-                }
-                
                 e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = () => {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
-                };
+                pos3 = e.clientX; pos4 = e.clientY;
+                document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
                 document.onmousemove = (e) => {
                     e.preventDefault();
-                    pos1 = pos3 - e.clientX;
-                    pos2 = pos4 - e.clientY;
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
+                    pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX; pos4 = e.clientY;
                     el.style.position = 'fixed';
                     el.style.top = (el.offsetTop - pos2) + "px";
                     el.style.left = (el.offsetLeft - pos1) + "px";
                     el.style.zIndex = 9999;
                     el.style.margin = '0';
-                    el.classList.remove('reset-anim');
                 };
             };
         }
@@ -387,7 +328,6 @@
         sendBtn.onclick = handleAction;
         userInput.onkeypress = (e) => { if(e.key === 'Enter') handleAction(); };
         document.getElementById('clearChat').onclick = () => showWelcomeMessage();
-        
         window.onload = () => {
             showWelcomeMessage();
             document.querySelectorAll('[draggable-item]').forEach(el => initDraggable(el));
