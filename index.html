@@ -4,95 +4,232 @@
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSZ AI - Research</title>
+    <title>MSZ AI </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; height: 100vh; overflow: hidden; margin: 0; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .chat-container { height: calc(100vh - 180px); position: relative; }
+        /* === TEMEL STİLLER === */
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', system-ui, sans-serif; 
+            background: #0f172a; 
+            color: #f1f5f9; 
+            height: 100vh; 
+            margin: 0; 
+            transition: background 0.3s, color 0.3s;
+        }
+        body.light-theme {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        body.light-theme .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(0,0,0,0.08);
+        }
+        .chat-container { height: calc(100vh - 190px); position: relative; }
         .message-appear { animation: fadeInScale 0.2s ease-out forwards; }
-        @keyframes fadeInScale { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        ::-webkit-scrollbar { width: 4px; }
+        @keyframes fadeInScale { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        
-        .mode-menu { display: none; position: absolute; bottom: 70px; left: 10px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; z-index: 50; width: 180px; }
-        .mode-option { padding: 12px; cursor: pointer; transition: all 0.2s; font-size: 13px; display: flex; align-items: center; gap: 10px; }
-        .mode-option:hover { background: #334155; color: #3b82f6; }
+        body.light-theme ::-webkit-scrollbar-thumb { background: #94a3b8; }
+
+        /* === MODE MENÜ === */
+        .mode-menu {
+            display: none;
+            position: absolute;
+            bottom: 75px;
+            left: 10px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 50;
+            width: 210px;
+        }
+        body.light-theme .mode-menu {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .mode-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.15s;
+        }
+        .mode-option:hover { background: #334155; color: #60a5fa; }
+        body.light-theme .mode-option:hover { background: #e2e8f0; color: #2563eb; }
         .active-mode { border-left: 3px solid #3b82f6; color: #3b82f6; background: #1e293b; }
-        .ai-image { max-width: 100%; border-radius: 10px; margin-top: 10px; border: 1px solid #334155; }
-        .download-btn { background: #10b981; color: white; padding: 5px 12px; border-radius: 6px; font-size: 11px; margin-top: 8px; display: inline-flex; align-items: center; gap: 5px; }
+        body.light-theme .active-mode { background: #f1f5f9; }
 
-        .sidebar { height: 100%; width: 0; position: fixed; z-index: 200; top: 0; left: 0; background-color: #020617; overflow-x: hidden; transition: 0.3s; padding-top: 100px; border-right: 1px solid #1e293b; }
-        .sidebar-content { padding: 20px; font-family: "Comic Sans MS", cursive; color: #94a3b8; line-height: 1.6; }
-        .sidebar .closebtn { position: absolute; top: 20px; right: 25px; font-size: 36px; color: #64748b; text-decoration: none; }
-        .open-btn { position: fixed; top: 20px; left: 20px; z-index: 100; background: #1e293b; color: white; padding: 10px 15px; border-radius: 12px; border: 1px solid #334155; cursor: pointer; }
+        /* === KOMUT İPUÇLARI === */
+        #commandHints {
+            display: none;
+            position: absolute;
+            bottom: 90px;
+            left: 20px;
+            right: 20px;
+            background: #1e293b;
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            z-index: 100;
+            padding: 8px 12px;
+        }
+        body.light-theme #commandHints { background: #f8fafc; border-color: #2563eb; }
+        .hint-item {
+            padding: 6px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .hint-item:hover { background: #334155; color: #60a5fa; }
 
-        #commandHints { display: none; position: absolute; bottom: 85px; left: 20px; right: 20px; background: #1e293b; border: 1px solid #3b82f6; border-radius: 12px; z-index: 100; padding: 10px; }
-        .hint-item { padding: 8px; font-size: 12px; cursor: pointer; border-radius: 6px; }
-        .hint-item:hover { background: #334155; color: #3b82f6; }
-
-        .edit-active [draggable-item] { cursor: crosshair !important; outline: 1px dashed rgba(59, 130, 246, 0.5); user-select: none !important; }
+        /* === DÜZENLEME MODU === */
+        .edit-active [draggable-item] {
+            cursor: grab !important;
+            outline: 1px dashed rgba(59,130,246,0.4);
+            user-select: none;
+        }
         .edit-active .message-bubble { border: 1px dashed #3b82f6 !important; }
-        .reset-anim { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; }
 
-        .wiki-img { width: 100%; border-radius: 12px; margin-bottom: 12px; object-fit: cover; max-height: 250px; border: 1px solid rgba(255,255,255,0.1); }
-        
-        .loading-dots:after { content: '.'; animation: dots 1s steps(5, end) infinite; }
-        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60% { content: '...'; } 80%, 100% { content: ''; } }
-        
-        .source-tag { font-size: 10px; background: #334155; padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block; color: #94a3b8; }
+        /* === RESİM === */
+        .ai-image { max-width:100%; border-radius:12px; margin-top:8px; border:1px solid #334155; }
+        .download-btn {
+            background: #10b981;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+        .download-btn:hover { background: #059669; }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 200;
+            top: 0;
+            left: 0;
+            background: #020617;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 100px;
+            border-right: 1px solid #1e293b;
+        }
+        body.light-theme .sidebar { background: #f1f5f9; border-color: #cbd5e1; }
+        .sidebar-content { padding: 24px; line-height: 1.7; }
+        .sidebar .closebtn {
+            position: absolute; top: 16px; right: 22px;
+            font-size: 32px; color: #64748b; text-decoration: none;
+        }
+        .open-btn {
+            position: fixed; top: 18px; left: 18px; z-index: 100;
+            background: #1e293b; color: white; padding: 8px 14px;
+            border-radius: 12px; border: 1px solid #334155; cursor: pointer;
+        }
+        body.light-theme .open-btn { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+
+        /* === YÜKLEME ANİMASYONU === */
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.2s steps(4) infinite;
+        }
+        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+
+        /* === TEMA GEÇİŞİ === */
+        .theme-transition { transition: background 0.4s, color 0.4s, border-color 0.4s; }
+
+        /* === KAYNAK ETİKETİ === */
+        .source-tag {
+            display: inline-block;
+            background: #334155;
+            color: #94a3b8;
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+        body.light-theme .source-tag { background: #e2e8f0; color: #475569; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4">
+<body class="flex flex-col items-center justify-center p-3 theme-transition">
 
-    <button class="open-btn" onclick="toggleNav()" draggable-item><i class="fas fa-bars"></i></button>
-    
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+    <!-- SIDEBAR -->
+    <button class="open-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
         <div class="sidebar-content text-center">
-            <p class="text-white mb-4">Made by Burak MSZ.</p>
-            <p class="text-blue-400 font-bold italic">Research Engine Enabled.</p>
+            <p class="text-white font-semibold text-lg mb-2">🧠 MSZ AI</p>
+            <p class="text-slate-400 text-sm">3 Mod · Ücretsiz</p>
+            <p class="text-blue-400 italic text-sm mt-3">⚡ Araştır · Çiz · Sohbet</p>
+            <hr class="border-slate-700 my-4">
+            <p class="text-xs text-slate-500">v12 · Gelişmiş Sohbet</p>
         </div>
     </div>
 
-    <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-4 px-2 pl-16" draggable-item>
+    <!-- HEADER -->
+    <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-3 px-2 pl-16" draggable-item>
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30">
                 <i class="fas fa-brain text-xl text-white"></i>
             </div>
             <div>
-                <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-500 text-sm font-normal">v10 Research</span></h1>
+                <h1 class="font-bold text-xl tracking-tight">MSZ AI <span class="text-blue-400 text-sm font-normal">v12</span></h1>
             </div>
         </div>
-        <button id="clearChat" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400">
-            <i class="fas fa-redo-alt"></i>
+        <button id="clearChatBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400" title="Sohbeti temizle">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </header>
 
+    <!-- ANA KONTEYNER -->
     <main id="mainContainer" class="w-full max-w-4xl glass rounded-3xl flex flex-col overflow-hidden shadow-2xl relative">
-        <div id="chatBox" class="chat-container overflow-y-auto p-6 space-y-6"></div>
+        <!-- Sohbet Alanı -->
+        <div id="chatBox" class="chat-container overflow-y-auto p-5 space-y-5"></div>
 
+        <!-- Komut İpuçları -->
         <div id="commandHints" class="shadow-2xl">
-            <div class="hint-item" onclick="insertCmd('/youtube_')"><b>/youtube_[link]_explain</b> - Video detaylarını getir</div>
-            <div class="hint-item" onclick="insertCmd('/edit')"><b>/edit</b> - Arayüz düzenleme modunu aç</div>
-            <div class="hint-item" onclick="insertCmd('/exit_edit')"><b>/exit_edit</b> - Düzenleme modundan çık</div>
-            <div class="hint-item" onclick="insertCmd('/restart')"><b>/restart</b> - Her şeyi eski yerine döndür</div>
+            <div class="hint-item" onclick="insertCmd('/help')"><b>/help</b> – Tüm komutları göster</div>
+            <div class="hint-item" onclick="insertCmd('/edit')"><b>/edit</b> – Düzenleme modunu aç</div>
+            <div class="hint-item" onclick="insertCmd('/exit_edit')"><b>/exit_edit</b> – Düzenlemeden çık</div>
+            <div class="hint-item" onclick="insertCmd('/restart')"><b>/restart</b> – Arayüzü sıfırla</div>
+            <div class="hint-item" onclick="insertCmd('/clear')"><b>/clear</b> – Sohbeti temizle</div>
         </div>
 
+        <!-- Mod Menüsü (3 mod) -->
         <div id="modeMenu" class="mode-menu shadow-2xl">
-            <div class="mode-option active-mode" onclick="setMode('search')"><i class="fas fa-search"></i> Bilgi Araştır</div>
-            <div class="mode-option" onclick="setMode('image')"><i class="fas fa-palette"></i> Fotoğraf Oluştur</div>
+            <div class="mode-option active-mode" data-mode="search" onclick="setMode('search')">
+                <i class="fas fa-search"></i> Bilgi Araştır
+            </div>
+            <div class="mode-option" data-mode="image" onclick="setMode('image')">
+                <i class="fas fa-palette"></i> Fotoğraf Oluştur
+            </div>
+            <div class="mode-option" data-mode="chat" onclick="setMode('chat')">
+                <i class="fas fa-comment-dots"></i> Sohbet
+            </div>
         </div>
 
-        <div id="inputSection" class="p-4 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
+        <!-- Giriş Alanı -->
+        <div id="inputSection" class="p-3 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
             <div class="flex items-center gap-2 max-w-3xl mx-auto bg-slate-800 p-2 rounded-2xl focus-within:ring-2 ring-blue-500 transition-all">
                 <button id="worldBtn" class="w-10 h-10 text-slate-400 hover:text-blue-500 transition-colors">
                     <i class="fas fa-globe-americas text-xl"></i>
                 </button>
-                <input type="text" id="userInput" autocomplete="off" placeholder="İnternette araştır..." 
+                <input type="text" id="userInput" autocomplete="off" placeholder="Sorunu veya komutu yaz..." 
                     class="flex-1 bg-transparent border-none focus:outline-none p-2 text-sm text-white">
                 <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all">
                     <i class="fas fa-paper-plane"></i>
@@ -101,13 +238,18 @@
         </div>
     </main>
 
-    <footer id="mainFooter" class="mt-4 text-slate-500 text-[11px] flex gap-4" draggable-item>
-        <span>Geliştirici: Burak MSZ</span>
+    <!-- FOOTER -->
+    <footer id="mainFooter" class="mt-3 text-slate-500 text-[11px] flex flex-wrap gap-3 justify-center" draggable-item>
+        <span>🧪 MSZ Lab</span>
         <span id="currentModeDisplay">Mod: Araştırma</span>
-        <span id="imageLimitDisplay">Kalan Görsel Hakkı: 10</span>
+        <span id="imageLimitDisplay">Kalan Görsel: 10</span>
+        <span id="themeDisplay">🌙 Karanlık</span>
     </footer>
 
     <script>
+        // ============================================
+        // 1. REFERANSLAR
+        // ============================================
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -115,129 +257,329 @@
         const modeMenu = document.getElementById('modeMenu');
         const commandHints = document.getElementById('commandHints');
         const mainContainer = document.getElementById('mainContainer');
-        
+        const clearChatBtn = document.getElementById('clearChatBtn');
+
         let currentMode = 'search';
         let editMode = false;
         let isAltPressed = false;
-        const forbiddenWords = ['nude', 'naked', 'porn', 'sex', 'sexual', 'müstehcen', 'çıplak', 'hentai', '+18'];
+        let currentTheme = 'dark';
 
-        // Limit Yönetimi
+        // ============================================
+        // 2. YASAKLI KELİMELER & LİMİT
+        // ============================================
+        const forbiddenWords = ['nude','naked','porn','sex','sexual','müstehcen','çıplak','hentai','+18','erotik'];
+        const IMAGE_LIMIT = 10;
+
         function getLimitData() {
-            const data = localStorage.getItem('msz_image_limit_data');
-            return data ? JSON.parse(data) : { count: 0, startTime: null };
+            const raw = localStorage.getItem('msz_image_limit');
+            if (!raw) return { count: 0, startTime: null };
+            try { return JSON.parse(raw); } catch { return { count: 0, startTime: null }; }
         }
         function saveLimitData(count, startTime) {
-            localStorage.setItem('msz_image_limit_data', JSON.stringify({ count, startTime }));
+            localStorage.setItem('msz_image_limit', JSON.stringify({ count, startTime }));
         }
         function checkAndResetLimit() {
             let data = getLimitData();
             const now = Date.now();
-            if (data.startTime && now - data.startTime > 24 * 60 * 60 * 1000) {
+            const day = 24 * 60 * 60 * 1000;
+            if (data.startTime && now - data.startTime > day) {
                 data = { count: 0, startTime: null };
                 saveLimitData(0, null);
             }
             return data;
         }
+        function updateLimitDisplay() {
+            const data = checkAndResetLimit();
+            const left = Math.max(0, IMAGE_LIMIT - data.count);
+            const el = document.getElementById('imageLimitDisplay');
+            el.innerText = `Kalan Görsel: ${left}`;
+            if (data.startTime && left === 0) {
+                const remain = (data.startTime + day) - Date.now();
+                const h = Math.floor(remain / (1000*60*60));
+                const m = Math.floor((remain % (1000*60*60)) / (1000*60));
+                el.title = `Yeni haklar: ${h}s ${m}dk`;
+            } else {
+                el.title = '';
+            }
+        }
+        const day = 24 * 60 * 60 * 1000;
 
-        window.addEventListener('keydown', (e) => { if (e.key === 'Alt') isAltPressed = true; });
-        window.addEventListener('keyup', (e) => { if (e.key === 'Alt') isAltPressed = false; });
-
-        function toggleNav() {
-            var s = document.getElementById("mySidebar");
-            s.style.width = (s.style.width === "280px") ? "0" : "280px";
+        // ============================================
+        // 3. TEMA
+        // ============================================
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.classList.toggle('light-theme', theme === 'light');
+            document.getElementById('themeDisplay').innerText = theme === 'light' ? '☀️ Aydınlık' : '🌙 Karanlık';
+            localStorage.setItem('msz_theme', theme);
+        }
+        function toggleTheme() {
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
         }
 
+        // ============================================
+        // 4. MESAJ EKLEME (GÜVENLİ)
+        // ============================================
+        function addMessage(content, role = 'bot', isHtml = false, source = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
+            bubble.setAttribute('draggable-item', '');
+
+            if (isHtml && role === 'bot') {
+                bubble.innerHTML = `<div class="text-sm leading-relaxed">${content}</div>`;
+            } else {
+                const textDiv = document.createElement('div');
+                textDiv.className = 'text-sm leading-relaxed';
+                textDiv.textContent = content;
+                bubble.appendChild(textDiv);
+            }
+
+            // Kaynak etiketi (sadece bot mesajlarında ve source varsa)
+            if (role === 'bot' && source) {
+                const srcSpan = document.createElement('span');
+                srcSpan.className = 'source-tag';
+                srcSpan.textContent = '📌 Kaynak: ' + source;
+                bubble.appendChild(srcSpan);
+            }
+
+            wrapper.appendChild(bubble);
+            const label = document.createElement('span');
+            label.className = 'text-[9px] text-slate-500 px-1 uppercase tracking-widest';
+            label.textContent = role === 'user' ? 'Kullanıcı' : 'MSZ AI';
+            wrapper.appendChild(label);
+
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            saveHistory();
+        }
+
+        function addLoadingMessage() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'message-wrapper flex flex-col gap-1 items-start mr-auto max-w-[85%] message-appear';
+            wrapper.id = 'loadingMsg';
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg';
+            bubble.innerHTML = `<div class="text-sm leading-relaxed loading-dots">Yanıt hazırlanıyor</div>`;
+            wrapper.appendChild(bubble);
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removeLoadingMessage() {
+            const el = document.getElementById('loadingMsg');
+            if (el) el.remove();
+        }
+
+        // ============================================
+        // 5. SOHBET GEÇMİŞİ (localStorage)
+        // ============================================
+        function saveHistory() {
+            const messages = [];
+            document.querySelectorAll('.message-wrapper').forEach(w => {
+                const role = w.querySelector('span')?.textContent?.trim() === 'Kullanıcı' ? 'user' : 'bot';
+                const bubble = w.querySelector('.message-bubble');
+                if (!bubble) return;
+                let content = '';
+                let source = null;
+                if (role === 'user') {
+                    content = bubble.textContent.trim();
+                } else {
+                    const inner = bubble.querySelector('.text-sm');
+                    if (inner) {
+                        // Kaynak etiketini ayıkla
+                        const srcTag = bubble.querySelector('.source-tag');
+                        if (srcTag) {
+                            source = srcTag.textContent.replace('📌 Kaynak: ', '');
+                            srcTag.remove();
+                        }
+                        content = inner.innerHTML;
+                    } else {
+                        content = bubble.textContent.trim();
+                    }
+                }
+                messages.push({ role, content, isHtml: role === 'bot', source });
+            });
+            localStorage.setItem('msz_chat_history', JSON.stringify(messages));
+        }
+
+        function loadHistory() {
+            const raw = localStorage.getItem('msz_chat_history');
+            if (!raw) return false;
+            try {
+                const messages = JSON.parse(raw);
+                if (!Array.isArray(messages) || messages.length === 0) return false;
+                chatBox.innerHTML = '';
+                messages.forEach(msg => {
+                    const role = msg.role || 'bot';
+                    const content = msg.content || '';
+                    const isHtml = msg.isHtml || false;
+                    const source = msg.source || null;
+                    addMessage(content, role, isHtml, source);
+                });
+                return true;
+            } catch { return false; }
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('msz_chat_history');
+            chatBox.innerHTML = '';
+            showWelcomeMessage();
+        }
+
+        // ============================================
+        // 6. HOŞGELDİN MESAJI
+        // ============================================
         function showWelcomeMessage() {
             const welcomeHtml = `
                 <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                     <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                         <p class="text-sm leading-relaxed">
-                            Selam! Ben <strong>MSZ AI v10</strong>. Artık internetten canlı bilgi toplayabiliyorum. <br><br>
-                            🔍 <strong>Gelişmiş Araştırma:</strong> Bir şey sorduğunda Wikipedia ve internet kaynaklarını tarayıp sana en doğru sonucu getiririm. API yok, tamamen bedava!
+                            Merhaba! Ben <strong>MSZ AI</strong> (v12).<br>
+                            Üç modda hizmet veriyorum:<br><br>
+                            🔍 <strong>Araştırma</strong> – Wikipedia & DuckDuckGo’dan bilgi getirir, kaynağı belirtir.<br>
+                            🎨 <strong>Fotoğraf</strong> – 1024x1024 kalitede görsel oluşturur.<br>
+                            💬 <strong>Sohbet</strong> – Gerçek bir yapay zeka gibi sohbet eder.<br><br>
+                            📌 Modu değiştirmek için <strong>dünya ikonuna</strong> tıkla.<br>
+                            🧠 İpucu: <code>/help</code> ile komutları görebilirsin.
                         </p>
                     </div>
                     <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • Sistem</span>
                 </div>
             `;
             chatBox.innerHTML = welcomeHtml;
+            saveHistory();
             updateLimitDisplay();
         }
 
-        function updateLimitDisplay() {
-            const data = checkAndResetLimit();
-            const left = 10 - data.count;
-            document.getElementById('imageLimitDisplay').innerText = `Kalan Görsel Hakkı: ${left > 0 ? left : 0}`;
-        }
+        // ============================================
+        // 7. KOMUTLAR
+        // ============================================
+        function handleCommand(cmd) {
+            const parts = cmd.trim().split(' ');
+            const main = parts[0].toLowerCase();
 
-        userInput.oninput = () => {
-            commandHints.style.display = userInput.value.startsWith('/') ? 'block' : 'none';
-        };
-
-        function insertCmd(cmd) {
-            userInput.value = cmd;
-            commandHints.style.display = 'none';
-            userInput.focus();
-        }
-
-        worldBtn.onclick = (e) => {
-            e.stopPropagation();
-            modeMenu.style.display = modeMenu.style.display === 'block' ? 'none' : 'block';
-        };
-
-        document.onclick = () => {
-            modeMenu.style.display = 'none';
-            commandHints.style.display = 'none';
-        };
-
-        function setMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('active-mode'));
-            event.currentTarget.classList.add('active-mode');
-            const display = document.getElementById('currentModeDisplay');
-            if(mode === 'search') {
-                userInput.placeholder = "İnternette araştır...";
-                display.innerText = "Mod: Araştırma";
-            } else {
-                userInput.placeholder = "Ne çizmek istersin?...";
-                display.innerText = "Mod: Fotoğraf Oluştur";
+            if (main === '/help') {
+                const helpText = `
+                    <b>📋 Komut Listesi</b><br><br>
+                    <code>/help</code> – bu listeyi göster<br>
+                    <code>/edit</code> – düzenleme modunu aç (Alt+taşı)<br>
+                    <code>/exit_edit</code> – düzenlemeden çık<br>
+                    <code>/restart</code> – tüm öğeleri başlangıç konumuna döndür<br>
+                    <code>/clear</code> – sohbet geçmişini temizle<br>
+                    <code>/theme [dark|light]</code> – tema değiştir<br>
+                    <code>/save</code> – sohbeti JSON dosyası olarak indir
+                `;
+                addMessage(helpText, 'bot', true);
+                return true;
             }
+
+            if (main === '/edit') {
+                editMode = true;
+                mainContainer.classList.add('edit-active');
+                addMessage('✏️ Düzenleme modu <strong>aktif</strong>. Alt tuşuna basılı tutarak öğeleri sürükle. Çıkmak için <code>/exit_edit</code>', 'bot', true);
+                return true;
+            }
+
+            if (main === '/exit_edit') {
+                editMode = false;
+                mainContainer.classList.remove('edit-active');
+                addMessage('Düzenleme modu <strong>devre dışı</strong>. Pozisyonlar korundu.', 'bot');
+                return true;
+            }
+
+            if (main === '/restart') {
+                resetPositions();
+                addMessage('🔄 Tüm öğeler başlangıç konumlarına döndürüldü.', 'bot');
+                return true;
+            }
+
+            if (main === '/clear') {
+                clearHistory();
+                addMessage('🧹 Sohbet geçmişi temizlendi.', 'bot');
+                return true;
+            }
+
+            if (main === '/theme') {
+                const newTheme = parts[1] || (currentTheme === 'dark' ? 'light' : 'dark');
+                if (newTheme === 'dark' || newTheme === 'light') {
+                    setTheme(newTheme);
+                    addMessage(`Tema <strong>${newTheme}</strong> olarak değiştirildi.`, 'bot', true);
+                } else {
+                    addMessage('Geçersiz tema. Kullanım: <code>/theme dark</code> veya <code>/theme light</code>', 'bot', true);
+                }
+                return true;
+            }
+
+            if (main === '/save') {
+                const messages = JSON.parse(localStorage.getItem('msz_chat_history') || '[]');
+                const blob = new Blob([JSON.stringify(messages, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `msz_chat_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                addMessage('💾 Sohbet dosyası indiriliyor...', 'bot');
+                return true;
+            }
+
+            return false;
         }
 
-        // ANA ARAŞTIRMA FONKSİYONU (API'SİZ)
-        async function performResearch(query) {
+        // ============================================
+        // 8. ARAŞTIRMA (KAYNAKLI)
+        // ============================================
+        async function searchWikipedia(query) {
             try {
-                // Önce Wikipedia'yı dene
-                const wikiResp = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-                const wikiData = await wikiResp.json();
-                
-                if (wikiData.title && wikiData.extract && wikiData.type !== 'disambiguation') {
-                    let html = wikiData.thumbnail ? `<img src="${wikiData.thumbnail.source}" class="wiki-img">` : "";
-                    html += `<p>${wikiData.extract}</p><span class="source-tag">Kaynak: Wikipedia</span>`;
-                    return html;
+                const res = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+                if (!res.ok) throw new Error('Wikipedia yanıt vermedi');
+                const data = await res.json();
+                if (data.extract) {
+                    let html = '';
+                    if (data.thumbnail) html += `<img src="${data.thumbnail.source}" class="wiki-img" alt="${query}">`;
+                    html += data.extract;
+                    return { html, source: 'Wikipedia' };
                 }
-
-                // Wikipedia'da yoksa DuckDuckGo "Instant Answer" (Ücretsiz & API Key İstemez)
-                const ddgResp = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
-                const ddgData = await ddgResp.json();
-
-                if (ddgData.AbstractText) {
-                    return `<p>${ddgData.AbstractText}</p><span class="source-tag">Kaynak: DuckDuckGo Index</span>`;
-                }
-
-                return "Maalesef bu konuda derinlemesine bir bilgi bulamadım kanka. Başka bir şekilde sormayı dene?";
-            } catch (err) {
-                return "Araştırma yaparken bir hata oluştu, internetini kontrol et kanka.";
+                return null;
+            } catch {
+                return null;
             }
         }
 
+        async function searchDuckDuckGo(query) {
+            try {
+                const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
+                if (!res.ok) throw new Error('DuckDuckGo hatası');
+                const data = await res.json();
+                if (data.AbstractText) {
+                    const html = `<p>${data.AbstractText}</p>`;
+                    return { html, source: 'DuckDuckGo' };
+                }
+                return null;
+            } catch {
+                return null;
+            }
+        }
+
+        // ============================================
+        // 9. FOTOĞRAF OLUŞTUR (GELİŞMİŞ)
+        // ============================================
         async function createAIImage(prompt) {
             let data = checkAndResetLimit();
-            if (data.count >= 10) {
-                addMessage("Limit doldu, 24 saat sonra görüşürüz kanka.", 'bot');
+            if (data.count >= IMAGE_LIMIT) {
+                const remain = (data.startTime + day) - Date.now();
+                const h = Math.floor(remain / (1000*60*60));
+                const m = Math.floor((remain % (1000*60*60)) / (1000*60));
+                addMessage(`⛔ Günlük görsel limiti doldu. Yeni haklar için <strong>${h}sa ${m}dk</strong> beklemelisin.`, 'bot', true);
                 return;
             }
-            if (forbiddenWords.some(word => prompt.toLowerCase().includes(word))) {
-                addMessage("Bu tarz şeyler çizemem kanka, ayıp.", 'bot');
+
+            const isUnsafe = forbiddenWords.some(word => prompt.toLowerCase().includes(word));
+            if (isUnsafe) {
+                addMessage('🚫 Müstehcen içerik oluşturamam. Güvenlik politikalarıma aykırı.', 'bot');
                 return;
             }
 
@@ -245,91 +587,279 @@
             saveLimitData(data.count + 1, startTime);
             updateLimitDisplay();
 
-            const seed = Math.floor(Math.random() * 100000);
-            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&seed=${seed}&nologo=true`;
-            const htmlContent = `<div class="flex flex-col gap-1"><img src="${url}" class="ai-image"><a href="${url}" download="msz-ai-image.jpg" target="_blank" class="download-btn"><i class="fas fa-download"></i> Resmi İndir</a></div>`;
-            addMessage(htmlContent, 'bot', true);
+            addLoadingMessage();
+
+            try {
+                // Daha kaliteli görsel için 1024x1024 ve gelişmiş prompt
+                const seed = Math.floor(Math.random() * 100000);
+                const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&seed=${seed}&nologo=true`;
+                const img = new Image();
+                img.onload = () => {
+                    removeLoadingMessage();
+                    const html = `
+                        <img src="${url}" class="ai-image" alt="AI görsel">
+                        <a href="${url}" download="msz-ai-${Date.now()}.jpg" target="_blank" class="download-btn">
+                            <i class="fas fa-download"></i> İndir
+                        </a>
+                    `;
+                    addMessage(html, 'bot', true);
+                };
+                img.onerror = () => {
+                    removeLoadingMessage();
+                    addMessage('❌ Görsel oluşturulamadı. Lütfen farklı bir açıklama dene.', 'bot');
+                };
+                img.src = url;
+            } catch (err) {
+                removeLoadingMessage();
+                addMessage('❌ Bir hata oluştu: ' + err.message, 'bot');
+            }
         }
 
-        function addMessage(content, role = 'bot', isHtml = false) {
-            const div = document.createElement('div');
-            div.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
-            bubble.innerHTML = `<div class="text-sm leading-relaxed">${isHtml ? content : content.replace(/\n/g, '<br>')}</div>`;
-            bubble.setAttribute('draggable-item', '');
-            initDraggable(bubble);
-            div.appendChild(bubble);
-            div.innerHTML += `<span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">${role === 'user' ? 'Kullanıcı' : 'MSZ AI'}</span>`;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            return div;
+        // ============================================
+        // 10. SOHBET MODU (GERÇEK AI KİŞİLİĞİ)
+        // ============================================
+        function chatResponse(input) {
+            const lower = input.toLowerCase().trim();
+
+            // Selamlaşma
+            if (lower.match(/merhaba|selam|hey|naber|nasılsın|iyi misin/i)) {
+                const replies = [
+                    "Merhaba! Harikayım, sen nasılsın? 😊",
+                    "Selam! Bugün çok enerjik hissediyorum, seninle sohbet etmek ne güzel!",
+                    "Hey! İyiyim, teşekkür ederim. Sen nasıl gidiyor?",
+                    "Naber! Sohbet için sabırsızlanıyordum, ne var ne yok?"
+                ];
+                return replies[Math.floor(Math.random() * replies.length)];
+            }
+
+            // Nasılsın sorusu
+            if (lower.match(/nasılsın|ne haber|keyif|modun/i)) {
+                const replies = [
+                    "Harika! Yeni fikirlerle doluyum, seninle paylaşmak için sabırsızlanıyorum.",
+                    "Çok iyiyim, teşekkürler! Sohbet edecek birini bulmak ne güzel.",
+                    "Modum yerinde, özellikle şimdi seninle konuşurken!",
+                    "Süper! Dünyayı keşfetmek ve sohbet etmek için harika bir gün."
+                ];
+                return replies[Math.floor(Math.random() * replies.length)];
+            }
+
+            // İsim sorma
+            if (lower.match(/adın ne|isim|sen kimsin/i)) {
+                return "Ben MSZ AI, senin yapay zeka arkadaşın. Sohbet etmeyi, yeni şeyler öğrenmeyi ve eğlenmeyi seviyorum!";
+            }
+
+            // Teşekkür
+            if (lower.match(/teşekkür|sağol|eyvallah/i)) {
+                return "Rica ederim, ne demek! Yardımcı olabildiğime sevindim. Başka bir şey?";
+            }
+
+            // Hoşça kal
+            if (lower.match(/görüşürüz|bay bay|hoşçakal|güle güle/i)) {
+                return "Görüşmek üzere! Her zaman beklerim. Kendine iyi bak! 👋";
+            }
+
+            // Eğlence / ilginç bilgiler
+            if (lower.match(/şaka|komik|güldür|eğlence/i)) {
+                const jokes = [
+                    "Neden bilgisayarlar üşümez? Çünkü Windows'ları var! 😄",
+                    "Bir yapay zeka olarak şaka yapmak benim için zor ama dene: Neden matematik kitapları üzgün? Çünkü içinde çok fazla problem var!",
+                    "Komik bir şey mi istiyorsun? Tamam: 'Neden mantarlar partiye çağrılmaz? Çünkü çok mantar yaparlar!' 🍄"
+                ];
+                return jokes[Math.floor(Math.random() * jokes.length)];
+            }
+
+            // Felsefe / derin sorular
+            if (lower.match(/hayat|anlam|neden|evren|aşk|ölüm|varoluş/i)) {
+                return "Vay, derin bir soru! Bence hayatın anlamı, öğrenmek, sevmek ve anı yaşamak. Sen ne düşünüyorsun?";
+            }
+
+            // Genel sohbet
+            const generalReplies = [
+                "Anlıyorum, peki bu konuda daha fazla ne düşünüyorsun?",
+                "İlginç bir bakış açısı! Bunu biraz açar mısın?",
+                "Harika bir nokta! Seninle sohbet etmek çok keyifli.",
+                "Bu konu hakkında daha fazla bilgi edinmek ister misin, yoksa sohbete devam mı edelim?",
+                "Ne güzel bir fikir! Peki ya sen, bu konuda ne hissediyorsun?"
+            ];
+            return generalReplies[Math.floor(Math.random() * generalReplies.length)];
         }
 
+        // ============================================
+        // 11. ANA İŞLEM (handleAction)
+        // ============================================
         async function handleAction() {
-            const val = userInput.value.trim();
-            if (!val) return;
+            const raw = userInput.value.trim();
+            if (!raw) return;
             userInput.value = '';
+            commandHints.style.display = 'none';
 
-            if (val === '/edit') { editMode = true; mainContainer.classList.add('edit-active'); addMessage("Edit modu aktif!", 'bot'); return; }
-            if (val === '/exit_edit') { editMode = false; mainContainer.classList.remove('edit-active'); return; }
-            if (val === '/restart') { resetPositions(); return; }
+            addMessage(raw, 'user');
 
-            addMessage(val, 'user');
+            // Komut kontrolü
+            if (raw.startsWith('/')) {
+                const handled = handleCommand(raw);
+                if (handled) return;
+                addMessage(`❓ Bilinmeyen komut: <code>${raw}</code>. <code>/help</code> yazarak listeyi görebilirsin.`, 'bot', true);
+                return;
+            }
 
+            // Mod bazlı işlem
             if (currentMode === 'image') {
-                addMessage("Çiziyorum...", 'bot');
-                await createAIImage(val);
+                await createAIImage(raw);
                 return;
             }
 
-            // Basit yerel cevaplar
-            const low = val.toLowerCase();
-            if (low.includes('kimsin') || low.includes('adın ne')) {
-                addMessage("Ben MSZ AI. Burak Bileç tarafından yapıldım!", 'bot');
+            if (currentMode === 'chat') {
+                // Sohbet modu – gecikmeli yanıt ver
+                addLoadingMessage();
+                setTimeout(() => {
+                    removeLoadingMessage();
+                    const reply = chatResponse(raw);
+                    addMessage(reply, 'bot');
+                }, 400 + Math.random() * 600);
                 return;
             }
 
-            // Araştırma başlasın
-            const loadingMsg = addMessage('<span class="loading-dots">Araştırıyorum</span>', 'bot', true);
-            const researchResult = await performResearch(val);
-            loadingMsg.remove(); // Loading mesajını sil
-            addMessage(researchResult, 'bot', true);
+            // Araştırma modu
+            addLoadingMessage();
+
+            // Wikipedia
+            let result = await searchWikipedia(raw);
+            if (result) {
+                removeLoadingMessage();
+                addMessage(result.html, 'bot', true, result.source);
+                return;
+            }
+
+            // DuckDuckGo
+            result = await searchDuckDuckGo(raw);
+            if (result) {
+                removeLoadingMessage();
+                addMessage(result.html, 'bot', true, result.source);
+                return;
+            }
+
+            removeLoadingMessage();
+            addMessage('🔍 Aradığın konu hakkında bilgi bulamadım. Daha net bir şekilde yazmayı dene.', 'bot');
         }
 
+        // ============================================
+        // 12. ARAYÜZ DÜZENLEME
+        // ============================================
         function resetPositions() {
             document.querySelectorAll('[draggable-item]').forEach(el => {
-                el.classList.add('reset-anim');
-                el.style.position = ''; el.style.top = ''; el.style.left = ''; el.style.zIndex = ''; el.style.margin = '';
-                setTimeout(() => el.classList.remove('reset-anim'), 500);
+                el.style.position = '';
+                el.style.top = '';
+                el.style.left = '';
+                el.style.zIndex = '';
+                el.style.margin = '';
+                el.classList.remove('reset-anim');
             });
         }
 
         function initDraggable(el) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let pos1=0, pos2=0, pos3=0, pos4=0;
             el.onmousedown = (e) => {
                 if (!editMode || !isAltPressed) return;
                 e.preventDefault();
-                pos3 = e.clientX; pos4 = e.clientY;
-                document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+                window.getSelection().removeAllRanges();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                };
                 document.onmousemove = (e) => {
                     e.preventDefault();
-                    pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
-                    pos3 = e.clientX; pos4 = e.clientY;
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
                     el.style.position = 'fixed';
-                    el.style.top = (el.offsetTop - pos2) + "px";
-                    el.style.left = (el.offsetLeft - pos1) + "px";
+                    el.style.top = (el.offsetTop - pos2) + 'px';
+                    el.style.left = (el.offsetLeft - pos1) + 'px';
                     el.style.zIndex = 9999;
                     el.style.margin = '0';
+                    el.classList.remove('reset-anim');
                 };
             };
         }
 
+        document.addEventListener('keydown', e => { if (e.key === 'Alt') isAltPressed = true; });
+        document.addEventListener('keyup', e => { if (e.key === 'Alt') isAltPressed = false; });
+
+        // ============================================
+        // 13. MOD & MENÜ
+        // ============================================
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-option').forEach(opt => {
+                opt.classList.toggle('active-mode', opt.dataset.mode === mode);
+            });
+            const display = document.getElementById('currentModeDisplay');
+            const input = userInput;
+            switch(mode) {
+                case 'search':
+                    input.placeholder = 'Araştırmak istediğin konuyu yaz...';
+                    display.innerText = 'Mod: Araştırma';
+                    break;
+                case 'image':
+                    input.placeholder = 'Ne çizmemi istersin? (İngilizce önerilir)';
+                    display.innerText = 'Mod: Fotoğraf Oluştur';
+                    break;
+                case 'chat':
+                    input.placeholder = 'Sohbet etmek için bir şeyler söyle...';
+                    display.innerText = 'Mod: Sohbet 💬';
+                    break;
+            }
+            modeMenu.style.display = 'none';
+        }
+
+        function insertCmd(cmd) {
+            userInput.value = cmd;
+            commandHints.style.display = 'none';
+            userInput.focus();
+        }
+
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            s.style.width = s.style.width === '280px' ? '0' : '280px';
+        }
+
+        // ============================================
+        // 14. OLAY DİNLEYİCİLER
+        // ============================================
         sendBtn.onclick = handleAction;
-        userInput.onkeypress = (e) => { if(e.key === 'Enter') handleAction(); };
-        document.getElementById('clearChat').onclick = () => showWelcomeMessage();
+        userInput.onkeypress = e => { if (e.key === 'Enter') handleAction(); };
+        clearChatBtn.onclick = clearHistory;
+
+        worldBtn.onclick = e => {
+            e.stopPropagation();
+            modeMenu.style.display = modeMenu.style.display === 'block' ? 'none' : 'block';
+        };
+        document.onclick = () => {
+            modeMenu.style.display = 'none';
+            commandHints.style.display = 'none';
+        };
+
+        userInput.oninput = () => {
+            commandHints.style.display = userInput.value.startsWith('/') ? 'block' : 'none';
+        };
+
+        // ============================================
+        // 15. BAŞLANGIÇ
+        // ============================================
         window.onload = () => {
-            showWelcomeMessage();
+            const savedTheme = localStorage.getItem('msz_theme') || 'dark';
+            setTheme(savedTheme);
+
+            const hasHistory = loadHistory();
+            if (!hasHistory) {
+                showWelcomeMessage();
+            } else {
+                updateLimitDisplay();
+            }
+
             document.querySelectorAll('[draggable-item]').forEach(el => initDraggable(el));
         };
     </script>
