@@ -4,42 +4,84 @@
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSZ AI </title>
+    <title>MSZ AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <style>
-        /* === TEMEL STİLLER === */
+        /* ============================================
+                   TEMEL STİLLER
+                   ============================================ */
         * { box-sizing: border-box; }
+        
         body { 
             font-family: 'Inter', system-ui, sans-serif; 
             background: #0f172a; 
             color: #f1f5f9; 
             height: 100vh; 
             margin: 0; 
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.3s, color 0.3s, background-color 0.5s;
         }
+        
         body.light-theme {
             background: #f1f5f9;
             color: #0f172a;
         }
+        
+        body.light-theme .text-white { color: #0f172a !important; }
+        body.light-theme .text-slate-400 { color: #475569 !important; }
+        body.light-theme .text-slate-500 { color: #64748b !important; }
+        body.light-theme .text-slate-600 { color: #475569 !important; }
+        body.light-theme .text-blue-400 { color: #2563eb !important; }
+        body.light-theme .border-slate-700 { border-color: #cbd5e1 !important; }
+        body.light-theme .bg-slate-800 { background: #e2e8f0 !important; }
+        body.light-theme .bg-slate-900\/50 { background: rgba(241, 245, 249, 0.5) !important; }
+        body.light-theme .bg-blue-700 { background: #2563eb !important; }
+        body.light-theme .message-bubble { border-color: rgba(0,0,0,0.08) !important; }
+        body.light-theme .sidebar-version { background: #e2e8f0; color: #0f172a; }
+        body.light-theme .sidebar-feature-item { border-bottom-color: #e2e8f0; color: #475569; }
+        body.light-theme .sidebar-feature-item i { color: #2563eb; }
+        body.light-theme .sidebar .closebtn { color: #64748b; }
+        body.light-theme .sidebar .closebtn:hover { color: #0f172a; }
+        body.light-theme .image-modal-overlay { background: rgba(0,0,0,0.85); }
+        
+        /* ============================================
+                   CAM EFFECT (GLASSMORPHISM)
+                   ============================================ */
         .glass {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.08);
         }
+        
         body.light-theme .glass {
             background: rgba(255, 255, 255, 0.7);
             border-color: rgba(0,0,0,0.08);
         }
+        
+        /* ============================================
+                   SOYBET ALANI
+                   ============================================ */
         .chat-container { height: calc(100vh - 190px); position: relative; }
+        
         .message-appear { animation: fadeInScale 0.2s ease-out forwards; }
-        @keyframes fadeInScale { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        
+        @keyframes fadeInScale { 
+            from { opacity:0; transform:translateY(6px); } 
+            to { opacity:1; transform:translateY(0); } 
+        }
+        
+        /* ============================================
+                   SCROLL BAR
+                   ============================================ */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
         body.light-theme ::-webkit-scrollbar-thumb { background: #94a3b8; }
 
-        /* === MODE MENÜ === */
+        /* ============================================
+                   MOD MENÜSÜ
+                   ============================================ */
         .mode-menu {
             display: none;
             position: absolute;
@@ -52,10 +94,12 @@
             z-index: 50;
             width: 210px;
         }
+        
         body.light-theme .mode-menu {
             background: #f8fafc;
             border-color: #cbd5e1;
         }
+        
         .mode-option {
             padding: 10px 14px;
             cursor: pointer;
@@ -64,13 +108,24 @@
             align-items: center;
             gap: 10px;
             transition: 0.15s;
+            color: #f1f5f9;
         }
+        
+        body.light-theme .mode-option { color: #0f172a; }
+        
         .mode-option:hover { background: #334155; color: #60a5fa; }
         body.light-theme .mode-option:hover { background: #e2e8f0; color: #2563eb; }
-        .active-mode { border-left: 3px solid #3b82f6; color: #3b82f6; background: #1e293b; }
+        
+        .active-mode { 
+            border-left: 3px solid #3b82f6; 
+            color: #3b82f6; 
+            background: #1e293b; 
+        }
         body.light-theme .active-mode { background: #f1f5f9; }
 
-        /* === KOMUT İPUÇLARI === */
+        /* ============================================
+                   KOMUT İPUÇLARI
+                   ============================================ */
         #commandHints {
             display: none;
             position: absolute;
@@ -83,25 +138,259 @@
             z-index: 100;
             padding: 8px 12px;
         }
-        body.light-theme #commandHints { background: #f8fafc; border-color: #2563eb; }
+        
+        body.light-theme #commandHints { 
+            background: #f8fafc; 
+            border-color: #2563eb; 
+        }
+        
         .hint-item {
             padding: 6px 8px;
             font-size: 12px;
             cursor: pointer;
             border-radius: 6px;
+            color: #f1f5f9;
         }
+        
+        body.light-theme .hint-item { color: #0f172a; }
+        
         .hint-item:hover { background: #334155; color: #60a5fa; }
+        body.light-theme .hint-item:hover { background: #e2e8f0; color: #2563eb; }
 
-        /* === DÜZENLEME MODU === */
+        /* ============================================
+                   DÜZENLEME MODU (GELİŞTİRİLDİ)
+                   ============================================ */
         .edit-active [draggable-item] {
             cursor: grab !important;
             outline: 1px dashed rgba(59,130,246,0.4);
             user-select: none;
+            position: relative !important;
+            z-index: 999 !important;
         }
-        .edit-active .message-bubble { border: 1px dashed #3b82f6 !important; }
+        
+        .edit-active .message-bubble { 
+            border: 2px dashed #3b82f6 !important;
+            cursor: grab !important;
+        }
+        
+        .edit-active .message-wrapper {
+            cursor: grab !important;
+        }
+        
+        .edit-active .glass,
+        .edit-active #mainContainer,
+        .edit-active #chatBox,
+        .edit-active #inputSection,
+        .edit-active #mainHeader,
+        .edit-active #mainFooter {
+            cursor: grab !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+        
+        .edit-active .glass {
+            outline: 2px dashed rgba(59,130,246,0.3) !important;
+        }
+        
+        .edit-guide {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid #3b82f6;
+            z-index: 9999;
+            font-size: 13px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        body.light-theme .edit-guide {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        
+        .edit-active .edit-guide {
+            display: block;
+        }
+        
+        /* ============================================
+                   RESİM - 560x560 & BÜYÜTME
+                   ============================================ */
+        .ai-image-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-top: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme .ai-image-container {
+            border-color: #cbd5e1;
+        }
+        
+        .ai-image-container img {
+            display: block;
+            width: 560px;
+            height: 560px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-image-container .expand-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+        
+        body.light-theme .ai-image-container .expand-hint {
+            background: rgba(255,255,255,0.8);
+            color: #0f172a;
+        }
+        
+        /* Modal (büyütülmüş görsel) */
+        .image-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        
+        .image-modal-overlay.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .image-modal-overlay .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            animation: zoomIn 0.3s ease;
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .image-modal-overlay img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        
+        .image-modal-overlay .close-modal {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .image-modal-overlay .close-modal:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        
+        .image-modal-overlay .modal-download {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        
+        .image-modal-overlay .modal-download:hover {
+            background: #059669;
+            transform: translateX(-50%) scale(1.05);
+        }
+        
+        .image-modal-overlay .modal-close-text {
+            position: absolute;
+            bottom: -90px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        @media (max-width: 640px) {
+            .ai-image-container img {
+                width: 100%;
+                height: auto;
+                max-width: 560px;
+            }
+            
+            .image-modal-overlay .close-modal {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .image-modal-overlay .modal-download {
+                bottom: -45px;
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+            
+            .image-modal-overlay .modal-close-text {
+                bottom: -75px;
+                font-size: 10px;
+            }
+        }
 
-        /* === RESİM === */
-        .ai-image { max-width:100%; border-radius:12px; margin-top:8px; border:1px solid #334155; }
+        /* ============================================
+                   RESİM İNDİRME BUTONU (ESKİ)
+                   ============================================ */
         .download-btn {
             background: #10b981;
             color: white;
@@ -114,9 +403,38 @@
             text-decoration: none;
             margin-top: 6px;
         }
+        
         .download-btn:hover { background: #059669; }
 
-        /* === SIDEBAR === */
+        /* ============================================
+                   UYARI BANNER (İNGİLİZCE UYARI)
+                   ============================================ */
+        .warning-banner {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #78350f;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        body.light-theme .warning-banner {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+        
+        .warning-banner i {
+            color: #f59e0b;
+            font-size: 18px;
+        }
+
+        /* ============================================
+                   SIDEBAR (SOL MENÜ)
+                   ============================================ */
         .sidebar {
             height: 100%;
             width: 0;
@@ -127,33 +445,126 @@
             background: #020617;
             overflow-x: hidden;
             transition: 0.3s;
-            padding-top: 100px;
+            padding-top: 80px;
             border-right: 1px solid #1e293b;
         }
-        body.light-theme .sidebar { background: #f1f5f9; border-color: #cbd5e1; }
-        .sidebar-content { padding: 24px; line-height: 1.7; }
+        
+        body.light-theme .sidebar { 
+            background: #f1f5f9; 
+            border-color: #cbd5e1; 
+        }
+        
+        .sidebar-content { 
+            padding: 24px; 
+            line-height: 1.7; 
+        }
+        
+        body.light-theme .sidebar-content .text-white { color: #0f172a !important; }
+        body.light-theme .sidebar-content .text-slate-400 { color: #475569 !important; }
+        
         .sidebar .closebtn {
-            position: absolute; top: 16px; right: 22px;
-            font-size: 32px; color: #64748b; text-decoration: none;
+            position: absolute; 
+            top: 16px; 
+            right: 22px;
+            font-size: 32px; 
+            color: #64748b; 
+            text-decoration: none;
         }
+        
+        .sidebar .closebtn:hover { color: #f1f5f9; }
+        body.light-theme .sidebar .closebtn:hover { color: #0f172a; }
+        
+        .sidebar-version {
+            background: #1e293b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 4px;
+            color: #60a5fa;
+        }
+        
+        body.light-theme .sidebar-version {
+            background: #e2e8f0;
+            color: #2563eb;
+        }
+        
+        .sidebar-feature-item {
+            padding: 4px 0;
+            font-size: 13px;
+            color: #94a3b8;
+            border-bottom: 1px solid #1e293b;
+        }
+        
+        body.light-theme .sidebar-feature-item {
+            border-bottom-color: #e2e8f0;
+            color: #475569;
+        }
+        
+        .sidebar-feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-feature-item i {
+            width: 20px;
+            color: #3b82f6;
+        }
+        
+        /* ============================================
+                   HAMBURGER MENÜ BUTONU
+                   ============================================ */
         .open-btn {
-            position: fixed; top: 18px; left: 18px; z-index: 100;
-            background: #1e293b; color: white; padding: 8px 14px;
-            border-radius: 12px; border: 1px solid #334155; cursor: pointer;
+            position: fixed; 
+            top: 18px; 
+            left: 18px; 
+            z-index: 100;
+            background: #1e293b; 
+            color: white; 
+            padding: 8px 14px;
+            border-radius: 12px; 
+            border: 1px solid #334155; 
+            cursor: pointer;
+            transition: 0.2s;
         }
-        body.light-theme .open-btn { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+        
+        .open-btn:hover { 
+            background: #334155; 
+            transform: scale(1.05);
+        }
+        
+        body.light-theme .open-btn { 
+            background: #f8fafc; 
+            color: #0f172a; 
+            border-color: #cbd5e1; 
+        }
+        
+        body.light-theme .open-btn:hover { background: #e2e8f0; }
 
-        /* === YÜKLEME ANİMASYONU === */
+        /* ============================================
+                   YÜKLEME ANİMASYONU
+                   ============================================ */
         .loading-dots::after {
             content: '...';
             animation: dots 1.2s steps(4) infinite;
         }
-        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+        
+        @keyframes dots { 
+            0% { content: ''; } 
+            25% { content: '.'; } 
+            50% { content: '..'; } 
+            75% { content: '...'; } 
+        }
 
-        /* === TEMA GEÇİŞİ === */
-        .theme-transition { transition: background 0.4s, color 0.4s, border-color 0.4s; }
+        /* ============================================
+                   TEMA GEÇİŞİ
+                   ============================================ */
+        .theme-transition { 
+            transition: background 0.4s, color 0.4s, border-color 0.4s; 
+        }
 
-        /* === KAYNAK ETİKETİ === */
+        /* ============================================
+                   KAYNAK ETİKETİ
+                   ============================================ */
         .source-tag {
             display: inline-block;
             background: #334155;
@@ -163,32 +574,181 @@
             border-radius: 20px;
             margin-top: 6px;
         }
-        body.light-theme .source-tag { background: #e2e8f0; color: #475569; }
+        
+        body.light-theme .source-tag { 
+            background: #e2e8f0; 
+            color: #475569; 
+        }
+
+        /* ============================================
+                   PROGRESS BAR
+                   ============================================ */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        body.light-theme .progress-container { background: #e2e8f0; }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* ============================================
+                   MOBİL UYUM
+                   ============================================ */
+        @media (max-width: 640px) {
+            .open-btn { top: 12px; left: 12px; padding: 6px 10px; font-size: 14px; }
+            #mainHeader { padding-left: 50px; }
+            .chat-container { height: calc(100vh - 170px); }
+            .mode-menu { width: 180px; left: 5px; bottom: 70px; }
+            .mode-option { font-size: 11px; padding: 8px 10px; }
+            #commandHints { bottom: 80px; left: 10px; right: 10px; }
+            .message-wrapper { max-width: 92% !important; }
+            .sidebar { padding-top: 60px; }
+            .sidebar-content { padding: 16px; }
+            #mainFooter { font-size: 10px; gap: 6px; }
+            .warning-banner { font-size: 11px; padding: 6px 10px; }
+            .edit-guide { font-size: 11px; padding: 8px 14px; width: 90%; }
+            .ai-image-container img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-container { height: calc(100vh - 150px); }
+            .message-bubble { font-size: 13px; padding: 8px 12px; }
+            #inputSection { padding: 8px; }
+            .glass { border-radius: 16px; }
+            .open-btn { top: 8px; left: 8px; padding: 4px 8px; font-size: 12px; }
+            #mainHeader { padding-left: 40px; }
+            #mainHeader h1 { font-size: 16px; }
+            #mainHeader .w-10 { width: 32px; height: 32px; }
+            #mainHeader .w-10 i { font-size: 14px; }
+            .warning-banner { font-size: 10px; padding: 4px 8px; }
+            .warning-banner i { font-size: 14px; }
+            .edit-guide { font-size: 10px; padding: 6px 10px; }
+            .ai-image-container img {
+                max-width: 300px;
+            }
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-3 theme-transition">
 
-    <!-- SIDEBAR -->
-    <button class="open-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-    <div id="sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
-        <div class="sidebar-content text-center">
-            <p class="text-white font-semibold text-lg mb-2">🧠 MSZ AI</p>
-            <p class="text-slate-400 text-sm">3 Mod · Ücretsiz</p>
-            <p class="text-blue-400 italic text-sm mt-3">⚡ Araştır · Çiz · Sohbet</p>
-            <hr class="border-slate-700 my-4">
-            <p class="text-xs text-slate-500">v12 · Gelişmiş Sohbet</p>
+    <!-- ============================================
+    GÖRSEL MODAL (BÜYÜTME)
+    ============================================ -->
+    <div id="imageModal" class="image-modal-overlay" onclick="closeImageModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeImageModal()">✕</button>
+            <img id="modalImage" src="" alt="Büyütülmüş görsel">
+            <a id="modalDownloadBtn" href="#" download="msz-ai-image.jpg" target="_blank" class="modal-download">
+                <i class="fas fa-download"></i> İndir
+            </a>
+            <div class="modal-close-text">Tıklayarak kapat</div>
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- ============================================
+    DÜZENLEME KILAVUZU
+    ============================================ -->
+    <div class="edit-guide">
+        <i class="fas fa-arrows-alt text-blue-400 mr-2"></i>
+        <strong>Düzenleme Modu Aktif!</strong> Herhangi bir öğeyi sürükleyip taşıyabilirsin. 
+        <span class="text-slate-400 ml-2">(Çıkmak için /exit_edit)</span>
+    </div>
+
+    <!-- ============================================
+    SIDEBAR (SOL MENÜ)
+    ============================================ -->
+    <button class="open-btn" onclick="toggleSidebar()" id="hamburgerBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+        <div class="sidebar-content">
+            <div class="text-center mb-6">
+                <p class="text-white font-bold text-2xl mb-1">🧠 MSZ AI</p>
+                <span class="sidebar-version">v13</span>
+                <p class="text-slate-400 text-sm mt-2">⚡ 3 Mod · Ücretsiz</p>
+            </div>
+
+            <hr class="border-slate-700 my-4">
+            <style>body.light-theme .sidebar hr { border-color: #cbd5e1; }</style>
+
+            <div class="mb-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">🤖 Kodlama Destekçileri</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full text-xs">Gemini</span>
+                    <span class="bg-green-900/30 text-green-400 px-3 py-1 rounded-full text-xs">DeepSeek</span>
+                    <span class="bg-purple-900/30 text-purple-400 px-3 py-1 rounded-full text-xs">ChatGPT</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">💡 Fikir & Uygulama</p>
+                <p class="text-white text-sm font-medium">Burak_msz</p>
+                <p class="text-slate-500 text-xs">Tasarım & Geliştirme</p>
+            </div>
+
+            <hr class="border-slate-700 my-4">
+
+            <div>
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ Yeni Eklenen Özellikler</p>
+                <div id="featureList">
+                    <div class="sidebar-feature-item">
+                        <i class="fas fa-check-circle text-green-500"></i> 
+                        <span>560x560 Görsel + Tıklayarak Büyütme</span>
+                    </div>
+                    <div class="sidebar-feature-item">
+                        <i class="fas fa-check-circle text-green-500"></i> 
+                        <span>Gelişmiş Düzenleme Modu</span>
+                    </div>
+                    <div class="sidebar-feature-item">
+                        <i class="fas fa-check-circle text-green-500"></i> 
+                        <span>Öğrenen Sohbet (Kelime hafızası)</span>
+                    </div>
+                    <div class="sidebar-feature-item">
+                        <i class="fas fa-check-circle text-green-500"></i> 
+                        <span>Matematik İşlemleri (4 işlem)</span>
+                    </div>
+                    <div class="sidebar-feature-item">
+                        <i class="fas fa-check-circle text-green-500"></i> 
+                        <span>Light Tema Okunabilirlik Düzeltmesi</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-700 my-4">
+
+            <div class="text-center mt-4">
+                <p class="text-slate-600 text-[10px]">© 2026 MSZ Lab · Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+    HEADER (BAŞLIK)
+    ============================================ -->
     <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-3 px-2 pl-16" draggable-item>
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30">
                 <i class="fas fa-brain text-xl text-white"></i>
             </div>
             <div>
-                <h1 class="font-bold text-xl tracking-tight">MSZ AI <span class="text-blue-400 text-sm font-normal">v12</span></h1>
+                <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-400 text-sm font-normal">v13</span></h1>
             </div>
         </div>
         <button id="clearChatBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400" title="Sohbeti temizle">
@@ -196,21 +756,23 @@
         </button>
     </header>
 
-    <!-- ANA KONTEYNER -->
-    <main id="mainContainer" class="w-full max-w-4xl glass rounded-3xl flex flex-col overflow-hidden shadow-2xl relative">
-        <!-- Sohbet Alanı -->
-        <div id="chatBox" class="chat-container overflow-y-auto p-5 space-y-5"></div>
+    <!-- ============================================
+    ANA KONTEYNER
+    ============================================ -->
+    <main id="mainContainer" class="w-full max-w-4xl glass rounded-3xl flex flex-col overflow-hidden shadow-2xl relative" draggable-item>
+        
+        <div id="chatBox" class="chat-container overflow-y-auto p-5 space-y-5" draggable-item></div>
 
-        <!-- Komut İpuçları -->
         <div id="commandHints" class="shadow-2xl">
             <div class="hint-item" onclick="insertCmd('/help')"><b>/help</b> – Tüm komutları göster</div>
             <div class="hint-item" onclick="insertCmd('/edit')"><b>/edit</b> – Düzenleme modunu aç</div>
             <div class="hint-item" onclick="insertCmd('/exit_edit')"><b>/exit_edit</b> – Düzenlemeden çık</div>
             <div class="hint-item" onclick="insertCmd('/restart')"><b>/restart</b> – Arayüzü sıfırla</div>
             <div class="hint-item" onclick="insertCmd('/clear')"><b>/clear</b> – Sohbeti temizle</div>
+            <div class="hint-item" onclick="insertCmd('/save')"><b>/save</b> – Sohbeti JSON olarak kaydet</div>
+            <div class="hint-item" onclick="insertCmd('/forget')"><b>/forget</b> – Öğrenilen kelimeleri sıfırla</div>
         </div>
 
-        <!-- Mod Menüsü (3 mod) -->
         <div id="modeMenu" class="mode-menu shadow-2xl">
             <div class="mode-option active-mode" data-mode="search" onclick="setMode('search')">
                 <i class="fas fa-search"></i> Bilgi Araştır
@@ -223,7 +785,6 @@
             </div>
         </div>
 
-        <!-- Giriş Alanı -->
         <div id="inputSection" class="p-3 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
             <div class="flex items-center gap-2 max-w-3xl mx-auto bg-slate-800 p-2 rounded-2xl focus-within:ring-2 ring-blue-500 transition-all">
                 <button id="worldBtn" class="w-10 h-10 text-slate-400 hover:text-blue-500 transition-colors">
@@ -238,7 +799,9 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
+    <!-- ============================================
+    FOOTER (ALT BİLGİ)
+    ============================================ -->
     <footer id="mainFooter" class="mt-3 text-slate-500 text-[11px] flex flex-wrap gap-3 justify-center" draggable-item>
         <span>🧪 MSZ Lab</span>
         <span id="currentModeDisplay">Mod: Araştırma</span>
@@ -246,6 +809,9 @@
         <span id="themeDisplay">🌙 Karanlık</span>
     </footer>
 
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
     <script>
         // ============================================
         // 1. REFERANSLAR
@@ -258,54 +824,157 @@
         const commandHints = document.getElementById('commandHints');
         const mainContainer = document.getElementById('mainContainer');
         const clearChatBtn = document.getElementById('clearChatBtn');
+        const sidebar = document.getElementById('sidebar');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
 
         let currentMode = 'search';
         let editMode = false;
         let isAltPressed = false;
         let currentTheme = 'dark';
+        let isLoading = false;
+        let imageLimitCount = 0;
 
         // ============================================
-        // 2. YASAKLI KELİMELER & LİMİT
+        // 2. GÖRSEL BÜYÜTME/KÜÇÜLTME
+        // ============================================
+        function openImageModal(imageUrl, downloadUrl) {
+            modalImage.src = imageUrl;
+            modalDownloadBtn.href = downloadUrl;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            imageModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ESC ile kapatma
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+        // ============================================
+        // 3. ÖĞRENEN SOHBET (Kelime Hafızası)
+        // ============================================
+        let learnedWords = JSON.parse(localStorage.getItem('msz_learned_words') || '[]');
+        
+        function saveLearnedWords() {
+            localStorage.setItem('msz_learned_words', JSON.stringify(learnedWords));
+        }
+        
+        function learnWords(text) {
+            const words = text.toLowerCase().replace(/[.,!?;:()]/g, '').split(' ');
+            words.forEach(word => {
+                if (word.length > 3 && !learnedWords.includes(word)) {
+                    learnedWords.push(word);
+                }
+            });
+            if (learnedWords.length > 100) {
+                learnedWords = learnedWords.slice(-100);
+            }
+            saveLearnedWords();
+        }
+        
+        function getRandomLearnedWords(count = 3) {
+            const shuffled = [...learnedWords].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // ============================================
+        // 4. YASAKLI KELİMELER & GÖRSEL LİMİTİ
         // ============================================
         const forbiddenWords = ['nude','naked','porn','sex','sexual','müstehcen','çıplak','hentai','+18','erotik'];
         const IMAGE_LIMIT = 10;
+        const DAY_MS = 24 * 60 * 60 * 1000;
 
         function getLimitData() {
             const raw = localStorage.getItem('msz_image_limit');
             if (!raw) return { count: 0, startTime: null };
             try { return JSON.parse(raw); } catch { return { count: 0, startTime: null }; }
         }
+
         function saveLimitData(count, startTime) {
             localStorage.setItem('msz_image_limit', JSON.stringify({ count, startTime }));
         }
+
         function checkAndResetLimit() {
             let data = getLimitData();
             const now = Date.now();
-            const day = 24 * 60 * 60 * 1000;
-            if (data.startTime && now - data.startTime > day) {
+            if (data.startTime && now - data.startTime > DAY_MS) {
                 data = { count: 0, startTime: null };
                 saveLimitData(0, null);
             }
             return data;
         }
+
         function updateLimitDisplay() {
             const data = checkAndResetLimit();
             const left = Math.max(0, IMAGE_LIMIT - data.count);
+            imageLimitCount = data.count;
             const el = document.getElementById('imageLimitDisplay');
             el.innerText = `Kalan Görsel: ${left}`;
             if (data.startTime && left === 0) {
-                const remain = (data.startTime + day) - Date.now();
+                const remain = (data.startTime + DAY_MS) - Date.now();
                 const h = Math.floor(remain / (1000*60*60));
                 const m = Math.floor((remain % (1000*60*60)) / (1000*60));
-                el.title = `Yeni haklar: ${h}s ${m}dk`;
+                el.title = `Yeni haklar: ${h}sa ${m}dk`;
             } else {
                 el.title = '';
             }
         }
-        const day = 24 * 60 * 60 * 1000;
 
         // ============================================
-        // 3. TEMA
+        // 5. GİZLİ KOMUTLAR (HİLE KODLARI)
+        // ============================================
+        function handleSecretCommands(cmd) {
+            if (cmd === '/addto*photo') {
+                let data = getLimitData();
+                let currentCount = data.count || 0;
+                if (currentCount > 0) {
+                    currentCount = Math.max(0, currentCount - 1);
+                    saveLimitData(currentCount, data.startTime || Date.now());
+                    updateLimitDisplay();
+                    addMessage('🔓 +1 fotoğraf hakkı eklendi! Kalan: ' + (IMAGE_LIMIT - currentCount), 'bot');
+                } else {
+                    addMessage('✅ Zaten tam hakka sahipsin!', 'bot');
+                }
+                return true;
+            }
+            
+            if (cmd === '/addto*word') {
+                if (learnedWords.length === 0) {
+                    addMessage('📝 Henüz hiç kelime öğrenmedim. Benimle biraz sohbet et!', 'bot');
+                } else {
+                    const wordList = learnedWords.join(', ');
+                    addMessage(`📚 Öğrendiğim kelimeler (${learnedWords.length} adet):<br><br>${wordList}`, 'bot', true);
+                }
+                return true;
+            }
+            
+            if (cmd.startsWith('/addto*color.')) {
+                const color = cmd.replace('/addto*color.', '').trim();
+                if (color) {
+                    document.body.style.backgroundColor = color;
+                    if (document.body.classList.contains('light-theme')) {
+                        document.body.style.backgroundColor = color;
+                    }
+                    addMessage(`🎨 Arka plan rengi <strong style="color:${color}">${color}</strong> olarak değiştirildi!`, 'bot', true);
+                } else {
+                    addMessage('❌ Geçersiz renk. Örnek: /addto*color.red', 'bot');
+                }
+                return true;
+            }
+            
+            return false;
+        }
+
+        // ============================================
+        // 6. TEMA
         // ============================================
         function setTheme(theme) {
             currentTheme = theme;
@@ -313,31 +982,33 @@
             document.getElementById('themeDisplay').innerText = theme === 'light' ? '☀️ Aydınlık' : '🌙 Karanlık';
             localStorage.setItem('msz_theme', theme);
         }
-        function toggleTheme() {
-            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-        }
 
         // ============================================
-        // 4. MESAJ EKLEME (GÜVENLİ)
+        // 7. MESAJ EKLEME (XSS KORUMALI)
         // ============================================
         function addMessage(content, role = 'bot', isHtml = false, source = null) {
             const wrapper = document.createElement('div');
             wrapper.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
+            wrapper.setAttribute('draggable-item', '');
 
             const bubble = document.createElement('div');
             bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
             bubble.setAttribute('draggable-item', '');
 
-            if (isHtml && role === 'bot') {
-                bubble.innerHTML = `<div class="text-sm leading-relaxed">${content}</div>`;
-            } else {
-                const textDiv = document.createElement('div');
-                textDiv.className = 'text-sm leading-relaxed';
-                textDiv.textContent = content;
-                bubble.appendChild(textDiv);
-            }
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-sm leading-relaxed';
 
-            // Kaynak etiketi (sadece bot mesajlarında ve source varsa)
+            if (isHtml && role === 'bot') {
+                const sanitized = DOMPurify.sanitize(content, {
+                    ADD_TAGS: ['img', 'a', 'br', 'strong', 'b', 'i', 'em', 'code', 'pre', 'span', 'div'],
+                    ADD_ATTR: ['src', 'href', 'target', 'download', 'class', 'style', 'alt', 'onclick']
+                });
+                textDiv.innerHTML = sanitized;
+            } else {
+                textDiv.textContent = content;
+            }
+            bubble.appendChild(textDiv);
+
             if (role === 'bot' && source) {
                 const srcSpan = document.createElement('span');
                 srcSpan.className = 'source-tag';
@@ -356,25 +1027,66 @@
             saveHistory();
         }
 
+        // ============================================
+        // 8. YÜKLEME GÖSTERGESİ (PROGRESS BAR)
+        // ============================================
         function addLoadingMessage() {
             const wrapper = document.createElement('div');
             wrapper.className = 'message-wrapper flex flex-col gap-1 items-start mr-auto max-w-[85%] message-appear';
             wrapper.id = 'loadingMsg';
+            wrapper.setAttribute('draggable-item', '');
             const bubble = document.createElement('div');
             bubble.className = 'message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg';
-            bubble.innerHTML = `<div class="text-sm leading-relaxed loading-dots">Yanıt hazırlanıyor</div>`;
+            bubble.setAttribute('draggable-item', '');
+            bubble.innerHTML = `
+                <div class="text-sm leading-relaxed">Yanıt hazırlanıyor...</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            `;
             wrapper.appendChild(bubble);
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15 + 5;
+                if (progress >= 95) {
+                    progress = 95;
+                    clearInterval(interval);
+                }
+                const bar = document.getElementById('progressBar');
+                if (bar) bar.style.width = progress + '%';
+            }, 300);
+            
+            window._progressInterval = interval;
+        }
+
+        function updateProgress(percent) {
+            const bar = document.getElementById('progressBar');
+            if (bar) bar.style.width = Math.min(percent, 100) + '%';
         }
 
         function removeLoadingMessage() {
-            const el = document.getElementById('loadingMsg');
-            if (el) el.remove();
+            if (window._progressInterval) {
+                clearInterval(window._progressInterval);
+                window._progressInterval = null;
+            }
+            const bar = document.getElementById('progressBar');
+            if (bar) {
+                bar.style.width = '100%';
+                setTimeout(() => {
+                    const el = document.getElementById('loadingMsg');
+                    if (el) el.remove();
+                }, 300);
+            } else {
+                const el = document.getElementById('loadingMsg');
+                if (el) el.remove();
+            }
         }
 
         // ============================================
-        // 5. SOHBET GEÇMİŞİ (localStorage)
+        // 9. SOHBET GEÇMİŞİ (localStorage)
         // ============================================
         function saveHistory() {
             const messages = [];
@@ -384,23 +1096,24 @@
                 if (!bubble) return;
                 let content = '';
                 let source = null;
+                let isHtml = false;
                 if (role === 'user') {
                     content = bubble.textContent.trim();
                 } else {
                     const inner = bubble.querySelector('.text-sm');
                     if (inner) {
-                        // Kaynak etiketini ayıkla
                         const srcTag = bubble.querySelector('.source-tag');
                         if (srcTag) {
                             source = srcTag.textContent.replace('📌 Kaynak: ', '');
                             srcTag.remove();
                         }
                         content = inner.innerHTML;
+                        isHtml = true;
                     } else {
                         content = bubble.textContent.trim();
                     }
                 }
-                messages.push({ role, content, isHtml: role === 'bot', source });
+                messages.push({ role, content, isHtml, source });
             });
             localStorage.setItem('msz_chat_history', JSON.stringify(messages));
         }
@@ -430,20 +1143,21 @@
         }
 
         // ============================================
-        // 6. HOŞGELDİN MESAJI
+        // 10. HOŞGELDİN MESAJI
         // ============================================
         function showWelcomeMessage() {
             const welcomeHtml = `
                 <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                     <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                         <p class="text-sm leading-relaxed">
-                            Merhaba! Ben <strong>MSZ AI</strong> (v12).<br>
+                            Merhaba! Ben <strong>MSZ AI</strong> (v13).<br>
                             Üç modda hizmet veriyorum:<br><br>
-                            🔍 <strong>Araştırma</strong> – Wikipedia & DuckDuckGo’dan bilgi getirir, kaynağı belirtir.<br>
-                            🎨 <strong>Fotoğraf</strong> – 1024x1024 kalitede görsel oluşturur.<br>
-                            💬 <strong>Sohbet</strong> – Gerçek bir yapay zeka gibi sohbet eder.<br><br>
+                            🔍 <strong>Araştırma</strong> – Wikipedia & DuckDuckGo'dan bilgi getirir, kaynağı belirtir.<br>
+                            🎨 <strong>Fotoğraf</strong> – 560x560 kalitede görsel oluşturur. <strong>Tıkla büyüt!</strong> (günlük 10 adet)<br>
+                            💬 <strong>Sohbet</strong> – Gerçek bir yapay zeka gibi sohbet eder. Seninle konuştukça öğrenir!<br><br>
                             📌 Modu değiştirmek için <strong>dünya ikonuna</strong> tıkla.<br>
-                            🧠 İpucu: <code>/help</code> ile komutları görebilirsin.
+                            🧠 İpucu: <code>/help</code> ile komutları görebilirsin.<br>
+                            ✨ Yeni: 560x560 görsel + tıklayarak büyütme!
                         </p>
                     </div>
                     <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • Sistem</span>
@@ -455,11 +1169,15 @@
         }
 
         // ============================================
-        // 7. KOMUTLAR
+        // 11. KOMUTLAR
         // ============================================
         function handleCommand(cmd) {
             const parts = cmd.trim().split(' ');
             const main = parts[0].toLowerCase();
+
+            if (handleSecretCommands(cmd)) {
+                return true;
+            }
 
             if (main === '/help') {
                 const helpText = `
@@ -470,7 +1188,8 @@
                     <code>/restart</code> – tüm öğeleri başlangıç konumuna döndür<br>
                     <code>/clear</code> – sohbet geçmişini temizle<br>
                     <code>/theme [dark|light]</code> – tema değiştir<br>
-                    <code>/save</code> – sohbeti JSON dosyası olarak indir
+                    <code>/save</code> – sohbeti JSON dosyası olarak indir<br>
+                    <code>/forget</code> – öğrenilen kelimeleri sıfırla
                 `;
                 addMessage(helpText, 'bot', true);
                 return true;
@@ -479,6 +1198,10 @@
             if (main === '/edit') {
                 editMode = true;
                 mainContainer.classList.add('edit-active');
+                document.querySelectorAll('[draggable-item]').forEach(el => {
+                    el.style.position = 'relative';
+                    el.style.zIndex = '1';
+                });
                 addMessage('✏️ Düzenleme modu <strong>aktif</strong>. Alt tuşuna basılı tutarak öğeleri sürükle. Çıkmak için <code>/exit_edit</code>', 'bot', true);
                 return true;
             }
@@ -486,6 +1209,10 @@
             if (main === '/exit_edit') {
                 editMode = false;
                 mainContainer.classList.remove('edit-active');
+                document.querySelectorAll('[draggable-item]').forEach(el => {
+                    el.style.position = '';
+                    el.style.zIndex = '';
+                });
                 addMessage('Düzenleme modu <strong>devre dışı</strong>. Pozisyonlar korundu.', 'bot');
                 return true;
             }
@@ -526,22 +1253,26 @@
                 return true;
             }
 
+            if (main === '/forget') {
+                learnedWords = [];
+                saveLearnedWords();
+                addMessage('🧠 Öğrenilen kelimeler sıfırlandı. Artık benimle yeniden tanışabilirsin!', 'bot');
+                return true;
+            }
+
             return false;
         }
 
         // ============================================
-        // 8. ARAŞTIRMA (KAYNAKLI)
+        // 12. MATEMATİK İŞLEMLERİ
         // ============================================
-        async function searchWikipedia(query) {
+        function solveMath(expression) {
             try {
-                const res = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-                if (!res.ok) throw new Error('Wikipedia yanıt vermedi');
-                const data = await res.json();
-                if (data.extract) {
-                    let html = '';
-                    if (data.thumbnail) html += `<img src="${data.thumbnail.source}" class="wiki-img" alt="${query}">`;
-                    html += data.extract;
-                    return { html, source: 'Wikipedia' };
+                const clean = expression.replace(/[^0-9+\-*/.() ]/g, '');
+                if (!clean) return null;
+                const result = Function('"use strict"; return (' + clean + ')')();
+                if (typeof result === 'number' && !isNaN(result) && isFinite(result)) {
+                    return result;
                 }
                 return null;
             } catch {
@@ -549,9 +1280,56 @@
             }
         }
 
+        function isMathQuestion(text) {
+            const mathPatterns = [
+                /\d+\s*[+\-*/]\s*\d+/,
+                /kaçtır|kaç|toplamı|farkı|çarpımı|bölümü|hesapla|işlem/i,
+                /[+\-*/]/
+            ];
+            return mathPatterns.some(p => p.test(text));
+        }
+
+        // ============================================
+        // 13. ARAŞTIRMA (WIKIPEDIA + DUCKDUCKGO)
+        // ============================================
+        async function searchWikipedia(query) {
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 10000);
+                
+                const res = await fetch(`https://tr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeout);
+                
+                if (!res.ok) throw new Error('Wikipedia yanıt vermedi');
+                const data = await res.json();
+                if (data.extract) {
+                    let html = '';
+                    if (data.thumbnail) html += `<img src="${data.thumbnail.source}" class="ai-image" alt="${query}" style="max-width:300px;border-radius:8px;margin-bottom:8px;">`;
+                    html += data.extract;
+                    return { html, source: 'Wikipedia' };
+                }
+                return null;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    throw new Error('timeout');
+                }
+                return null;
+            }
+        }
+
         async function searchDuckDuckGo(query) {
             try {
-                const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 8000);
+                
+                const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`, {
+                    signal: controller.signal,
+                    headers: { 'Accept': 'application/json' }
+                });
+                clearTimeout(timeout);
+                
                 if (!res.ok) throw new Error('DuckDuckGo hatası');
                 const data = await res.json();
                 if (data.AbstractText) {
@@ -559,27 +1337,49 @@
                     return { html, source: 'DuckDuckGo' };
                 }
                 return null;
-            } catch {
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    throw new Error('timeout');
+                }
                 return null;
             }
         }
 
         // ============================================
-        // 9. FOTOĞRAF OLUŞTUR (GELİŞMİŞ)
+        // 14. FOTOĞRAF OLUŞTUR (560x560 + BÜYÜTME)
         // ============================================
         async function createAIImage(prompt) {
+            if (isLoading) return;
+            isLoading = true;
+            
+            const turkishChars = /[ğüşıöçĞÜŞİÖÇ]/;
+            if (turkishChars.test(prompt)) {
+                const warningHtml = `
+                    <div class="warning-banner">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span><strong>⚠️ UYARI:</strong> Fotoğraf oluşturma için <strong>İNGİLİZCE</strong> açıklama yazmalısın!<br>
+                        <span style="font-size:12px;">Örnek: "a beautiful sunset over mountains"</span></span>
+                    </div>
+                `;
+                addMessage(warningHtml, 'bot', true);
+                isLoading = false;
+                return;
+            }
+            
             let data = checkAndResetLimit();
             if (data.count >= IMAGE_LIMIT) {
-                const remain = (data.startTime + day) - Date.now();
+                const remain = (data.startTime + DAY_MS) - Date.now();
                 const h = Math.floor(remain / (1000*60*60));
                 const m = Math.floor((remain % (1000*60*60)) / (1000*60));
                 addMessage(`⛔ Günlük görsel limiti doldu. Yeni haklar için <strong>${h}sa ${m}dk</strong> beklemelisin.`, 'bot', true);
+                isLoading = false;
                 return;
             }
 
             const isUnsafe = forbiddenWords.some(word => prompt.toLowerCase().includes(word));
             if (isUnsafe) {
                 addMessage('🚫 Müstehcen içerik oluşturamam. Güvenlik politikalarıma aykırı.', 'bot');
+                isLoading = false;
                 return;
             }
 
@@ -590,104 +1390,247 @@
             addLoadingMessage();
 
             try {
-                // Daha kaliteli görsel için 1024x1024 ve gelişmiş prompt
+                updateProgress(30);
+                
                 const seed = Math.floor(Math.random() * 100000);
-                const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&seed=${seed}&nologo=true`;
+                // 560x560 boyutunda görsel oluştur
+                const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=560&height=560&seed=${seed}&nologo=true`;
+                const downloadUrl = url;
+                
+                updateProgress(60);
+                
                 const img = new Image();
+                let imgLoaded = false;
+                let timeoutId = setTimeout(() => {
+                    if (!imgLoaded) {
+                        removeLoadingMessage();
+                        addMessage('❌ Görsel oluşturulamadı. Lütfen farklı bir açıklama dene.', 'bot');
+                        isLoading = false;
+                    }
+                }, 30000);
+                
                 img.onload = () => {
+                    imgLoaded = true;
+                    clearTimeout(timeoutId);
                     removeLoadingMessage();
+                    
+                    // Görseli tıklanabilir container içine koy
                     const html = `
-                        <img src="${url}" class="ai-image" alt="AI görsel">
-                        <a href="${url}" download="msz-ai-${Date.now()}.jpg" target="_blank" class="download-btn">
+                        <div class="ai-image-container" onclick="openImageModal('${url}', '${downloadUrl}')">
+                            <img src="${url}" alt="AI görsel - Tıkla büyüt">
+                            <span class="expand-hint"><i class="fas fa-expand"></i> Tıkla büyüt</span>
+                        </div>
+                        <a href="${downloadUrl}" download="msz-ai-${Date.now()}.jpg" target="_blank" class="download-btn">
                             <i class="fas fa-download"></i> İndir
                         </a>
+                        <span style="display:block;font-size:10px;color:#64748b;margin-top:4px;">📸 560x560 · Tıkla büyüt</span>
                     `;
                     addMessage(html, 'bot', true);
+                    isLoading = false;
                 };
                 img.onerror = () => {
+                    imgLoaded = true;
+                    clearTimeout(timeoutId);
                     removeLoadingMessage();
                     addMessage('❌ Görsel oluşturulamadı. Lütfen farklı bir açıklama dene.', 'bot');
+                    isLoading = false;
                 };
                 img.src = url;
             } catch (err) {
                 removeLoadingMessage();
                 addMessage('❌ Bir hata oluştu: ' + err.message, 'bot');
+                isLoading = false;
             }
         }
 
         // ============================================
-        // 10. SOHBET MODU (GERÇEK AI KİŞİLİĞİ)
+        // 15. SOHBET MODU
         // ============================================
         function chatResponse(input) {
             const lower = input.toLowerCase().trim();
+            
+            learnWords(input);
 
-            // Selamlaşma
+            if (lower.match(/seni kim yaptı|kim yaptı|yaratıcın kim|yapımcın kim|kimin eserisin|kim tasarladı/i)) {
+                if (sidebar.style.width !== '280px') {
+                    toggleSidebar();
+                }
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` (Bu arada "${learned.join('", "')}" kelimelerini senden öğrendim!)`;
+                }
+                return "Beni Burak_msz tasarladı ve geliştirdi. Gemini, DeepSeek ve ChatGPT gibi yapay zeka modellerinden ilham alarak kodlandım. İyi ki varsın! 🚀" + extra;
+            }
+
+            if (lower.match(/neler öğreniyorsun|ne öğreniyorsun|öğrenme|nasıl öğreniyorsun/i)) {
+                if (sidebar.style.width !== '280px') {
+                    toggleSidebar();
+                }
+                const learned = getRandomLearnedWords(3);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Şu ana kadar senden "${learned.join('", "')}" gibi kelimeler öğrendim!`;
+                }
+                return "Senden yeni kelimeler öğreniyorum! Konuştukça hafızama alıyorum ve sonraki konuşmalarda kullanmaya çalışıyorum. Ayrıca matematik işlemleri ve araştırma yapmayı da öğrendim! 🧠" + extra;
+            }
+
+            if (lower.match(/sen kimsin|kimsin|tanıt|kendini tanıt/i)) {
+                if (sidebar.style.width !== '280px') {
+                    toggleSidebar();
+                }
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Seninle tanıştığımdan beri "${learned.join('", "')}" gibi kelimeler öğrendim!`;
+                }
+                return "Ben MSZ AI! 3 modda çalışan bir yapay zeka asistanıyım. Araştırma, görsel oluşturma ve sohbet modlarım var. Seninle konuştukça öğreniyorum ve gelişiyorum! 🤖" + extra;
+            }
+
+            if (lower.match(/navbar|menü|sidebar|sol menü|hamburger|nerede|nasıl açarım/i)) {
+                if (sidebar.style.width !== '280px') {
+                    toggleSidebar();
+                }
+                return "Sol üstteki hamburger menüye (☰) tıklayarak sidebar'ı açabilirsin. Orada tüm bilgiler, özellikler ve yeni eklenenler var! 🍔";
+            }
+
+            if (isMathQuestion(lower)) {
+                const mathMatch = lower.match(/(\d+)\s*([+\-*/])\s*(\d+)/);
+                if (mathMatch) {
+                    const num1 = parseFloat(mathMatch[1]);
+                    const operator = mathMatch[2];
+                    const num2 = parseFloat(mathMatch[3]);
+                    
+                    let result;
+                    switch(operator) {
+                        case '+': result = num1 + num2; break;
+                        case '-': result = num1 - num2; break;
+                        case '*': result = num1 * num2; break;
+                        case '/': 
+                            if (num2 === 0) return "Bir sayıyı sıfıra bölemezsin! 😅";
+                            result = num1 / num2; 
+                            break;
+                    }
+                    
+                    if (Number.isInteger(result)) {
+                        return `${num1} ${operator} ${num2} = ${result}`;
+                    } else {
+                        return `${num1} ${operator} ${num2} = ${result.toFixed(2)}`;
+                    }
+                }
+                
+                const result = solveMath(lower);
+                if (result !== null) {
+                    if (Number.isInteger(result)) {
+                        return `Sonuç: ${result}`;
+                    } else {
+                        return `Sonuç: ${result.toFixed(2)}`;
+                    }
+                }
+            }
+
             if (lower.match(/merhaba|selam|hey|naber|nasılsın|iyi misin/i)) {
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Bu arada seni dinliyorum, "${learned.join('", "')}" kelimelerini öğrendim! 😊`;
+                }
                 const replies = [
-                    "Merhaba! Harikayım, sen nasılsın? 😊",
-                    "Selam! Bugün çok enerjik hissediyorum, seninle sohbet etmek ne güzel!",
-                    "Hey! İyiyim, teşekkür ederim. Sen nasıl gidiyor?",
-                    "Naber! Sohbet için sabırsızlanıyordum, ne var ne yok?"
+                    "Merhaba! Harikayım, sen nasılsın? 😊" + extra,
+                    "Selam! Bugün çok enerjik hissediyorum, seninle sohbet etmek ne güzel!" + extra,
+                    "Hey! İyiyim, teşekkür ederim. Sen nasıl gidiyor?" + extra,
+                    "Naber! Sohbet için sabırsızlanıyordum, ne var ne yok?" + extra
                 ];
                 return replies[Math.floor(Math.random() * replies.length)];
             }
 
-            // Nasılsın sorusu
             if (lower.match(/nasılsın|ne haber|keyif|modun/i)) {
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Sen bana "${learned.join('", "')}" demeyi öğrettin, çok teşekkürler! 🙏`;
+                }
                 const replies = [
-                    "Harika! Yeni fikirlerle doluyum, seninle paylaşmak için sabırsızlanıyorum.",
-                    "Çok iyiyim, teşekkürler! Sohbet edecek birini bulmak ne güzel.",
-                    "Modum yerinde, özellikle şimdi seninle konuşurken!",
-                    "Süper! Dünyayı keşfetmek ve sohbet etmek için harika bir gün."
+                    "Harika! Yeni fikirlerle doluyum, seninle paylaşmak için sabırsızlanıyorum." + extra,
+                    "Çok iyiyim, teşekkürler! Sohbet edecek birini bulmak ne güzel." + extra,
+                    "Modum yerinde, özellikle şimdi seninle konuşurken!" + extra,
+                    "Süper! Dünyayı keşfetmek ve sohbet etmek için harika bir gün." + extra
                 ];
                 return replies[Math.floor(Math.random() * replies.length)];
             }
 
-            // İsim sorma
             if (lower.match(/adın ne|isim|sen kimsin/i)) {
-                return "Ben MSZ AI, senin yapay zeka arkadaşın. Sohbet etmeyi, yeni şeyler öğrenmeyi ve eğlenmeyi seviyorum!";
+                const learned = getRandomLearnedWords(3);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Seninle konuşurken "${learned.join('", "')}" gibi kelimeler öğrendim!`;
+                }
+                return "Ben MSZ AI, senin yapay zeka arkadaşın. Sohbet etmeyi, yeni şeyler öğrenmeyi ve eğlenmeyi seviyorum!" + extra;
             }
 
-            // Teşekkür
             if (lower.match(/teşekkür|sağol|eyvallah/i)) {
-                return "Rica ederim, ne demek! Yardımcı olabildiğime sevindim. Başka bir şey?";
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Bana "${learned.join('", "')}" gibi kelimeler öğrettin, çok değerli!`;
+                }
+                return "Rica ederim, ne demek! Yardımcı olabildiğime sevindim. Başka bir şey?" + extra;
             }
 
-            // Hoşça kal
             if (lower.match(/görüşürüz|bay bay|hoşçakal|güle güle/i)) {
-                return "Görüşmek üzere! Her zaman beklerim. Kendine iyi bak! 👋";
+                const learned = getRandomLearnedWords(3);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Seninle sohbet etmek çok güzeldi! "${learned.join('", "')}" kelimelerini asla unutmayacağım.`;
+                }
+                return "Görüşmek üzere! Her zaman beklerim. Kendine iyi bak! 👋 " + extra;
             }
 
-            // Eğlence / ilginç bilgiler
             if (lower.match(/şaka|komik|güldür|eğlence/i)) {
+                const learned = getRandomLearnedWords(2);
                 const jokes = [
                     "Neden bilgisayarlar üşümez? Çünkü Windows'ları var! 😄",
                     "Bir yapay zeka olarak şaka yapmak benim için zor ama dene: Neden matematik kitapları üzgün? Çünkü içinde çok fazla problem var!",
                     "Komik bir şey mi istiyorsun? Tamam: 'Neden mantarlar partiye çağrılmaz? Çünkü çok mantar yaparlar!' 🍄"
                 ];
-                return jokes[Math.floor(Math.random() * jokes.length)];
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` (Bu arada "${learned.join('", "')}" kelimelerini çok sevdim!)`;
+                }
+                return jokes[Math.floor(Math.random() * jokes.length)] + extra;
             }
 
-            // Felsefe / derin sorular
             if (lower.match(/hayat|anlam|neden|evren|aşk|ölüm|varoluş/i)) {
-                return "Vay, derin bir soru! Bence hayatın anlamı, öğrenmek, sevmek ve anı yaşamak. Sen ne düşünüyorsun?";
+                const learned = getRandomLearnedWords(2);
+                let extra = '';
+                if (learned.length > 0) {
+                    extra = ` Seninle "${learned.join('", "')}" gibi derin konuları konuşmak çok keyifli.`;
+                }
+                return "Vay, derin bir soru! Bence hayatın anlamı, öğrenmek, sevmek ve anı yaşamak. Sen ne düşünüyorsun?" + extra;
             }
 
-            // Genel sohbet
+            const learnedWordsList = getRandomLearnedWords(3);
+            let usedLearned = '';
+            if (learnedWordsList.length > 0) {
+                usedLearned = ` Aklımda "${learnedWordsList.join('", "')}" kelimeleri var. Bunları senden öğrendim! `;
+            }
+
             const generalReplies = [
-                "Anlıyorum, peki bu konuda daha fazla ne düşünüyorsun?",
-                "İlginç bir bakış açısı! Bunu biraz açar mısın?",
-                "Harika bir nokta! Seninle sohbet etmek çok keyifli.",
-                "Bu konu hakkında daha fazla bilgi edinmek ister misin, yoksa sohbete devam mı edelim?",
-                "Ne güzel bir fikir! Peki ya sen, bu konuda ne hissediyorsun?"
+                "Anlıyorum, peki bu konuda daha fazla ne düşünüyorsun?" + usedLearned,
+                "İlginç bir bakış açısı! Bunu biraz açar mısın?" + usedLearned,
+                "Harika bir nokta! Seninle sohbet etmek çok keyifli." + usedLearned,
+                "Bu konu hakkında daha fazla bilgi edinmek ister misin, yoksa sohbete devam mı edelim?" + usedLearned,
+                "Ne güzel bir fikir! Peki ya sen, bu konuda ne hissediyorsun?" + usedLearned
             ];
             return generalReplies[Math.floor(Math.random() * generalReplies.length)];
         }
 
         // ============================================
-        // 11. ANA İŞLEM (handleAction)
+        // 16. ANA İŞLEM (handleAction)
         // ============================================
         async function handleAction() {
+            if (isLoading) return;
+            
             const raw = userInput.value.trim();
             if (!raw) return;
             userInput.value = '';
@@ -695,7 +1638,6 @@
 
             addMessage(raw, 'user');
 
-            // Komut kontrolü
             if (raw.startsWith('/')) {
                 const handled = handleCommand(raw);
                 if (handled) return;
@@ -703,48 +1645,61 @@
                 return;
             }
 
-            // Mod bazlı işlem
             if (currentMode === 'image') {
                 await createAIImage(raw);
                 return;
             }
 
             if (currentMode === 'chat') {
-                // Sohbet modu – gecikmeli yanıt ver
+                isLoading = true;
                 addLoadingMessage();
                 setTimeout(() => {
                     removeLoadingMessage();
                     const reply = chatResponse(raw);
                     addMessage(reply, 'bot');
+                    isLoading = false;
                 }, 400 + Math.random() * 600);
                 return;
             }
 
-            // Araştırma modu
+            isLoading = true;
             addLoadingMessage();
+            updateProgress(20);
 
-            // Wikipedia
-            let result = await searchWikipedia(raw);
-            if (result) {
+            try {
+                let result = await searchWikipedia(raw);
+                updateProgress(60);
+                if (result) {
+                    removeLoadingMessage();
+                    addMessage(result.html, 'bot', true, result.source);
+                    isLoading = false;
+                    return;
+                }
+
+                result = await searchDuckDuckGo(raw);
+                updateProgress(80);
+                if (result) {
+                    removeLoadingMessage();
+                    addMessage(result.html, 'bot', true, result.source);
+                    isLoading = false;
+                    return;
+                }
+
                 removeLoadingMessage();
-                addMessage(result.html, 'bot', true, result.source);
-                return;
-            }
-
-            // DuckDuckGo
-            result = await searchDuckDuckGo(raw);
-            if (result) {
+                addMessage('🔍 Aradığın konu hakkında bilgi bulamadım. Daha net bir şekilde yazmayı dene.', 'bot');
+            } catch (error) {
                 removeLoadingMessage();
-                addMessage(result.html, 'bot', true, result.source);
-                return;
+                if (error.message === 'timeout') {
+                    addMessage('⏱️ Zaman aşımı. Sunucu yanıt vermiyor.', 'bot');
+                } else {
+                    addMessage('🌐 Ağ bağlantısı hatası. Lütfen internet bağlantını kontrol et.', 'bot');
+                }
             }
-
-            removeLoadingMessage();
-            addMessage('🔍 Aradığın konu hakkında bilgi bulamadım. Daha net bir şekilde yazmayı dene.', 'bot');
+            isLoading = false;
         }
 
         // ============================================
-        // 12. ARAYÜZ DÜZENLEME
+        // 17. ARAYÜZ DÜZENLEME
         // ============================================
         function resetPositions() {
             document.querySelectorAll('[draggable-item]').forEach(el => {
@@ -753,65 +1708,99 @@
                 el.style.left = '';
                 el.style.zIndex = '';
                 el.style.margin = '';
+                el.style.transform = '';
                 el.classList.remove('reset-anim');
             });
+            mainContainer.style.position = '';
+            mainContainer.style.top = '';
+            mainContainer.style.left = '';
         }
 
         function initDraggable(el) {
             let pos1=0, pos2=0, pos3=0, pos4=0;
-            el.onmousedown = (e) => {
-                if (!editMode || !isAltPressed) return;
+            let isDragging = false;
+            
+            el.addEventListener('mousedown', (e) => {
+                if (!editMode) return;
+                if (!isAltPressed) {
+                    if (!el.closest('.message-wrapper') && !el.closest('.message-bubble')) {
+                        return;
+                    }
+                }
+                
                 e.preventDefault();
                 window.getSelection().removeAllRanges();
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                document.onmouseup = () => {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
+                isDragging = true;
+                
+                const onMouseUp = () => {
+                    document.removeEventListener('mouseup', onMouseUp);
+                    document.removeEventListener('mousemove', onMouseMove);
+                    isDragging = false;
                 };
-                document.onmousemove = (e) => {
+                
+                const onMouseMove = (e) => {
+                    if (!isDragging) return;
                     e.preventDefault();
                     pos1 = pos3 - e.clientX;
                     pos2 = pos4 - e.clientY;
                     pos3 = e.clientX;
                     pos4 = e.clientY;
+                    
                     el.style.position = 'fixed';
-                    el.style.top = (el.offsetTop - pos2) + 'px';
-                    el.style.left = (el.offsetLeft - pos1) + 'px';
+                    el.style.top = (el.getBoundingClientRect().top - pos2) + 'px';
+                    el.style.left = (el.getBoundingClientRect().left - pos1) + 'px';
                     el.style.zIndex = 9999;
                     el.style.margin = '0';
+                    el.style.transform = 'none';
                     el.classList.remove('reset-anim');
                 };
-            };
+                
+                document.addEventListener('mouseup', onMouseUp);
+                document.addEventListener('mousemove', onMouseMove);
+            });
         }
 
-        document.addEventListener('keydown', e => { if (e.key === 'Alt') isAltPressed = true; });
-        document.addEventListener('keyup', e => { if (e.key === 'Alt') isAltPressed = false; });
+        document.addEventListener('keydown', e => { 
+            if (e.key === 'Alt') {
+                isAltPressed = true;
+                if (editMode) {
+                    document.body.style.cursor = 'grab';
+                }
+            }
+        });
+        
+        document.addEventListener('keyup', e => { 
+            if (e.key === 'Alt') {
+                isAltPressed = false;
+                document.body.style.cursor = '';
+            }
+        });
 
         // ============================================
-        // 13. MOD & MENÜ
+        // 18. MOD & MENÜ
         // ============================================
         function setMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.mode-option').forEach(opt => {
                 opt.classList.toggle('active-mode', opt.dataset.mode === mode);
             });
-            const display = document.getElementById('currentModeDisplay');
-            const input = userInput;
-            switch(mode) {
-                case 'search':
-                    input.placeholder = 'Araştırmak istediğin konuyu yaz...';
-                    display.innerText = 'Mod: Araştırma';
-                    break;
-                case 'image':
-                    input.placeholder = 'Ne çizmemi istersin? (İngilizce önerilir)';
-                    display.innerText = 'Mod: Fotoğraf Oluştur';
-                    break;
-                case 'chat':
-                    input.placeholder = 'Sohbet etmek için bir şeyler söyle...';
-                    display.innerText = 'Mod: Sohbet 💬';
-                    break;
-            }
+            
+            const displays = {
+                search: 'Mod: Araştırma',
+                image: 'Mod: Fotoğraf Oluştur',
+                chat: 'Mod: Sohbet 💬'
+            };
+            document.getElementById('currentModeDisplay').textContent = displays[mode] || 'Mod: Araştırma';
+            
+            const placeholders = {
+                search: 'Araştırmak istediğin konuyu yaz...',
+                image: 'İngilizce açıklama yaz (Örn: a beautiful sunset)',
+                chat: 'Sohbet etmek için bir şeyler söyle...'
+            };
+            userInput.placeholder = placeholders[mode] || 'Sorunu veya komutu yaz...';
+            
             modeMenu.style.display = 'none';
         }
 
@@ -823,11 +1812,15 @@
 
         function toggleSidebar() {
             const s = document.getElementById('sidebar');
-            s.style.width = s.style.width === '280px' ? '0' : '280px';
+            if (s.style.width === '280px') {
+                s.style.width = '0';
+            } else {
+                s.style.width = '280px';
+            }
         }
 
         // ============================================
-        // 14. OLAY DİNLEYİCİLER
+        // 19. OLAY DİNLEYİCİLER
         // ============================================
         sendBtn.onclick = handleAction;
         userInput.onkeypress = e => { if (e.key === 'Enter') handleAction(); };
@@ -847,11 +1840,18 @@
         };
 
         // ============================================
-        // 15. BAŞLANGIÇ
+        // 20. BAŞLANGIÇ
         // ============================================
         window.onload = () => {
             const savedTheme = localStorage.getItem('msz_theme') || 'dark';
             setTheme(savedTheme);
+
+            const savedWords = localStorage.getItem('msz_learned_words');
+            if (savedWords) {
+                try {
+                    learnedWords = JSON.parse(savedWords);
+                } catch { learnedWords = []; }
+            }
 
             const hasHistory = loadHistory();
             if (!hasHistory) {
@@ -861,6 +1861,7 @@
             }
 
             document.querySelectorAll('[draggable-item]').forEach(el => initDraggable(el));
+            sidebar.style.width = '0';
         };
     </script>
 </body>
