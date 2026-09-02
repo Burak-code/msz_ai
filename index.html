@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MSZ AI · British English</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js">
     </script>
     <style>
-        /* ============================================
-           BASE STYLES
-           ============================================ */
+        /* ----- reset & base ----- */
         * {
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background: #0f172a;
             color: #f1f5f9;
             height: 100vh;
             margin: 0;
-            transition: background 0.3s, color 0.3s, background-color 0.5s;
         }
-
         body.light-theme {
             background: #f1f5f9;
             color: #0f172a;
         }
-
         body.light-theme .text-white {
             color: #0f172a !important;
         }
@@ -82,32 +77,25 @@
             background: rgba(0, 0, 0, 0.85);
         }
 
-        /* ============================================
-           GLASS EFFECT
-           ============================================ */
+        /* ----- glass ----- */
         .glass {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-
         body.light-theme .glass {
             background: rgba(255, 255, 255, 0.7);
             border-color: rgba(0, 0, 0, 0.08);
         }
 
-        /* ============================================
-           CHAT AREA
-           ============================================ */
+        /* ----- chat area ----- */
         .chat-container {
             height: calc(100vh - 190px);
             position: relative;
         }
-
         .message-appear {
             animation: fadeInScale 0.2s ease-out forwards;
         }
-
         @keyframes fadeInScale {
             from {
                 opacity: 0;
@@ -119,9 +107,46 @@
             }
         }
 
-        /* ============================================
-           SCROLLBAR
-           ============================================ */
+        /* ----- NO ANIMATIONS (FULLY DISABLED) ----- */
+        body.no-animations *,
+        body.no-animations *::before,
+        body.no-animations *::after {
+            animation-duration: 0s !important;
+            animation-delay: 0s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0s !important;
+            transition-delay: 0s !important;
+            animation: none !important;
+            transition: none !important;
+        }
+        body.no-animations .message-appear {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        body.no-animations .ai-image-container,
+        body.no-animations .download-btn,
+        body.no-animations .open-btn,
+        body.no-animations .close-modal,
+        body.no-animations .progress-bar,
+        body.no-animations .image-modal-overlay,
+        body.no-animations .modal-content,
+        body.no-animations .glass,
+        body.no-animations [class*="transition-"],
+        body.no-animations .transition-all,
+        body.no-animations .transition-colors,
+        body.no-animations .transition-opacity {
+            transition: none !important;
+            animation: none !important;
+        }
+        body.no-animations .toggle-track {
+            transition: none !important;
+        }
+        body.no-animations .toggle-track .toggle-thumb {
+            transition: none !important;
+        }
+
+        /* scrollbar */
         ::-webkit-scrollbar {
             width: 5px;
         }
@@ -136,9 +161,7 @@
             background: #94a3b8;
         }
 
-        /* ============================================
-           MODE MENU
-           ============================================ */
+        /* ----- mode menu ----- */
         .mode-menu {
             display: none;
             position: absolute;
@@ -151,12 +174,10 @@
             z-index: 50;
             width: 210px;
         }
-
         body.light-theme .mode-menu {
             background: #f8fafc;
             border-color: #cbd5e1;
         }
-
         .mode-option {
             padding: 10px 14px;
             cursor: pointer;
@@ -167,11 +188,9 @@
             transition: 0.15s;
             color: #f1f5f9;
         }
-
         body.light-theme .mode-option {
             color: #0f172a;
         }
-
         .mode-option:hover {
             background: #334155;
             color: #60a5fa;
@@ -180,7 +199,6 @@
             background: #e2e8f0;
             color: #2563eb;
         }
-
         .active-mode {
             border-left: 3px solid #3b82f6;
             color: #3b82f6;
@@ -190,9 +208,7 @@
             background: #f1f5f9;
         }
 
-        /* ============================================
-           COMMAND HINTS
-           ============================================ */
+        /* ----- command hints ----- */
         #commandHints {
             display: none;
             position: absolute;
@@ -205,12 +221,10 @@
             z-index: 100;
             padding: 8px 12px;
         }
-
         body.light-theme #commandHints {
             background: #f8fafc;
             border-color: #2563eb;
         }
-
         .hint-item {
             padding: 6px 8px;
             font-size: 12px;
@@ -218,11 +232,9 @@
             border-radius: 6px;
             color: #f1f5f9;
         }
-
         body.light-theme .hint-item {
             color: #0f172a;
         }
-
         .hint-item:hover {
             background: #334155;
             color: #60a5fa;
@@ -232,9 +244,7 @@
             color: #2563eb;
         }
 
-        /* ============================================
-           EDIT MODE (ENHANCED)
-           ============================================ */
+        /* ----- edit mode (robust) ----- */
         .edit-active [draggable-item] {
             cursor: grab !important;
             outline: 1px dashed rgba(59, 130, 246, 0.4);
@@ -242,16 +252,13 @@
             position: relative !important;
             z-index: 999 !important;
         }
-
         .edit-active .message-bubble {
             border: 2px dashed #3b82f6 !important;
             cursor: grab !important;
         }
-
         .edit-active .message-wrapper {
             cursor: grab !important;
         }
-
         .edit-active .glass,
         .edit-active #mainContainer,
         .edit-active #chatBox,
@@ -262,11 +269,9 @@
             position: relative !important;
             z-index: 1 !important;
         }
-
         .edit-active .glass {
             outline: 2px dashed rgba(59, 130, 246, 0.3) !important;
         }
-
         .edit-guide {
             display: none;
             position: fixed;
@@ -283,19 +288,15 @@
             text-align: center;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
-
         body.light-theme .edit-guide {
             background: #f8fafc;
             color: #0f172a;
         }
-
         .edit-active .edit-guide {
             display: block;
         }
 
-        /* ============================================
-           IMAGE - 560x560 & ZOOM
-           ============================================ */
+        /* ----- image 560x560 + zoom ----- */
         .ai-image-container {
             position: relative;
             display: inline-block;
@@ -304,21 +305,16 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #334155;
-            transition: all 0.3s ease;
         }
-
         body.light-theme .ai-image-container {
             border-color: #cbd5e1;
         }
-
         .ai-image-container img {
             display: block;
             width: 560px;
             height: 560px;
             object-fit: cover;
-            transition: all 0.3s ease;
         }
-
         .ai-image-container .expand-hint {
             position: absolute;
             bottom: 10px;
@@ -331,12 +327,10 @@
             pointer-events: none;
             backdrop-filter: blur(4px);
         }
-
         body.light-theme .ai-image-container .expand-hint {
             background: rgba(255, 255, 255, 0.8);
             color: #0f172a;
         }
-
         .image-modal-overlay {
             display: none;
             position: fixed;
@@ -348,14 +342,11 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s ease;
             backdrop-filter: blur(8px);
         }
-
         .image-modal-overlay.active {
             display: flex;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -364,14 +355,11 @@
                 opacity: 1;
             }
         }
-
         .image-modal-overlay .modal-content {
             position: relative;
             max-width: 90vw;
             max-height: 90vh;
-            animation: zoomIn 0.3s ease;
         }
-
         @keyframes zoomIn {
             from {
                 transform: scale(0.8);
@@ -382,7 +370,6 @@
                 opacity: 1;
             }
         }
-
         .image-modal-overlay img {
             max-width: 90vw;
             max-height: 85vh;
@@ -390,7 +377,6 @@
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
-
         .image-modal-overlay .close-modal {
             position: absolute;
             top: -40px;
@@ -403,16 +389,13 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            transition: 0.3s;
             backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
         .image-modal-overlay .close-modal:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: rotate(90deg);
         }
-
         .image-modal-overlay .modal-download {
             position: absolute;
             bottom: -50px;
@@ -427,14 +410,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: 0.3s;
         }
-
         .image-modal-overlay .modal-download:hover {
             background: #059669;
             transform: translateX(-50%) scale(1.05);
         }
-
         .image-modal-overlay .modal-close-text {
             position: absolute;
             bottom: -90px;
@@ -444,14 +424,12 @@
             font-size: 12px;
             white-space: nowrap;
         }
-
         @media (max-width: 640px) {
             .ai-image-container img {
                 width: 100%;
                 height: auto;
                 max-width: 560px;
             }
-
             .image-modal-overlay .close-modal {
                 top: 10px;
                 right: 10px;
@@ -459,22 +437,18 @@
                 height: 40px;
                 font-size: 20px;
             }
-
             .image-modal-overlay .modal-download {
                 bottom: -45px;
                 font-size: 12px;
                 padding: 6px 14px;
             }
-
             .image-modal-overlay .modal-close-text {
                 bottom: -75px;
                 font-size: 10px;
             }
         }
 
-        /* ============================================
-           DOWNLOAD BUTTON
-           ============================================ */
+        /* ----- download btn ----- */
         .download-btn {
             background: #10b981;
             color: white;
@@ -487,14 +461,11 @@
             text-decoration: none;
             margin-top: 6px;
         }
-
         .download-btn:hover {
             background: #059669;
         }
 
-        /* ============================================
-           WARNING BANNER (ENGLISH)
-           ============================================ */
+        /* warning banner */
         .warning-banner {
             background: #fef3c7;
             border: 2px solid #f59e0b;
@@ -508,19 +479,7 @@
             margin-bottom: 8px;
         }
 
-        body.light-theme .warning-banner {
-            background: #fef3c7;
-            border-color: #f59e0b;
-        }
-
-        .warning-banner i {
-            color: #f59e0b;
-            font-size: 18px;
-        }
-
-        /* ============================================
-           SIDEBAR
-           ============================================ */
+        /* ----- sidebar ----- */
         .sidebar {
             height: 100%;
             width: 0;
@@ -534,24 +493,14 @@
             padding-top: 80px;
             border-right: 1px solid #1e293b;
         }
-
         body.light-theme .sidebar {
             background: #f1f5f9;
             border-color: #cbd5e1;
         }
-
         .sidebar-content {
             padding: 24px;
             line-height: 1.7;
         }
-
-        body.light-theme .sidebar-content .text-white {
-            color: #0f172a !important;
-        }
-        body.light-theme .sidebar-content .text-slate-400 {
-            color: #475569 !important;
-        }
-
         .sidebar .closebtn {
             position: absolute;
             top: 16px;
@@ -560,14 +509,12 @@
             color: #64748b;
             text-decoration: none;
         }
-
         .sidebar .closebtn:hover {
             color: #f1f5f9;
         }
         body.light-theme .sidebar .closebtn:hover {
             color: #0f172a;
         }
-
         .sidebar-version {
             background: #1e293b;
             padding: 4px 12px;
@@ -577,36 +524,60 @@
             margin-top: 4px;
             color: #60a5fa;
         }
-
         body.light-theme .sidebar-version {
             background: #e2e8f0;
             color: #2563eb;
         }
-
         .sidebar-feature-item {
             padding: 4px 0;
             font-size: 13px;
             color: #94a3b8;
             border-bottom: 1px solid #1e293b;
         }
-
         body.light-theme .sidebar-feature-item {
             border-bottom-color: #e2e8f0;
             color: #475569;
         }
-
         .sidebar-feature-item:last-child {
             border-bottom: none;
         }
-
         .sidebar-feature-item i {
             width: 20px;
             color: #3b82f6;
         }
+        /* performance toggle */
+        .toggle-track {
+            width: 40px;
+            height: 22px;
+            background: #475569;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .toggle-track.active {
+            background: #3b82f6;
+        }
+        .toggle-track .toggle-thumb {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+        .toggle-track.active .toggle-thumb {
+            transform: translateX(18px);
+        }
+        body.light-theme .toggle-track {
+            background: #94a3b8;
+        }
+        body.light-theme .toggle-track.active {
+            background: #2563eb;
+        }
 
-        /* ============================================
-           HAMBURGER BUTTON
-           ============================================ */
+        /* hamburger */
         .open-btn {
             position: fixed;
             top: 18px;
@@ -618,32 +589,25 @@
             border-radius: 12px;
             border: 1px solid #334155;
             cursor: pointer;
-            transition: 0.2s;
         }
-
         .open-btn:hover {
             background: #334155;
             transform: scale(1.05);
         }
-
         body.light-theme .open-btn {
             background: #f8fafc;
             color: #0f172a;
             border-color: #cbd5e1;
         }
-
         body.light-theme .open-btn:hover {
             background: #e2e8f0;
         }
 
-        /* ============================================
-           LOADING ANIMATION
-           ============================================ */
+        /* loading dots */
         .loading-dots::after {
             content: '...';
             animation: dots 1.2s steps(4) infinite;
         }
-
         @keyframes dots {
             0% {
                 content: '';
@@ -659,16 +623,10 @@
             }
         }
 
-        /* ============================================
-           THEME TRANSITION
-           ============================================ */
+        /* theme transition */
         .theme-transition {
             transition: background 0.4s, color 0.4s, border-color 0.4s;
         }
-
-        /* ============================================
-           SOURCE TAG
-           ============================================ */
         .source-tag {
             display: inline-block;
             background: #334155;
@@ -678,15 +636,12 @@
             border-radius: 20px;
             margin-top: 6px;
         }
-
         body.light-theme .source-tag {
             background: #e2e8f0;
             color: #475569;
         }
 
-        /* ============================================
-           PROGRESS BAR
-           ============================================ */
+        /* progress bar */
         .progress-container {
             width: 100%;
             height: 4px;
@@ -695,22 +650,17 @@
             overflow: hidden;
             margin: 8px 0;
         }
-
         body.light-theme .progress-container {
             background: #e2e8f0;
         }
-
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #3b82f6, #60a5fa);
             width: 0%;
-            transition: width 0.3s ease;
             border-radius: 4px;
         }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
+        /* responsive */
         @media (max-width: 640px) {
             .open-btn {
                 top: 12px;
@@ -766,7 +716,6 @@
                 max-width: 400px;
             }
         }
-
         @media (max-width: 480px) {
             .chat-container {
                 height: calc(100vh - 150px);
@@ -815,13 +764,48 @@
                 max-width: 300px;
             }
         }
+
+        /* CengO Chat promotion link */
+        .cengo-promo {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        body.light-theme .cengo-promo {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        .cengo-promo a {
+            color: #34d399;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        body.light-theme .cengo-promo a {
+            color: #059669;
+        }
+        .cengo-promo a:hover {
+            color: #6ee7b7;
+        }
+        body.light-theme .cengo-promo a:hover {
+            color: #047857;
+        }
+        .cengo-promo .promo-icon {
+            color: #34d399;
+            margin-right: 6px;
+        }
+        body.light-theme .cengo-promo .promo-icon {
+            color: #059669;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-3 theme-transition">
 
-    <!-- ============================================
-    IMAGE MODAL (ZOOM)
-    ============================================ -->
+    <!-- IMAGE MODAL -->
     <div id="imageModal" class="image-modal-overlay" onclick="closeImageModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeImageModal()">✕</button>
@@ -833,18 +817,14 @@
         </div>
     </div>
 
-    <!-- ============================================
-    EDIT GUIDE
-    ============================================ -->
+    <!-- EDIT GUIDE -->
     <div class="edit-guide">
         <i class="fas fa-arrows-alt text-blue-400 mr-2"></i>
         <strong>Edit Mode Active!</strong> Drag any element to reposition.
         <span class="text-slate-400 ml-2">(Exit with /exit_edit)</span>
     </div>
 
-    <!-- ============================================
-    SIDEBAR
-    ============================================ -->
+    <!-- SIDEBAR -->
     <button class="open-btn" onclick="toggleSidebar()" id="hamburgerBtn">
         <i class="fas fa-bars"></i>
     </button>
@@ -857,13 +837,24 @@
                 <span class="sidebar-version">v13</span>
                 <p class="text-slate-400 text-sm mt-2">⚡ 3 Modes · Free</p>
             </div>
-
             <hr class="border-slate-700 my-4">
             <style>
                 body.light-theme .sidebar hr {
                     border-color: #cbd5e1;
                 }
             </style>
+
+            <!-- PERFORMANCE TOGGLES (working) -->
+            <div class="mb-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">⚙️ Performance</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-white">Animations</span>
+                    <div id="animToggle" class="toggle-track active" onclick="toggleAnimations()">
+                        <div class="toggle-thumb"></div>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1">Disable to reduce lag / freezing</p>
+            </div>
 
             <div class="mb-4">
                 <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">🤖 Coding Support</p>
@@ -885,40 +876,22 @@
             <div>
                 <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ New Features</p>
                 <div id="featureList">
-                    <div class="sidebar-feature-item">
-                        <i class="fas fa-check-circle text-green-500"></i>
-                        <span>560x560 images + click to enlarge</span>
-                    </div>
-                    <div class="sidebar-feature-item">
-                        <i class="fas fa-check-circle text-green-500"></i>
-                        <span>Enhanced edit mode (drag & drop)</span>
-                    </div>
-                    <div class="sidebar-feature-item">
-                        <i class="fas fa-check-circle text-green-500"></i>
-                        <span>Learning chat (word memory)</span>
-                    </div>
-                    <div class="sidebar-feature-item">
-                        <i class="fas fa-check-circle text-green-500"></i>
-                        <span>Arithmetic operations</span>
-                    </div>
-                    <div class="sidebar-feature-item">
-                        <i class="fas fa-check-circle text-green-500"></i>
-                        <span>Light theme readability fix</span>
-                    </div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>560x560 images + click to enlarge</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Enhanced edit mode (drag & drop)</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Learning chat (word memory)</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Arithmetic operations</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Performance toggle (fixes freezing)</span></div>
                 </div>
             </div>
 
             <hr class="border-slate-700 my-4">
-
             <div class="text-center mt-4">
                 <p class="text-slate-600 text-[10px]">© 2026 MSZ Lab · All rights reserved.</p>
             </div>
         </div>
     </div>
 
-    <!-- ============================================
-    HEADER
-    ============================================ -->
+    <!-- HEADER -->
     <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-3 px-2 pl-16" draggable-item>
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30">
@@ -933,9 +906,7 @@
         </button>
     </header>
 
-    <!-- ============================================
-    MAIN CONTAINER
-    ============================================ -->
+    <!-- MAIN CONTAINER -->
     <main id="mainContainer" class="w-full max-w-4xl glass rounded-3xl flex flex-col overflow-hidden shadow-2xl relative" draggable-item>
 
         <div id="chatBox" class="chat-container overflow-y-auto p-5 space-y-5" draggable-item></div>
@@ -976,9 +947,7 @@
         </div>
     </main>
 
-    <!-- ============================================
-    FOOTER
-    ============================================ -->
+    <!-- FOOTER -->
     <footer id="mainFooter" class="mt-3 text-slate-500 text-[11px] flex flex-wrap gap-3 justify-center" draggable-item>
         <span>🧪 MSZ Lab</span>
         <span id="currentModeDisplay">Mode: Research</span>
@@ -986,13 +955,10 @@
         <span id="themeDisplay">🌙 Dark</span>
     </footer>
 
-    <!-- ============================================
-    JAVASCRIPT
-    ============================================ -->
     <script>
-        // ============================================
+        // ============================================================
         // 1. REFERENCES
-        // ============================================
+        // ============================================================
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -1005,6 +971,7 @@
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const animToggle = document.getElementById('animToggle');
 
         let currentMode = 'search';
         let editMode = false;
@@ -1012,12 +979,77 @@
         let currentTheme = 'dark';
         let isLoading = false;
         let imageLimitCount = 0;
-        let loadingTimeout = null;
         let progressInterval = null;
+        let animationsEnabled = true;
 
-        // ============================================
-        // 2. IMAGE ZOOM
-        // ============================================
+        // ============================================================
+        // 2. PERFORMANCE TOGGLE (FULLY WORKING - DISABLES ALL)
+        // ============================================================
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const track = document.getElementById('animToggle');
+            track.classList.toggle('active', animationsEnabled);
+
+            if (animationsEnabled) {
+                document.body.classList.remove('no-animations');
+                // restore transitions on elements
+                document.querySelectorAll('.transition-all, .transition-colors, .transition-opacity, [class*="transition-"]')
+                    .forEach(el => {
+                        el.style.transition = '';
+                    });
+                document.querySelectorAll('.message-appear').forEach(el => {
+                    el.style.animation = '';
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                });
+            } else {
+                document.body.classList.add('no-animations');
+                // force remove transitions from everything
+                document.querySelectorAll('*').forEach(el => {
+                    el.style.transition = 'none !important';
+                    el.style.animation = 'none !important';
+                });
+                document.querySelectorAll('.message-appear').forEach(el => {
+                    el.style.animation = 'none !important';
+                    el.style.opacity = '1 !important';
+                    el.style.transform = 'none !important';
+                });
+            }
+
+            // save preference
+            localStorage.setItem('msz_animations', animationsEnabled ? 'on' : 'off');
+
+            // notify user
+            if (animationsEnabled) {
+                addMessage('✨ Animations <strong>enabled</strong>. UI will be smoother.', 'bot', true);
+            } else {
+                addMessage('⚡ Animations <strong>disabled</strong>. Performance improved, lag reduced.', 'bot', true);
+            }
+        }
+
+        // load saved preference
+        function loadAnimationsPreference() {
+            const saved = localStorage.getItem('msz_animations');
+            if (saved === 'off') {
+                animationsEnabled = false;
+                const track = document.getElementById('animToggle');
+                track.classList.remove('active');
+                document.body.classList.add('no-animations');
+                document.querySelectorAll('*').forEach(el => {
+                    el.style.transition = 'none !important';
+                    el.style.animation = 'none !important';
+                });
+            } else {
+                animationsEnabled = true;
+                const track = document.getElementById('animToggle');
+                track.classList.add('active');
+                document.body.classList.remove('no-animations');
+            }
+        }
+
+        // ============================================================
+        // 3. IMAGE ZOOM
+        // ============================================================
         function openImageModal(imageUrl, downloadUrl) {
             modalImage.src = imageUrl;
             modalDownloadBtn.href = downloadUrl;
@@ -1029,19 +1061,14 @@
             imageModal.classList.remove('active');
             document.body.style.overflow = '';
         }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImageModal(); });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeImageModal();
-        });
-
-        // ============================================
-        // 3. LEARNING CHAT (Word Memory)
-        // ============================================
+        // ============================================================
+        // 4. LEARNING CHAT
+        // ============================================================
         let learnedWords = JSON.parse(localStorage.getItem('msz_learned_words') || '[]');
 
-        function saveLearnedWords() {
-            localStorage.setItem('msz_learned_words', JSON.stringify(learnedWords));
-        }
+        function saveLearnedWords() { localStorage.setItem('msz_learned_words', JSON.stringify(learnedWords)); }
 
         function learnWords(text) {
             const words = text.toLowerCase().replace(/[.,!?;:()]/g, '').split(' ');
@@ -1059,9 +1086,9 @@
             return shuffled.slice(0, count);
         }
 
-        // ============================================
-        // 4. FORBIDDEN WORDS & IMAGE LIMIT
-        // ============================================
+        // ============================================================
+        // 5. FORBIDDEN WORDS & IMAGE LIMIT
+        // ============================================================
         const forbiddenWords = ['nude', 'naked', 'porn', 'sex', 'sexual', 'obscene', 'hentai', '+18', 'erotic'];
         const IMAGE_LIMIT = 10;
         const DAY_MS = 24 * 60 * 60 * 1000;
@@ -1102,9 +1129,9 @@
             }
         }
 
-        // ============================================
-        // 5. SECRET COMMANDS (cheat codes)
-        // ============================================
+        // ============================================================
+        // 6. SECRET COMMANDS
+        // ============================================================
         function handleSecretCommands(cmd) {
             if (cmd === '/addto*photo') {
                 let data = getLimitData();
@@ -1119,7 +1146,6 @@
                 }
                 return true;
             }
-
             if (cmd === '/addto*word') {
                 if (learnedWords.length === 0) {
                     addMessage('📝 I haven\'t learned any words yet. Chat with me!', 'bot');
@@ -1129,7 +1155,6 @@
                 }
                 return true;
             }
-
             if (cmd.startsWith('/addto*color.')) {
                 const color = cmd.replace('/addto*color.', '').trim();
                 if (color) {
@@ -1146,9 +1171,9 @@
             return false;
         }
 
-        // ============================================
-        // 6. THEME
-        // ============================================
+        // ============================================================
+        // 7. THEME
+        // ============================================================
         function setTheme(theme) {
             currentTheme = theme;
             document.body.classList.toggle('light-theme', theme === 'light');
@@ -1156,21 +1181,29 @@
             localStorage.setItem('msz_theme', theme);
         }
 
-        // ============================================
-        // 7. ADD MESSAGE (XSS safe) - FIXED FREEZE
-        // ============================================
+        // ============================================================
+        // 8. ADD MESSAGE (optimised)
+        // ============================================================
         function addMessage(content, role = 'bot', isHtml = false, source = null) {
-            // Use requestAnimationFrame to avoid layout thrashing
             requestAnimationFrame(() => {
                 const wrapper = document.createElement('div');
                 wrapper.className =
                     `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
                 wrapper.setAttribute('draggable-item', '');
+                if (!animationsEnabled) {
+                    wrapper.style.animation = 'none !important';
+                    wrapper.style.opacity = '1 !important';
+                    wrapper.style.transform = 'none !important';
+                    wrapper.style.transition = 'none !important';
+                }
 
                 const bubble = document.createElement('div');
                 bubble.className =
                     `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
                 bubble.setAttribute('draggable-item', '');
+                if (!animationsEnabled) {
+                    bubble.style.transition = 'none !important';
+                }
 
                 const textDiv = document.createElement('div');
                 textDiv.className = 'text-sm leading-relaxed';
@@ -1205,20 +1238,28 @@
             });
         }
 
-        // ============================================
-        // 8. LOADING INDICATOR - FIXED FREEZE
-        // ============================================
+        // ============================================================
+        // 9. LOADING INDICATOR (optimised)
+        // ============================================================
         function addLoadingMessage() {
-            // Clear any existing loading message first
             removeLoadingMessage();
-
             const wrapper = document.createElement('div');
             wrapper.className = 'message-wrapper flex flex-col gap-1 items-start mr-auto max-w-[85%] message-appear';
             wrapper.id = 'loadingMsg';
             wrapper.setAttribute('draggable-item', '');
+            if (!animationsEnabled) {
+                wrapper.style.animation = 'none !important';
+                wrapper.style.opacity = '1 !important';
+                wrapper.style.transform = 'none !important';
+                wrapper.style.transition = 'none !important';
+            }
             const bubble = document.createElement('div');
-            bubble.className = 'message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg';
+            bubble.className =
+                'message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg';
             bubble.setAttribute('draggable-item', '');
+            if (!animationsEnabled) {
+                bubble.style.transition = 'none !important';
+            }
             bubble.innerHTML = `
                     <div class="text-sm leading-relaxed">Preparing response...</div>
                     <div class="progress-container">
@@ -1229,7 +1270,6 @@
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Use a more efficient progress update
             let progress = 0;
             if (progressInterval) clearInterval(progressInterval);
             progressInterval = setInterval(() => {
@@ -1244,32 +1284,22 @@
             }, 400);
         }
 
-        function updateProgress(percent) {
-            const bar = document.getElementById('progressBar');
-            if (bar) bar.style.width = Math.min(percent, 100) + '%';
-        }
-
         function removeLoadingMessage() {
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
+            if (progressInterval) { clearInterval(progressInterval);
+                progressInterval = null; }
             const el = document.getElementById('loadingMsg');
             if (el) {
-                // Smooth removal
                 el.style.opacity = '0';
-                el.style.transition = 'opacity 0.2s';
-                setTimeout(() => {
-                    if (el.parentNode) el.remove();
-                }, 200);
+                if (!animationsEnabled) el.style.transition = 'none !important';
+                else el.style.transition = 'opacity 0.2s';
+                setTimeout(() => { if (el.parentNode) el.remove(); }, 200);
             }
         }
 
-        // ============================================
-        // 9. CHAT HISTORY
-        // ============================================
+        // ============================================================
+        // 10. CHAT HISTORY
+        // ============================================================
         function saveHistory() {
-            // Debounce history save
             if (window._historyTimeout) clearTimeout(window._historyTimeout);
             window._historyTimeout = setTimeout(() => {
                 const messages = [];
@@ -1326,11 +1356,22 @@
             showWelcomeMessage();
         }
 
-        // ============================================
-        // 10. WELCOME MESSAGE
-        // ============================================
+        // ============================================================
+        // 11. WELCOME (with CengO Chat promotion)
+        // ============================================================
         function showWelcomeMessage() {
+            const cengoPromo = `
+                    <div class="cengo-promo">
+                        <i class="fas fa-comments promo-icon"></i>
+                        <strong>CengO Chat</strong> — burak_msz tarafından yapılmış bir sohbet sitesidir. 
+                        İstediğin kadar kişi ile gidip diğer sohbetlere katılabilir ve kendi özel odanı kurabilirsin. 
+                        Profilini özelleştirebilirsin. 
+                        <a href="https://burak-code.github.io/cengo/" target="_blank">Gitmek için linke tıkla →</a>
+                    </div>
+                `;
+
             const welcomeHtml = `
+                    ${cengoPromo}
                     <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                         <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                             <p class="text-sm leading-relaxed">
@@ -1341,7 +1382,7 @@
                                 💬 <strong>Chat</strong> – converses like a real AI. I learn from our chat!<br><br>
                                 📌 To change mode, click the <strong>globe icon</strong>.<br>
                                 🧠 Tip: type <code>/help</code> to see commands.<br>
-                                ✨ New: 560x560 images + click to enlarge!
+                                ⚡ If you experience lag, disable animations in the sidebar.
                             </p>
                         </div>
                         <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • System</span>
@@ -1352,9 +1393,9 @@
             updateLimitDisplay();
         }
 
-        // ============================================
-        // 11. COMMANDS
-        // ============================================
+        // ============================================================
+        // 12. COMMANDS
+        // ============================================================
         function handleCommand(cmd) {
             const parts = cmd.trim().split(' ');
             const main = parts[0].toLowerCase();
@@ -1362,21 +1403,11 @@
             if (handleSecretCommands(cmd)) return true;
 
             if (main === '/help') {
-                const helpText = `
-                        <b>📋 Command List</b><br><br>
-                        <code>/help</code> – show this list<br>
-                        <code>/edit</code> – enter edit mode (Alt+drag)<br>
-                        <code>/exit_edit</code> – exit edit mode<br>
-                        <code>/restart</code> – reset all elements to original positions<br>
-                        <code>/clear</code> – clear chat history<br>
-                        <code>/theme [dark|light]</code> – switch theme<br>
-                        <code>/save</code> – download chat as JSON<br>
-                        <code>/forget</code> – reset learned words
-                    `;
+                const helpText =
+                    `<b>📋 Command List</b><br><br><code>/help</code> – show this list<br><code>/edit</code> – enter edit mode (Alt+drag)<br><code>/exit_edit</code> – exit edit mode<br><code>/restart</code> – reset all elements to original positions<br><code>/clear</code> – clear chat history<br><code>/theme [dark|light]</code> – switch theme<br><code>/save</code> – download chat as JSON<br><code>/forget</code> – reset learned words`;
                 addMessage(helpText, 'bot', true);
                 return true;
             }
-
             if (main === '/edit') {
                 editMode = true;
                 mainContainer.classList.add('edit-active');
@@ -1388,7 +1419,6 @@
                     'bot', true);
                 return true;
             }
-
             if (main === '/exit_edit') {
                 editMode = false;
                 mainContainer.classList.remove('edit-active');
@@ -1399,19 +1429,16 @@
                 addMessage('Edit mode <strong>disabled</strong>. Positions saved.', 'bot');
                 return true;
             }
-
             if (main === '/restart') {
                 resetPositions();
                 addMessage('🔄 All elements reset to original positions.', 'bot');
                 return true;
             }
-
             if (main === '/clear') {
                 clearHistory();
                 addMessage('🧹 Chat history cleared.', 'bot');
                 return true;
             }
-
             if (main === '/theme') {
                 const newTheme = parts[1] || (currentTheme === 'dark' ? 'light' : 'dark');
                 if (newTheme === 'dark' || newTheme === 'light') {
@@ -1422,7 +1449,6 @@
                 }
                 return true;
             }
-
             if (main === '/save') {
                 const messages = JSON.parse(localStorage.getItem('msz_chat_history') || '[]');
                 const blob = new Blob([JSON.stringify(messages, null, 2)], { type: 'application/json' });
@@ -1435,20 +1461,18 @@
                 addMessage('💾 Chat file downloading...', 'bot');
                 return true;
             }
-
             if (main === '/forget') {
                 learnedWords = [];
                 saveLearnedWords();
                 addMessage('🧠 Learned words reset. You can introduce yourself again!', 'bot');
                 return true;
             }
-
             return false;
         }
 
-        // ============================================
-        // 12. ARITHMETIC
-        // ============================================
+        // ============================================================
+        // 13. ARITHMETIC
+        // ============================================================
         function solveMath(expression) {
             try {
                 const clean = expression.replace(/[^0-9+\-*/.() ]/g, '');
@@ -1460,25 +1484,22 @@
         }
 
         function isMathQuestion(text) {
-            const mathPatterns = [
-                /\d+\s*[+\-*/]\s*\d+/,
-                /calculate|compute|what is|how much|sum|difference|product|quotient/i,
+            const mathPatterns = [/\d+\s*[+\-*/]\s*\d+/, /calculate|compute|what is|how much|sum|difference|product|quotient/i,
                 /[+\-*/]/
             ];
             return mathPatterns.some(p => p.test(text));
         }
 
-        // ============================================
-        // 13. RESEARCH (Wikipedia + DuckDuckGo)
-        // ============================================
+        // ============================================================
+        // 14. RESEARCH
+        // ============================================================
         async function searchWikipedia(query) {
             try {
                 const controller = new AbortController();
                 const timeout = setTimeout(() => controller.abort(), 10000);
                 const res = await fetch(
-                    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`, {
-                        signal: controller.signal
-                    });
+                    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`, { signal: controller
+                        .signal });
                 clearTimeout(timeout);
                 if (!res.ok) throw new Error('Wikipedia no response');
                 const data = await res.json();
@@ -1519,9 +1540,9 @@
             }
         }
 
-        // ============================================
-        // 14. IMAGE GENERATION - FIXED FREEZE
-        // ============================================
+        // ============================================================
+        // 15. IMAGE GENERATION (optimised)
+        // ============================================================
         async function createAIImage(prompt) {
             if (isLoading) return;
             isLoading = true;
@@ -1550,43 +1571,30 @@
             addLoadingMessage();
 
             try {
-                updateProgress(30);
                 const seed = Math.floor(Math.random() * 100000);
                 const url =
                     `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=560&height=560&seed=${seed}&nologo=true`;
                 const downloadUrl = url;
 
-                updateProgress(60);
-
-                // Use a promise-based image load to prevent freezing
-                const loadImage = () => {
-                    return new Promise((resolve, reject) => {
-                        const img = new Image();
-                        let resolved = false;
-                        const timeoutId = setTimeout(() => {
-                            if (!resolved) {
-                                resolved = true;
-                                reject(new Error('Image load timeout'));
-                            }
-                        }, 25000);
-
-                        img.onload = () => {
-                            if (!resolved) {
-                                resolved = true;
-                                clearTimeout(timeoutId);
-                                resolve(img);
-                            }
-                        };
-                        img.onerror = () => {
-                            if (!resolved) {
-                                resolved = true;
-                                clearTimeout(timeoutId);
-                                reject(new Error('Image load error'));
-                            }
-                        };
-                        img.src = url;
-                    });
-                };
+                const loadImage = () => new Promise((resolve, reject) => {
+                    const img = new Image();
+                    let resolved = false;
+                    const timeoutId = setTimeout(() => {
+                        if (!resolved) { resolved = true;
+                            reject(new Error('Image load timeout')); }
+                    }, 25000);
+                    img.onload = () => {
+                        if (!resolved) { resolved = true;
+                            clearTimeout(timeoutId);
+                            resolve(img); }
+                    };
+                    img.onerror = () => {
+                        if (!resolved) { resolved = true;
+                            clearTimeout(timeoutId);
+                            reject(new Error('Image load error')); }
+                    };
+                    img.src = url;
+                });
 
                 await loadImage();
 
@@ -1609,13 +1617,18 @@
             isLoading = false;
         }
 
-        // ============================================
-        // 15. CHAT MODE - FIXED FREEZE
-        // ============================================
+        // ============================================================
+        // 16. CHAT MODE (enhanced with API response)
+        // ============================================================
         function chatResponse(input) {
             const lower = input.toLowerCase().trim();
 
             learnWords(input);
+
+            // API / key question
+            if (lower.match(/api|key|apikey|do you have an api|api key/i)) {
+                return "I am currently an API-less AI bot. An API will be added soon. 🚧";
+            }
 
             if (lower.match(/who made you|who created you|your creator|your maker|who designed you/i)) {
                 if (sidebar.style.width !== '280px') toggleSidebar();
@@ -1745,7 +1758,7 @@
                 const learned = getRandomLearnedWords(2);
                 let extra = '';
                 if (learned.length > 0) extra =
-                ` Talking about deep topics like "${learned.join('", "')}" with you is wonderful.`;
+                    ` Talking about deep topics like "${learned.join('", "')}" with you is wonderful.`;
                 return "Wow, a deep question! I think the meaning of life is to learn, love, and live in the moment. What do you think?" +
                     extra;
             }
@@ -1766,9 +1779,9 @@
             return generalReplies[Math.floor(Math.random() * generalReplies.length)];
         }
 
-        // ============================================
-        // 16. MAIN ACTION - FIXED FREEZE
-        // ============================================
+        // ============================================================
+        // 17. MAIN ACTION (optimised)
+        // ============================================================
         async function handleAction() {
             if (isLoading) return;
 
@@ -1794,7 +1807,6 @@
             if (currentMode === 'chat') {
                 isLoading = true;
                 addLoadingMessage();
-                // Use setTimeout to avoid blocking the UI
                 setTimeout(() => {
                     removeLoadingMessage();
                     const reply = chatResponse(raw);
@@ -1806,27 +1818,22 @@
 
             isLoading = true;
             addLoadingMessage();
-            updateProgress(20);
 
             try {
                 let result = await searchWikipedia(raw);
-                updateProgress(60);
                 if (result) {
                     removeLoadingMessage();
                     addMessage(result.html, 'bot', true, result.source);
                     isLoading = false;
                     return;
                 }
-
                 result = await searchDuckDuckGo(raw);
-                updateProgress(80);
                 if (result) {
                     removeLoadingMessage();
                     addMessage(result.html, 'bot', true, result.source);
                     isLoading = false;
                     return;
                 }
-
                 removeLoadingMessage();
                 addMessage('🔍 I couldn\'t find information on that. Try a clearer query.', 'bot');
             } catch (error) {
@@ -1840,9 +1847,9 @@
             isLoading = false;
         }
 
-        // ============================================
-        // 17. UI EDITING
-        // ============================================
+        // ============================================================
+        // 18. UI EDITING (robust)
+        // ============================================================
         function resetPositions() {
             document.querySelectorAll('[draggable-item]').forEach(el => {
                 el.style.position = '';
@@ -1913,7 +1920,6 @@
                 if (editMode) document.body.style.cursor = 'grab';
             }
         });
-
         document.addEventListener('keyup', e => {
             if (e.key === 'Alt') {
                 isAltPressed = false;
@@ -1921,20 +1927,16 @@
             }
         });
 
-        // ============================================
-        // 18. MODE & MENU
-        // ============================================
+        // ============================================================
+        // 19. MODE & MENU
+        // ============================================================
         function setMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.mode-option').forEach(opt => {
                 opt.classList.toggle('active-mode', opt.dataset.mode === mode);
             });
 
-            const displays = {
-                search: 'Mode: Research',
-                image: 'Mode: Image Gen',
-                chat: 'Mode: Chat 💬'
-            };
+            const displays = { search: 'Mode: Research', image: 'Mode: Image Gen', chat: 'Mode: Chat 💬' };
             document.getElementById('currentModeDisplay').textContent = displays[mode] || 'Mode: Research';
 
             const placeholders = {
@@ -1962,9 +1964,9 @@
             }
         }
 
-        // ============================================
-        // 19. EVENT LISTENERS
-        // ============================================
+        // ============================================================
+        // 20. EVENT LISTENERS
+        // ============================================================
         sendBtn.onclick = handleAction;
         userInput.onkeypress = e => { if (e.key === 'Enter') handleAction(); };
         clearChatBtn.onclick = clearHistory;
@@ -1982,12 +1984,15 @@
             commandHints.style.display = userInput.value.startsWith('/') ? 'block' : 'none';
         };
 
-        // ============================================
-        // 20. INIT
-        // ============================================
+        // ============================================================
+        // 21. INIT
+        // ============================================================
         window.onload = () => {
             const savedTheme = localStorage.getItem('msz_theme') || 'dark';
             setTheme(savedTheme);
+
+            // load animation preference
+            loadAnimationsPreference();
 
             const savedWords = localStorage.getItem('msz_learned_words');
             if (savedWords) {
