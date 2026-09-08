@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MSZ AI · British English</title>
+    <title>MSZ AI</title>
     <link rel="icon" type="image/x-icon" href="favicon.png" />
     <script src="https://cdn.tailwindcss.com">
     </script>
@@ -764,43 +764,6 @@
                 max-width: 300px;
             }
         }
-
-        /* CengO Chat promotion link */
-        .cengo-promo {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        body.light-theme .cengo-promo {
-            background: rgba(16, 185, 129, 0.08);
-            border-color: rgba(16, 185, 129, 0.25);
-        }
-        .cengo-promo a {
-            color: #34d399;
-            font-weight: 600;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-        body.light-theme .cengo-promo a {
-            color: #059669;
-        }
-        .cengo-promo a:hover {
-            color: #6ee7b7;
-        }
-        body.light-theme .cengo-promo a:hover {
-            color: #047857;
-        }
-        .cengo-promo .promo-icon {
-            color: #34d399;
-            margin-right: 6px;
-        }
-        body.light-theme .cengo-promo .promo-icon {
-            color: #059669;
-        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-3 theme-transition">
@@ -834,7 +797,7 @@
         <div class="sidebar-content">
             <div class="text-center mb-6">
                 <p class="text-white font-bold text-2xl mb-1">🧠 MSZ AI</p>
-                <span class="sidebar-version">v13</span>
+                <span class="sidebar-version">v13.2</span>
                 <p class="text-slate-400 text-sm mt-2">⚡ 3 Modes · Free</p>
             </div>
             <hr class="border-slate-700 my-4">
@@ -983,7 +946,215 @@
         let animationsEnabled = true;
 
         // ============================================================
-        // 2. PERFORMANCE TOGGLE (FULLY WORKING - DISABLES ALL)
+        // 2. MSZ KNOWLEDGE JSON (TÜM BİLGİLER BURADA)
+        // ============================================================
+        const MSZ_KNOWLEDGE = {
+            "version": "1.0",
+            "creator": {
+                "name": "Burak_msz",
+                "description": "an amazing developer building awesome projects",
+                "instagram": "https://www.instagram.com/burak_msz/",
+                "x": "https://x.com/burak_msz__",
+                "website": "https://burak-code.github.io/msz/",
+                "email": "burakbilec123@gmail.com"
+            },
+            "projects": {
+                "cengo_chat": {
+                    "name": "CengO Chat",
+                    "description": "a free chat platform where you can create rooms, customise profiles, and chat with anyone!",
+                    "url": "https://burak-code.github.io/cengo/"
+                },
+                "msz_medya": {
+                    "name": "MSZ Medya",
+                    "description": "a media platform for sharing and discovering content.",
+                    "url": "https://burak-code.github.io/msz-medya/"
+                },
+                "msz_tournament": {
+                    "name": "MSZ Efootball Tournament",
+                    "description": "a monthly eFootball tournament! Join and compete!",
+                    "url": "https://burak-code.github.io/msz/html/tournament.html"
+                },
+                "msz_ai": {
+                    "name": "MSZ AI",
+                    "description": "an AI assistant with 3 modes: Research, Image Gen, and Chat",
+                    "url": "https://burak-code.github.io/msz/"
+                }
+            },
+            "knowledge": {
+                "greetings": [
+                    "Hello! I'm great, how are you? 😊",
+                    "Hi there! Lovely to chat with you!",
+                    "Hey! I'm doing well, thanks for asking. What's new?",
+                    "Good to see you! I was hoping we could chat."
+                ],
+                "farewells": [
+                    "See you later! I'll be here whenever you need me. Take care! 👋",
+                    "Goodbye! It was nice chatting with you!",
+                    "Catch you later! 👋",
+                    "Farewell! Hope to see you again soon!"
+                ],
+                "jokes": [
+                    "Why don't scientists trust atoms? Because they make up everything! 😄",
+                    "I'd tell you a chemistry joke, but I know I wouldn't get a reaction.",
+                    "Why do programmers prefer dark mode? Because light attracts bugs!",
+                    "What do you call a fish with no eyes? A fsh!"
+                ],
+                "deep_answers": [
+                    "Wow, a deep question! I think the meaning of life is to learn, love, and live in the moment. What do you think?",
+                    "That's a profound question. I believe existence is about connection and growth.",
+                    "Life is a beautiful mystery. What's your perspective on it?",
+                    "The universe is vast and full of wonders. I think we're here to explore and understand."
+                ],
+                "how_are_you": [
+                    "Fantastic! Full of ideas and ready to chat.",
+                    "I'm brilliant, thanks! It's always a pleasure talking to you.",
+                    "Feeling top-notch, especially now that we're chatting!",
+                    "Superb! A great day for exploring and conversation."
+                ],
+                "name_responses": [
+                    "I'm MSZ AI, your AI companion. I love chatting, learning new things, and having fun!",
+                    "My name is MSZ AI! I'm here to help you with anything you need.",
+                    "I'm MSZ AI — an intelligent assistant created by Burak_msz."
+                ]
+            },
+            "code_examples": {
+                "html": {
+                    "button": "<button onclick=\"alert('Hello!')\" style=\"padding:12px 24px;background:#3b82f6;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;\">Click Me!</button>",
+                    "card": "<div style=\"border:1px solid #e2e8f0;border-radius:12px;padding:20px;max-width:300px;background:white;box-shadow:0 4px 6px rgba(0,0,0,0.1);\">\n  <h2 style=\"margin:0 0 8px 0;color:#0f172a;\">Card Title</h2>\n  <p style=\"margin:0;color:#64748b;\">This is a card component. Customise it as you like!</p>\n</div>",
+                    "hello": "<h1 style=\"color:#3b82f6;font-family:sans-serif;\">Hello from MSZ AI! 🚀</h1>\n<p style=\"color:#64748b;\">This is a live preview of your HTML code.</p>"
+                },
+                "python": {
+                    "hello": "def greet(name):\n    return f\"Hello, {name}! Welcome to MSZ AI 🚀\"\n\nprint(greet(\"World\"))",
+                    "calculator": "def add(a, b):\n    return a + b\n\ndef subtract(a, b):\n    return a - b\n\ndef multiply(a, b):\n    return a * b\n\ndef divide(a, b):\n    return a / b if b != 0 else \"Cannot divide by zero!\"\n\nprint(add(5, 3))"
+                },
+                "javascript": {
+                    "hello": "function greet(name) {\n  return \"Hello, \" + name + \"! Welcome to MSZ AI 🚀\";\n}\n\nconsole.log(greet(\"World\"));",
+                    "function": "// A simple function example\nfunction calculate(num1, operator, num2) {\n  switch(operator) {\n    case '+': return num1 + num2;\n    case '-': return num1 - num2;\n    case '*': return num1 * num2;\n    case '/': return num2 !== 0 ? num1 / num2 : 'Cannot divide by zero!';\n    default: return 'Invalid operator';\n  }\n}\n\nconsole.log(calculate(10, '+', 5));"
+                }
+            },
+            "fallback_responses": [
+                "I see. What else is on your mind?",
+                "That's an interesting perspective! Could you elaborate?",
+                "Great point! I'm enjoying this conversation.",
+                "Would you like to know more, or shall we keep chatting?",
+                "What a lovely thought! How do you feel about it?",
+                "Tell me more about that — I'm curious!"
+            ],
+            "project_keywords": {
+                "cengo": "cengo_chat",
+                "sohbet": "cengo_chat",
+                "chat": "cengo_chat",
+                "medya": "msz_medya",
+                "media": "msz_medya",
+                "turnuva": "msz_tournament",
+                "tournament": "msz_tournament",
+                "efootball": "msz_tournament",
+                "oyun": "msz_tournament",
+                "game": "msz_tournament"
+            }
+        };
+
+        // ============================================================
+        // 3. JSON'DAN CEVAP ALMA FONKSİYONU
+        // ============================================================
+        function getResponseFromJSON(input) {
+            const lower = input.toLowerCase().trim();
+            const k = MSZ_KNOWLEDGE;
+            
+            // --- Creator bilgileri ---
+            if (lower.match(/burak|msz|creator|who made you|who created you|your creator|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
+                const creator = k.creator;
+                const projects = k.projects;
+                let projectList = '';
+                for (const [key, proj] of Object.entries(projects)) {
+                    projectList += `<br>• <strong>${proj.name}</strong> — ${proj.description} <a href="${proj.url}" target="_blank" style="color:#34d399;text-decoration:underline;">🔗 Link</a>`;
+                }
+                return `I was created by <strong>${creator.name}</strong> — ${creator.description}! 🚀<br><br>His latest projects are now live:${projectList}<br><br>🌐 Website: <a href="${creator.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${creator.website}</a><br>📸 Instagram: <a href="${creator.instagram}" target="_blank" style="color:#34d399;text-decoration:underline;">@${creator.name}</a><br>🐦 X: <a href="${creator.x}" target="_blank" style="color:#34d399;text-decoration:underline;">@${creator.name}__</a>`;
+            }
+
+            // --- Proje bazlı sorgular ---
+            const projectKeywords = k.project_keywords || {};
+            for (const [keyword, projectKey] of Object.entries(projectKeywords)) {
+                if (lower.includes(keyword) && k.projects[projectKey]) {
+                    const proj = k.projects[projectKey];
+                    return `<strong>${proj.name}</strong> — ${proj.description}<br><br>🔗 Visit: <a href="${proj.url}" target="_blank" style="color:#34d399;text-decoration:underline;">${proj.url}</a>`;
+                }
+            }
+
+            // --- Kod örnekleri ---
+            if (lower.match(/code|kod|html|css|javascript|python|js|yaz|oluştur|create|generate|make/i)) {
+                if (lower.includes('button') && k.code_examples?.html?.button) {
+                    return `💻 <strong>HTML Button Code:</strong><br><br><div class="code-block" style="background:#0f172a;border-radius:8px;padding:12px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:13px;overflow-x:auto;border:1px solid #334155;white-space:pre-wrap;word-break:break-word;color:#f1f5f9;">${k.code_examples.html.button.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div><br>🔧 Try it in the Code Editor! (Click the <i class="fas fa-code"></i> icon)`;
+                }
+                if (lower.includes('card') && k.code_examples?.html?.card) {
+                    return `💻 <strong>HTML Card Code:</strong><br><br><div class="code-block" style="background:#0f172a;border-radius:8px;padding:12px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:13px;overflow-x:auto;border:1px solid #334155;white-space:pre-wrap;word-break:break-word;color:#f1f5f9;">${k.code_examples.html.card.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div><br>🔧 Try it in the Code Editor!`;
+                }
+                if ((lower.includes('python') || lower.includes('py')) && k.code_examples?.python?.hello) {
+                    return `💻 <strong>Python Code:</strong><br><br><div class="code-block" style="background:#0f172a;border-radius:8px;padding:12px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:13px;overflow-x:auto;border:1px solid #334155;white-space:pre-wrap;word-break:break-word;color:#f1f5f9;">${k.code_examples.python.hello}</div>`;
+                }
+                if (lower.includes('calculator') && k.code_examples?.python?.calculator) {
+                    return `💻 <strong>Python Calculator Code:</strong><br><br><div class="code-block" style="background:#0f172a;border-radius:8px;padding:12px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:13px;overflow-x:auto;border:1px solid #334155;white-space:pre-wrap;word-break:break-word;color:#f1f5f9;">${k.code_examples.python.calculator}</div>`;
+                }
+                if ((lower.includes('javascript') || lower.includes('js')) && k.code_examples?.javascript?.function) {
+                    return `💻 <strong>JavaScript Code:</strong><br><br><div class="code-block" style="background:#0f172a;border-radius:8px;padding:12px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:13px;overflow-x:auto;border:1px solid #334155;white-space:pre-wrap;word-break:break-word;color:#f1f5f9;">${k.code_examples.javascript.function}</div>`;
+                }
+                // Genel kod cevabı
+                return `💻 I can generate code for you! Try asking for:<br>• "HTML button code"<br>• "HTML card component"<br>• "Python hello world"<br>• "Python calculator"<br>• "JavaScript function"<br><br>Or open the Code Editor with the <i class="fas fa-code"></i> icon!`;
+            }
+
+            // --- Mail (sadece problem durumunda) ---
+            if (lower.match(/ulaşamadım|sıkıntı|problem|issue|can't reach|contact|reach|mail|email|burak bilec|burakbilec|burakbilec123|yardım|help|support/i)) {
+                return `📧 You can reach ${k.creator.name} via email: <strong>${k.creator.email}</strong><br><br>Feel free to reach out if you have a great project idea or need help!`;
+            }
+
+            // --- Greetings ---
+            if (lower.match(/hello|hi|hey|what's up|how are you|good morning|good evening|merhaba|selam/i)) {
+                const greetings = k.knowledge?.greetings || ["Hello! How can I help you?"];
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+
+            // --- Farewells ---
+            if (lower.match(/goodbye|bye|see you|catch you later|farewell|görüşürüz|hoşçakal/i)) {
+                const farewells = k.knowledge?.farewells || ["Goodbye! 👋"];
+                return farewells[Math.floor(Math.random() * farewells.length)];
+            }
+
+            // --- Jokes ---
+            if (lower.match(/joke|funny|make me laugh|humour|şaka|komik/i)) {
+                const jokes = k.knowledge?.jokes || ["Why did the computer go to the doctor? It had a virus!"];
+                return jokes[Math.floor(Math.random() * jokes.length)];
+            }
+
+            // --- Deep questions ---
+            if (lower.match(/life|meaning|why|universe|love|death|existence|purpose|hayat|anlam|sevgi|ölüm|evren/i)) {
+                const deep = k.knowledge?.deep_answers || ["That's a great question! What do you think?"];
+                return deep[Math.floor(Math.random() * deep.length)];
+            }
+
+            // --- How are you ---
+            if (lower.match(/how are you|how's it going|what's new|how do you feel|nasılsın/i)) {
+                const how = k.knowledge?.how_are_you || ["I'm doing great, thanks for asking!"];
+                return how[Math.floor(Math.random() * how.length)];
+            }
+
+            // --- Name ---
+            if (lower.match(/your name|what's your name|who are you|adın ne|ismin ne/i)) {
+                const name = k.knowledge?.name_responses || ["I'm MSZ AI!"];
+                return name[Math.floor(Math.random() * name.length)];
+            }
+
+            // --- Thank ---
+            if (lower.match(/thank|thanks|cheers|appreciate|teşekkür|sağol/i)) {
+                return "You're welcome! Glad I could help. Anything else? 😊";
+            }
+
+            // --- Fallback ---
+            const fallbacks = k.fallback_responses || ["I see. Tell me more."];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+
+        // ============================================================
+        // 4. PERFORMANCE TOGGLE (FULLY WORKING - DISABLES ALL)
         // ============================================================
         function toggleAnimations() {
             animationsEnabled = !animationsEnabled;
@@ -1048,7 +1219,7 @@
         }
 
         // ============================================================
-        // 3. IMAGE ZOOM
+        // 5. IMAGE ZOOM
         // ============================================================
         function openImageModal(imageUrl, downloadUrl) {
             modalImage.src = imageUrl;
@@ -1064,7 +1235,7 @@
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImageModal(); });
 
         // ============================================================
-        // 4. LEARNING CHAT
+        // 6. LEARNING CHAT
         // ============================================================
         let learnedWords = JSON.parse(localStorage.getItem('msz_learned_words') || '[]');
 
@@ -1087,7 +1258,7 @@
         }
 
         // ============================================================
-        // 5. FORBIDDEN WORDS & IMAGE LIMIT
+        // 7. FORBIDDEN WORDS & IMAGE LIMIT
         // ============================================================
         const forbiddenWords = ['nude', 'naked', 'porn', 'sex', 'sexual', 'obscene', 'hentai', '+18', 'erotic'];
         const IMAGE_LIMIT = 10;
@@ -1130,7 +1301,7 @@
         }
 
         // ============================================================
-        // 6. SECRET COMMANDS
+        // 8. SECRET COMMANDS
         // ============================================================
         function handleSecretCommands(cmd) {
             if (cmd === '/addto*photo') {
@@ -1172,7 +1343,7 @@
         }
 
         // ============================================================
-        // 7. THEME
+        // 9. THEME
         // ============================================================
         function setTheme(theme) {
             currentTheme = theme;
@@ -1182,7 +1353,7 @@
         }
 
         // ============================================================
-        // 8. ADD MESSAGE (optimised)
+        // 10. ADD MESSAGE (optimised)
         // ============================================================
         function addMessage(content, role = 'bot', isHtml = false, source = null) {
             requestAnimationFrame(() => {
@@ -1239,7 +1410,7 @@
         }
 
         // ============================================================
-        // 9. LOADING INDICATOR (optimised)
+        // 11. LOADING INDICATOR (optimised)
         // ============================================================
         function addLoadingMessage() {
             removeLoadingMessage();
@@ -1297,7 +1468,7 @@
         }
 
         // ============================================================
-        // 10. CHAT HISTORY
+        // 12. CHAT HISTORY
         // ============================================================
         function saveHistory() {
             if (window._historyTimeout) clearTimeout(window._historyTimeout);
@@ -1357,32 +1528,34 @@
         }
 
         // ============================================================
-        // 11. WELCOME (with CengO Chat promotion)
+        // 13. WELCOME (updated - no CengO promo, MSZ AI introduces itself)
         // ============================================================
         function showWelcomeMessage() {
-            const cengoPromo = `
-                    <div class="cengo-promo">
-                        <i class="fas fa-comments promo-icon"></i>
-                        <strong>CengO Chat</strong> — burak_msz tarafından yapılmış bir sohbet sitesidir. 
-                        İstediğin kadar kişi ile gidip diğer sohbetlere katılabilir ve kendi özel odanı kurabilirsin. 
-                        Profilini özelleştirebilirsin. 
-                        <a href="https://burak-code.github.io/cengo/" target="_blank">Gitmek için linke tıkla →</a>
-                    </div>
-                `;
-
+            const k = MSZ_KNOWLEDGE;
+            const creator = k.creator;
+            const projects = k.projects;
+            let projectList = '';
+            for (const [key, proj] of Object.entries(projects)) {
+                projectList += `• <strong>${proj.name}</strong> — ${proj.description}<br>`;
+            }
+            
             const welcomeHtml = `
-                    ${cengoPromo}
                     <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                         <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                             <p class="text-sm leading-relaxed">
-                                Hello! I'm <strong>MSZ AI</strong> (v13).<br>
-                                I serve in three modes:<br><br>
+                                Hello! I'm <strong>MSZ AI</strong> (v13).<br><br>
+                                I was created by <strong>${creator.name}</strong> — ${creator.description}.<br><br>
+                                🚀 <strong>His latest projects are now live:</strong><br>
+                                ${projectList}<br>
+                                🔍 I serve in three modes:<br>
                                 🔍 <strong>Research</strong> – fetches info from Wikipedia & DuckDuckGo with source attribution.<br>
                                 🎨 <strong>Image Gen</strong> – creates 560x560 images. <strong>Click to enlarge!</strong> (10 per day)<br>
                                 💬 <strong>Chat</strong> – converses like a real AI. I learn from our chat!<br><br>
                                 📌 To change mode, click the <strong>globe icon</strong>.<br>
                                 🧠 Tip: type <code>/help</code> to see commands.<br>
-                                ⚡ If you experience lag, disable animations in the sidebar.
+                                ⚡ If you experience lag, disable animations in the sidebar.<br><br>
+                                <span style="color:#60a5fa;">💡 For updates and more, visit my creator's website:</span><br>
+                                <a href="${creator.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${creator.website}</a>
                             </p>
                         </div>
                         <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • System</span>
@@ -1394,7 +1567,7 @@
         }
 
         // ============================================================
-        // 12. COMMANDS
+        // 14. COMMANDS
         // ============================================================
         function handleCommand(cmd) {
             const parts = cmd.trim().split(' ');
@@ -1471,7 +1644,7 @@
         }
 
         // ============================================================
-        // 13. ARITHMETIC
+        // 15. ARITHMETIC
         // ============================================================
         function solveMath(expression) {
             try {
@@ -1491,7 +1664,7 @@
         }
 
         // ============================================================
-        // 14. RESEARCH
+        // 16. RESEARCH
         // ============================================================
         async function searchWikipedia(query) {
             try {
@@ -1541,7 +1714,7 @@
         }
 
         // ============================================================
-        // 15. IMAGE GENERATION (optimised)
+        // 17. IMAGE GENERATION (optimised)
         // ============================================================
         async function createAIImage(prompt) {
             if (isLoading) return;
@@ -1618,151 +1791,25 @@
         }
 
         // ============================================================
-        // 16. CHAT MODE (enhanced with API response)
+        // 18. CHAT MODE (JSON ile güncellendi)
         // ============================================================
         function chatResponse(input) {
             const lower = input.toLowerCase().trim();
 
             learnWords(input);
 
-            // API / key question
-            if (lower.match(/api|key|apikey|do you have an api|api key/i)) {
-                return "I am currently an API-less AI bot. An API will be added soon. 🚧";
-            }
-
-            if (lower.match(/who made you|who created you|your creator|your maker|who designed you/i)) {
-                if (sidebar.style.width !== '280px') toggleSidebar();
+            // --- Önce JSON'dan cevap almayı dene ---
+            const jsonResponse = getResponseFromJSON(input);
+            if (jsonResponse) {
+                // Öğrenilen kelimeleri ekle (varsa)
                 const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra = ` (By the way, I learned "${learned.join('", "')}" from you!)`;
-                return "I was designed and developed by Burak_msz. Inspired by AI models like Gemini, DeepSeek and ChatGPT. Glad you're here! 🚀" +
-                    extra;
-            }
-
-            if (lower.match(/what do you learn|how do you learn|learning/i)) {
-                if (sidebar.style.width !== '280px') toggleSidebar();
-                const learned = getRandomLearnedWords(3);
-                let extra = '';
-                if (learned.length > 0) extra = ` So far I've learned words like "${learned.join('", "')}" from you!`;
-                return "I learn new words from you! As we chat, I store them in memory and try to use them later. I also know arithmetic and research. 🧠" +
-                    extra;
-            }
-
-            if (lower.match(/who are you|introduce yourself|tell me about yourself/i)) {
-                if (sidebar.style.width !== '280px') toggleSidebar();
-                const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra = ` Since we met, I've learned "${learned.join('", "')}"!`;
-                return "I'm MSZ AI! An AI assistant with 3 modes: Research, Image Gen, and Chat. I learn from our conversations and improve over time! 🤖" +
-                    extra;
-            }
-
-            if (lower.match(/sidebar|menu|hamburger|how to open|nav/i)) {
-                if (sidebar.style.width !== '280px') toggleSidebar();
-                return "Click the hamburger menu (☰) in the top-left to open the sidebar. There you'll find all the info, features, and latest additions! 🍔";
-            }
-
-            if (isMathQuestion(lower)) {
-                const mathMatch = lower.match(/(\d+)\s*([+\-*/])\s*(\d+)/);
-                if (mathMatch) {
-                    const num1 = parseFloat(mathMatch[1]);
-                    const operator = mathMatch[2];
-                    const num2 = parseFloat(mathMatch[3]);
-                    let result;
-                    switch (operator) {
-                        case '+':
-                            result = num1 + num2;
-                            break;
-                        case '-':
-                            result = num1 - num2;
-                            break;
-                        case '*':
-                            result = num1 * num2;
-                            break;
-                        case '/':
-                            if (num2 === 0) return "You can't divide by zero! 😅";
-                            result = num1 / num2;
-                            break;
-                    }
-                    if (Number.isInteger(result)) return `${num1} ${operator} ${num2} = ${result}`;
-                    else return `${num1} ${operator} ${num2} = ${result.toFixed(2)}`;
+                if (learned.length > 0 && !lower.match(/burak|msz|creator|who made you|who created you|your creator|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
+                    return jsonResponse + ` (By the way, I learned "${learned.join('", "')}" from you! 😊)`;
                 }
-                const result = solveMath(lower);
-                if (result !== null) {
-                    if (Number.isInteger(result)) return `Result: ${result}`;
-                    else return `Result: ${result.toFixed(2)}`;
-                }
+                return jsonResponse;
             }
 
-            if (lower.match(/hello|hi|hey|what's up|how are you|good morning|good evening/i)) {
-                const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra = ` I've learned "${learned.join('", "')}" from you! 😊`;
-                const replies = [
-                    "Hello! I'm great, how are you? 😊" + extra,
-                    "Hi there! Lovely to chat with you!" + extra,
-                    "Hey! I'm doing well, thanks for asking. What's new?" + extra,
-                    "Good to see you! I was hoping we could chat." + extra
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
-            }
-
-            if (lower.match(/how are you|how's it going|what's new|how do you feel/i)) {
-                const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra = ` You taught me "${learned.join('", "')}" – thank you! 🙏`;
-                const replies = [
-                    "Fantastic! Full of ideas and ready to chat." + extra,
-                    "I'm brilliant, thanks! It's always a pleasure talking to you." + extra,
-                    "Feeling top-notch, especially now that we're chatting!" + extra,
-                    "Superb! A great day for exploring and conversation." + extra
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
-            }
-
-            if (lower.match(/your name|what's your name|who are you/i)) {
-                const learned = getRandomLearnedWords(3);
-                let extra = '';
-                if (learned.length > 0) extra = ` I've learned words like "${learned.join('", "')}" from you!`;
-                return "I'm MSZ AI, your AI companion. I love chatting, learning new things, and having fun!" + extra;
-            }
-
-            if (lower.match(/thank|thanks|cheers|appreciate/i)) {
-                const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra = ` You've taught me "${learned.join('", "')}" – very valuable!`;
-                return "You're welcome! Glad I could help. Anything else?" + extra;
-            }
-
-            if (lower.match(/goodbye|bye|see you|catch you later|farewell/i)) {
-                const learned = getRandomLearnedWords(3);
-                let extra = '';
-                if (learned.length > 0) extra = ` I'll never forget "${learned.join('", "')}" – thanks for the chat!`;
-                return "See you later! I'll be here whenever you need me. Take care! 👋 " + extra;
-            }
-
-            if (lower.match(/joke|funny|make me laugh|humour/i)) {
-                const learned = getRandomLearnedWords(2);
-                const jokes = [
-                    "Why don't scientists trust atoms? Because they make up everything! 😄",
-                    "I'd tell you a chemistry joke, but I know I wouldn't get a reaction.",
-                    "Why do programmers prefer dark mode? Because light attracts bugs!",
-                    "What do you call a fish with no eyes? A fsh!"
-                ];
-                let extra = '';
-                if (learned.length > 0) extra = ` (By the way, I love that you taught me "${learned.join('", "')}")`;
-                return jokes[Math.floor(Math.random() * jokes.length)] + extra;
-            }
-
-            if (lower.match(/life|meaning|why|universe|love|death|existence|purpose/i)) {
-                const learned = getRandomLearnedWords(2);
-                let extra = '';
-                if (learned.length > 0) extra =
-                    ` Talking about deep topics like "${learned.join('", "')}" with you is wonderful.`;
-                return "Wow, a deep question! I think the meaning of life is to learn, love, and live in the moment. What do you think?" +
-                    extra;
-            }
-
+            // --- JSON cevap vermezse fallback ---
             const learnedWordsList = getRandomLearnedWords(3);
             let usedLearned = '';
             if (learnedWordsList.length > 0) {
@@ -1780,7 +1827,7 @@
         }
 
         // ============================================================
-        // 17. MAIN ACTION (optimised)
+        // 19. MAIN ACTION (optimised)
         // ============================================================
         async function handleAction() {
             if (isLoading) return;
@@ -1810,7 +1857,8 @@
                 setTimeout(() => {
                     removeLoadingMessage();
                     const reply = chatResponse(raw);
-                    addMessage(reply, 'bot');
+                    // HTML olarak gönder - true parametresi ile
+                    addMessage(reply, 'bot', true);
                     isLoading = false;
                 }, 300 + Math.random() * 400);
                 return;
@@ -1848,7 +1896,7 @@
         }
 
         // ============================================================
-        // 18. UI EDITING (robust)
+        // 20. UI EDITING (robust)
         // ============================================================
         function resetPositions() {
             document.querySelectorAll('[draggable-item]').forEach(el => {
@@ -1928,7 +1976,7 @@
         });
 
         // ============================================================
-        // 19. MODE & MENU
+        // 21. MODE & MENU
         // ============================================================
         function setMode(mode) {
             currentMode = mode;
@@ -1965,7 +2013,7 @@
         }
 
         // ============================================================
-        // 20. EVENT LISTENERS
+        // 22. EVENT LISTENERS
         // ============================================================
         sendBtn.onclick = handleAction;
         userInput.onkeypress = e => { if (e.key === 'Enter') handleAction(); };
@@ -1985,7 +2033,7 @@
         };
 
         // ============================================================
-        // 21. INIT
+        // 23. INIT
         // ============================================================
         window.onload = () => {
             const savedTheme = localStorage.getItem('msz_theme') || 'dark';
