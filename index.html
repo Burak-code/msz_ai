@@ -950,7 +950,7 @@
         // ============================================================
         const MSZ_KNOWLEDGE = {
             "version": "1.0",
-            "creator": {
+            "designer": {
                 "name": "Burak_msz",
                 "description": "an amazing developer building awesome projects",
                 "instagram": "https://www.instagram.com/burak_msz/",
@@ -1061,15 +1061,15 @@
             const lower = input.toLowerCase().trim();
             const k = MSZ_KNOWLEDGE;
             
-            // --- Creator bilgileri ---
-            if (lower.match(/burak|msz|creator|who made you|who created you|your creator|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
-                const creator = k.creator;
+            // --- designer bilgileri ---
+            if (lower.match(/burak|msz|designer|who made you|who created you|your designer|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
+                const designer = k.designer;
                 const projects = k.projects;
                 let projectList = '';
                 for (const [key, proj] of Object.entries(projects)) {
                     projectList += `<br>• <strong>${proj.name}</strong> — ${proj.description} <a href="${proj.url}" target="_blank" style="color:#34d399;text-decoration:underline;">🔗 Link</a>`;
                 }
-                return `I was created by <strong>${creator.name}</strong> — ${creator.description}! 🚀<br><br>His latest projects are now live:${projectList}<br><br>🌐 Website: <a href="${creator.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${creator.website}</a><br>📸 Instagram: <a href="${creator.instagram}" target="_blank" style="color:#34d399;text-decoration:underline;">@${creator.name}</a><br>🐦 X: <a href="${creator.x}" target="_blank" style="color:#34d399;text-decoration:underline;">@${creator.name}__</a>`;
+                return `I was created by <strong>${designer.name}</strong> — ${designer.description}! 🚀<br><br>His latest projects are now live:${projectList}<br><br>🌐 Website: <a href="${designer.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${designer.website}</a><br>📸 Instagram: <a href="${designer.instagram}" target="_blank" style="color:#34d399;text-decoration:underline;">@${designer.name}</a><br>🐦 X: <a href="${designer.x}" target="_blank" style="color:#34d399;text-decoration:underline;">@${designer.name}__</a>`;
             }
 
             // --- Proje bazlı sorgular ---
@@ -1104,7 +1104,7 @@
 
             // --- Mail (sadece problem durumunda) ---
             if (lower.match(/ulaşamadım|sıkıntı|problem|issue|can't reach|contact|reach|mail|email|burak bilec|burakbilec|burakbilec123|yardım|help|support/i)) {
-                return `📧 You can reach ${k.creator.name} via email: <strong>${k.creator.email}</strong><br><br>Feel free to reach out if you have a great project idea or need help!`;
+                return `📧 You can reach ${k.designer.name} via email: <strong>${k.designer.email}</strong><br><br>Feel free to reach out if you have a great project idea or need help!`;
             }
 
             // --- Greetings ---
@@ -1532,7 +1532,7 @@
         // ============================================================
         function showWelcomeMessage() {
             const k = MSZ_KNOWLEDGE;
-            const creator = k.creator;
+            const designer = k.designer;
             const projects = k.projects;
             let projectList = '';
             for (const [key, proj] of Object.entries(projects)) {
@@ -1544,7 +1544,7 @@
                         <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                             <p class="text-sm leading-relaxed">
                                 Hello! I'm <strong>MSZ AI</strong> (v13).<br><br>
-                                I was created by <strong>${creator.name}</strong> — ${creator.description}.<br><br>
+                                I was created by <strong>${designer.name}</strong> — ${designer.description}.<br><br>
                                 🚀 <strong>His latest projects are now live:</strong><br>
                                 ${projectList}<br>
                                 🔍 I serve in three modes:<br>
@@ -1554,8 +1554,8 @@
                                 📌 To change mode, click the <strong>globe icon</strong>.<br>
                                 🧠 Tip: type <code>/help</code> to see commands.<br>
                                 ⚡ If you experience lag, disable animations in the sidebar.<br><br>
-                                <span style="color:#60a5fa;">💡 For updates and more, visit my creator's website:</span><br>
-                                <a href="${creator.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${creator.website}</a>
+                                <span style="color:#60a5fa;">💡 For updates and more, visit my designer's website:</span><br>
+                                <a href="${designer.website}" target="_blank" style="color:#34d399;text-decoration:underline;">${designer.website}</a>
                             </p>
                         </div>
                         <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • System</span>
@@ -1803,7 +1803,7 @@
             if (jsonResponse) {
                 // Öğrenilen kelimeleri ekle (varsa)
                 const learned = getRandomLearnedWords(2);
-                if (learned.length > 0 && !lower.match(/burak|msz|creator|who made you|who created you|your creator|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
+                if (learned.length > 0 && !lower.match(/burak|msz|designer|who made you|who created you|your designer|your maker|who designed you|about you|tell me about yourself|what projects|what have you done|new projects|latest projects|nereden geldin|kim yaptı/i)) {
                     return jsonResponse + ` (By the way, I learned "${learned.join('", "')}" from you! 😊)`;
                 }
                 return jsonResponse;
