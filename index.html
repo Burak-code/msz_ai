@@ -303,7 +303,7 @@
 
         .canvas-code-toolbar {
             display: flex; gap: 8px; padding: 8px 12px; background: #1e293b;
-            border-bottom: 1px solid #334155; flex-shrink: 0;
+            border-bottom: 1px solid #334155; flex-shrink: 0; flex-wrap: wrap;
         }
         body.light-theme .canvas-code-toolbar { background: #f8fafc; border-color: #cbd5e1; }
         .canvas-code-toolbar button {
@@ -332,7 +332,6 @@
         }
         .canvas-send-btn:hover { background: #2563eb; }
         .canvas-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-        .canvas-code-toolbar { flex-wrap: wrap; }
         .btn-undo { background: #334155; color: #f1f5f9; }
         .btn-undo:hover { background: #475569; }
         .btn-undo:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -349,6 +348,35 @@
         .message-bubble :not(pre) > code { background: rgba(148, 163, 184, 0.2); padding: 1px 5px; border-radius: 4px; }
         body.light-theme .message-bubble pre { background: #f8fafc; border-color: #cbd5e1; }
         .edit-active [draggable-item] { touch-action: none; }
+
+        /* ===== INLINE CODE BLOCK IN CHAT ===== */
+        .inline-code-block {
+            margin-top: 10px; border-radius: 10px; overflow: hidden;
+            border: 1px solid #334155; background: #0f172a;
+        }
+        body.light-theme .inline-code-block { border-color: #cbd5e1; background: #f8fafc; }
+        .inline-code-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 10px; background: #1e293b; border-bottom: 1px solid #334155;
+        }
+        body.light-theme .inline-code-header { background: #e2e8f0; border-color: #cbd5e1; }
+        .inline-code-header span { font-size: 11px; color: #94a3b8; }
+        body.light-theme .inline-code-header span { color: #475569; }
+        .inline-code-actions { display: flex; gap: 6px; }
+        .inline-code-actions button {
+            border: none; border-radius: 6px; padding: 4px 10px; font-size: 11px;
+            cursor: pointer; display: flex; align-items: center; gap: 4px;
+        }
+        .inline-btn-copy { background: #334155; color: #f1f5f9; }
+        .inline-btn-copy:hover { background: #475569; }
+        .inline-btn-run { background: #3b82f6; color: white; }
+        .inline-btn-run:hover { background: #2563eb; }
+        .inline-code-preview {
+            max-height: 220px; overflow: auto; padding: 10px;
+            font-family: 'Courier New', monospace; font-size: 11px;
+            white-space: pre; color: #e2e8f0;
+        }
+        body.light-theme .inline-code-preview { color: #0f172a; }
 
         @media (max-width: 768px) {
             .canvas-split { flex-direction: column; }
@@ -401,13 +429,16 @@
         </div>
     </div>
 
-    <!-- CANVAS SPLIT OVERLAY -->
+    <!-- CANVAS SPLIT OVERLAY (only opens on Run) -->
     <div id="canvasOverlay" class="canvas-overlay">
         <div class="canvas-split">
             <!-- LEFT: MSZ AI Chat -->
             <div class="canvas-left">
                 <div class="canvas-left-header">
-                    <span><i class="fas fa-robot mr-2"></i> MSZ AI · Code Assistant</span>
+                    <span class="flex items-center gap-2">
+                        <img src="favicon.png" alt="MSZ AI" class="w-5 h-5 rounded" />
+                        MSZ AI · Code Assistant
+                    </span>
                     <button class="canvas-close-btn" onclick="closeCanvas()">✕</button>
                 </div>
                 <div id="canvasChatMessages" class="canvas-chat-messages">
@@ -438,7 +469,7 @@
                 <!-- Code Tab -->
                 <div id="canvasTabCode" class="canvas-tab-content active">
                     <div class="canvas-code-toolbar">
-                        <button class="btn-copy" onclick="copyCanvasCode()"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="btn-copy" onclick="copyCanvasCode()"><i class="fas fa-copy"></i> Copy All</button>
                         <button class="btn-run" onclick="runCanvasCode()"><i class="fas fa-play"></i> Run</button>
                         <button id="canvasUndoBtn" class="btn-undo" onclick="undoCanvas()" disabled title="Go back to the previous version"><i class="fas fa-undo"></i> Undo</button>
                         <button class="btn-download" onclick="downloadCanvasCode()"><i class="fas fa-download"></i> Download</button>
@@ -471,7 +502,8 @@
         <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
         <div class="sidebar-content">
             <div class="text-center mb-6">
-                <p class="text-white font-bold text-2xl mb-1">🧠 MSZ AI</p>
+                <img src="favicon.png" alt="MSZ AI" class="w-14 h-14 mx-auto mb-2 rounded-xl" />
+                <p class="text-white font-bold text-2xl mb-1">MSZ AI</p>
                 <span class="sidebar-version">v13.3</span>
                 <p class="text-slate-400 text-sm mt-2">⚡ 4 Modes · Free</p>
             </div>
@@ -501,13 +533,11 @@
             <div>
                 <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ New Features</p>
                 <div id="featureList">
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Canvas: send button, remembers your code, Undo &amp; Download</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Canvas: inline code in chat, Run opens split panel</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>One-click copy & Run from the chat</span></div>
                     <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Chat remembers the conversation</span></div>
                     <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>/commands and edit mode now work</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Canvas: Split screen (chat + code)</span></div>
                     <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Pollinations AI (free, no signup)</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>MSZ Medya redirect</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Burak_msz knowledge base</span></div>
                     <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>4 modes: Image, Research, Chat, Canvas</span></div>
                 </div>
             </div>
@@ -522,8 +552,8 @@
     <!-- HEADER -->
     <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-3 px-2 pl-16" draggable-item>
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30">
-                <i class="fas fa-brain text-xl text-white"></i>
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30 overflow-hidden">
+                <img src="favicon.png" alt="MSZ AI" class="w-full h-full object-cover" />
             </div>
             <div>
                 <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-400 text-sm font-normal">v13.3</span></h1>
@@ -560,7 +590,7 @@
             <div class="mode-option" data-mode="chat" onclick="setMode('chat')">
                 <i class="fas fa-comment-dots"></i> Chat
             </div>
-            <div class="mode-option" data-mode="canvas" onclick="setMode('canvas'); openCanvas();">
+            <div class="mode-option" data-mode="canvas" onclick="setMode('canvas')">
                 <i class="fas fa-code"></i> Canvas (Code)
             </div>
         </div>
@@ -612,11 +642,8 @@
 
         let currentMode = 'search';
         let editMode = false;
-        let isAltPressed = false;
         let currentTheme = 'dark';
         let isLoading = false;
-        let imageLimitCount = 0;
-        let progressInterval = null;
         let animationsEnabled = true;
 
         // ============================================================
@@ -641,15 +668,6 @@
         // MSZ KNOWLEDGE
         // ============================================================
         const MSZ_KNOWLEDGE = {
-            designer: {
-                name: "Burak_msz",
-                age: 19,
-                description: "a 19-year-old web designer studying Web Design at AÖF. Turkish-made (partly).",
-                instagram: "https://www.instagram.com/burak_msz/",
-                website: "https://burak-code.github.io/msz/",
-                medya: "https://burak-code.github.io/msz-medya/",
-                cengo: "https://burak-code.github.io/cengo/"
-            },
             socialRedirect: {
                 keywords: ["socialize", "socialise", "chat with people", "make friends", "find friends", "hang out", "social media", "social network", "banned", "sosyal medya", "arkadaş edin", "arkadaş bul"],
                 response: `🇹🇷 Since social media is restricted in Turkey right now, we can't fully socialize here. But I've got a great alternative for you:<br><br>
@@ -669,13 +687,7 @@
                 • <strong>CengO</strong> — <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;">cengo</a><br><br>
                 📸 Instagram: <a href="https://www.instagram.com/burak_msz/" target="_blank" style="color:#34d399;">@burak_msz</a><br>
                 🌐 Website: <a href="https://burak-code.github.io/msz/" target="_blank" style="color:#34d399;">burak-code.github.io/msz</a>`,
-            codeHelp: `Want me to write code for you? Open Canvas mode (click the 🌐 icon → Canvas) and tell me what you want to build. I'll write the code on the right and show you a live preview! 💻`,
-            fallbacks: [
-                "I see. Tell me more.",
-                "Interesting! Could you elaborate?",
-                "Good point. What else is on your mind?",
-                "Hmm, let me think about that. What do you think?"
-            ]
+            codeHelp: `Want me to write code for you? Switch to <strong>Canvas mode</strong> (click the 🌐 icon → Canvas) and just tell me what you want to build. I'll write the code right here in the chat, and you can <strong>copy</strong> or <strong>run</strong> it with one click! 💻`
         };
 
         // ============================================================
@@ -683,7 +695,6 @@
         // ============================================================
         async function pollinationsChat(messages, systemPrompt = null, opts = {}) {
             const url = 'https://text.pollinations.ai/openai';
-            // opts.raw = use ONLY the given system prompt (used by Canvas so "be concise" never shortens code)
             const finalSystem = opts.raw
                 ? (systemPrompt || IDENTITY_PROMPT)
                 : (systemPrompt ? IDENTITY_PROMPT + '\n\n' + systemPrompt : IDENTITY_PROMPT);
@@ -717,12 +728,12 @@
         }
 
         // ============================================================
-        // CANVAS FUNCTIONS
+        // CANVAS STATE (shared between inline chat and split panel)
         // ============================================================
         const CANVAS_PLACEHOLDER = '<!-' + '- Your code will appear here -->';
         const CANVAS_STORE = 'msz_canvas_v1';
-        let canvasRequests = [];   // every request made in this project (context for the model)
-        let canvasVersions = [];   // earlier code snapshots (for Undo)
+        let canvasRequests = [];
+        let canvasVersions = [];
         let canvasBusy = false;
 
         const CANVAS_SYSTEM_PROMPT = `You are MSZ AI code assistant, designed by Burak_msz.
@@ -775,7 +786,6 @@ RULES:
                 if (s.code) {
                     canvasCodeEditor.value = s.code;
                     canvasLivePreview.srcdoc = s.code;
-                    addCanvasMessage('Your last project was restored. Keep going from where you left off — or press <strong>New project</strong> to start over.', 'ai');
                 }
                 updateUndoBtn();
             } catch (e) { console.warn('Canvas load failed:', e); }
@@ -866,7 +876,7 @@ RULES:
             if (!text) return '';
             const closed = [...text.matchAll(/```[a-zA-Z0-9]*[ \t]*\r?\n([\s\S]*?)```/g)].map(m => m[1]);
             if (closed.length) return closed.sort((a, b) => b.length - a.length)[0].trim();
-            const open = text.match(/```[a-zA-Z0-9]*[ \t]*\r?\n([\s\S]*)$/);   // fence never closed = answer was cut off
+            const open = text.match(/```[a-zA-Z0-9]*[ \t]*\r?\n([\s\S]*)$/);
             if (open) return open[1].trim();
             return text.trim();
         }
@@ -904,7 +914,7 @@ RULES:
             return code;
         }
 
-        // ---- main canvas chat ----
+        // ---- main canvas chat (used by the split panel) ----
         async function handleCanvasChat() {
             if (canvasBusy) return;
             const raw = canvasChatInput.value.trim();
@@ -917,7 +927,6 @@ RULES:
             const spinner = addCanvasMessage('<i class="fas fa-spinner fa-spin"></i> Writing code...', 'ai');
 
             try {
-                // The model gets the CURRENT code (including your manual edits) every time, so it edits instead of starting over.
                 const current = getCurrentCode();
                 const earlier = canvasRequests.slice(-10).map((r, i) => `${i + 1}. ${r}`).join('\n');
                 let userMsg;
@@ -940,7 +949,6 @@ RULES:
 
                 let code = extractCode(reply);
                 if (!looksLikeCode(code)) {
-                    // The model answered with text, not code: show it and leave the project alone.
                     addCanvasMessage(escapeHtml(reply).replace(/\n/g, '<br>'), 'ai');
                     return;
                 }
@@ -964,9 +972,6 @@ RULES:
                 let msg = complete
                     ? 'Done! The code is updated and running in Live Preview. 🚀'
                     : '⚠️ The file may still be incomplete. Try the same request again, or press <strong>Undo</strong> to go back.';
-                if (current && code.length < current.length * 0.5) {
-                    msg += '<br><br>Note: the new version is much shorter than the old one. If something is missing, press <strong>Undo</strong>.';
-                }
                 addCanvasMessage(msg, 'ai');
             } catch (e) {
                 console.warn('Canvas error:', e);
@@ -979,9 +984,162 @@ RULES:
         }
 
         // ============================================================
+        // INLINE CANVAS FLOW (used directly in main chat)
+        // ============================================================
+        async function handleInlineCanvas(raw) {
+            isLoading = true;
+            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Writing code...', 'bot', true);
+
+            try {
+                const current = getCurrentCode();
+                const earlier = canvasRequests.slice(-10).map((r, i) => `${i + 1}. ${r}`).join('\n');
+                let userMsg;
+                if (current) {
+                    userMsg = `CURRENT CODE (the project we are working on; it may contain edits I made by hand):\n\`\`\`html\n${current}\n\`\`\`\n\n` +
+                        (earlier ? `Earlier requests, for context:\n${earlier}\n\n` : '') +
+                        `NEW REQUEST: ${raw}\n\nApply the new request to the CURRENT CODE. Keep everything else exactly as it is and return the COMPLETE updated file.`;
+                } else {
+                    userMsg = `Build this as ONE complete, working, standalone HTML file: ${raw}`;
+                }
+                const messages = [{ role: 'user', content: userMsg }];
+
+                const reply = await pollinationsChat(messages, CANVAS_SYSTEM_PROMPT, { raw: true, maxTokens: 12000, timeout: 120000 });
+                thinking.remove();
+
+                if (!reply) {
+                    addMessage('Could not reach the AI right now. Please try again.', 'bot', true);
+                    isLoading = false;
+                    return;
+                }
+
+                let code = extractCode(reply);
+                if (!looksLikeCode(code)) {
+                    addMessage(escapeHtml(reply).replace(/\n/g, '<br>'), 'bot', true);
+                    isLoading = false;
+                    return;
+                }
+
+                if (!isCodeComplete(code)) {
+                    const note = addMessage('<i class="fas fa-spinner fa-spin"></i> The file was cut off, finishing it...', 'bot', true);
+                    code = await completeIfTruncated(messages, code);
+                    note.remove();
+                }
+
+                if (current) {
+                    canvasVersions.push(current);
+                    if (canvasVersions.length > 10) canvasVersions.shift();
+                }
+                canvasRequests.push(raw);
+                canvasCodeEditor.value = code;
+                canvasLivePreview.srcdoc = code;
+                updateUndoBtn();
+                saveCanvasState();
+
+                // Show the code block inline in the chat with Copy + Run buttons
+                renderInlineCode(code);
+            } catch (e) {
+                console.warn('Inline canvas error:', e);
+                thinking.remove();
+                addMessage('Something went wrong. Please try again.', 'bot', true);
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Renders an inline code block inside the main chat message with Copy All + Run
+        function renderInlineCode(code) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper flex flex-col gap-1 items-start mr-auto max-w-[95%] message-appear`;
+            wrapper.dataset.role = 'bot';
+
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg w-full`;
+
+            const header = document.createElement('div');
+            header.innerHTML = `<div class="text-sm leading-relaxed mb-2">Here's your code! You can <strong>copy</strong> it or <strong>run</strong> it right away. 🚀</div>`;
+
+            const codeBlock = document.createElement('div');
+            codeBlock.className = 'inline-code-block';
+
+            const cbHeader = document.createElement('div');
+            cbHeader.className = 'inline-code-header';
+            cbHeader.innerHTML = `
+                <span><i class="fas fa-code mr-1"></i> index.html</span>
+                <div class="inline-code-actions">
+                    <button class="inline-btn-copy" title="Copy all code"><i class="fas fa-copy"></i> Copy All</button>
+                    <button class="inline-btn-run" title="Run in split panel"><i class="fas fa-play"></i> Run</button>
+                </div>
+            `;
+
+            // store code on the element so the buttons can access it
+            codeBlock.dataset.code = code;
+
+            cbHeader.querySelector('.inline-btn-copy').onclick = () => {
+                copyText(code).then(() => {
+                    const btn = cbHeader.querySelector('.inline-btn-copy');
+                    const old = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => { btn.innerHTML = old; }, 1500);
+                });
+            };
+
+            cbHeader.querySelector('.inline-btn-run').onclick = () => {
+                openCanvas();
+                switchCanvasTab('preview');
+                canvasCodeEditor.value = code;
+                canvasLivePreview.srcdoc = code;
+                saveCanvasState();
+            };
+
+            const preview = document.createElement('div');
+            preview.className = 'inline-code-preview';
+            preview.textContent = code;
+
+            codeBlock.appendChild(cbHeader);
+            codeBlock.appendChild(preview);
+            bubble.appendChild(header);
+            bubble.appendChild(codeBlock);
+
+            const label = document.createElement('span');
+            label.className = 'text-[9px] text-slate-500 px-1 uppercase tracking-widest';
+            label.textContent = 'MSZ AI';
+
+            wrapper.appendChild(bubble);
+            wrapper.appendChild(label);
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            saveHistory();
+        }
+
+        // universal copy helper
+        function copyText(text) {
+            return new Promise((resolve) => {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(resolve).catch(() => {
+                        const ta = document.createElement('textarea');
+                        ta.value = text;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try { document.execCommand('copy'); } catch (e) {}
+                        ta.remove();
+                        resolve();
+                    });
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand('copy'); } catch (e) {}
+                    ta.remove();
+                    resolve();
+                }
+            });
+        }
+
+        // ============================================================
         // CHAT RESPONSE
         // ============================================================
-        let chatMemory = [];   // recent turns sent to the AI so the chat has context
+        let chatMemory = [];
         const CHAT_MEMORY_LIMIT = 14;
 
         function rememberTurn(userText, botText) {
@@ -993,13 +1151,11 @@ RULES:
             return String(html).replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/[ \t]+/g, ' ').trim();
         }
 
-        // whole-word match, so "ban" no longer fires on "bank" and "hi" no longer fires on "this"
         function hasWord(text, word) {
             const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             return new RegExp('(^|[^a-z0-9çğıöşü])' + safe + '($|[^a-z0-9çğıöşü])', 'i').test(text);
         }
 
-        // turns the AI's markdown-ish text into safe HTML (code blocks, `inline code`, **bold**, line breaks)
         function formatAIText(text) {
             const blocks = [];
             let s = String(text).replace(/```[a-zA-Z0-9]*[ \t]*\n?([\s\S]*?)```/g, (m, code) => {
@@ -1016,7 +1172,6 @@ RULES:
 
         async function chatResponseAsync(input) {
             const lower = input.toLowerCase().trim();
-            // canned replies are remembered too, so follow-up questions keep their context
             const canned = (html) => { rememberTurn(input, htmlToText(html)); return html; };
 
             if (MSZ_KNOWLEDGE.socialRedirect.keywords.some(k => hasWord(lower, k))) {
@@ -1115,6 +1270,7 @@ RULES:
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
             saveHistory();
+            return wrapper;
         }
 
         function saveHistory() {
@@ -1135,7 +1291,6 @@ RULES:
                 if (!msgs.length) return false;
                 chatBox.innerHTML = '';
                 msgs.forEach(m => addMessage(m.content, m.role));
-                // rebuild the AI's conversation memory from the restored chat
                 chatMemory = msgs
                     .filter(m => m.content && !m.content.startsWith('/') && !m.content.startsWith('Generated image for:'))
                     .slice(-CHAT_MEMORY_LIMIT)
@@ -1165,7 +1320,7 @@ RULES:
                             • <strong>Research</strong> — Wikipedia & DuckDuckGo<br>
                             • <strong>Image</strong> — 560x560 images (10/day)<br>
                             • <strong>Chat</strong> — smart chat via Pollinations AI<br>
-                            • <strong>Canvas</strong> — write & run code live!<br><br>
+                            • <strong>Canvas</strong> — write code right here in the chat!<br><br>
                             📌 Click the <strong>🌐 icon</strong> to switch modes.<br>
                             💡 Type <code>/help</code> to see commands.<br><br>
                             <span style="color:#60a5fa;">⚠️ Social media is restricted in Turkey. Use MSZ Medya to socialize!</span><br>
@@ -1190,10 +1345,11 @@ RULES:
                 search: 'What would you like to research?',
                 image: 'Describe an image in English (e.g. beautiful sunset)',
                 chat: 'Say something to chat...',
-                canvas: 'Click the 🌐 icon to open Canvas'
+                canvas: 'Describe the code/project you want to build...'
             };
             userInput.placeholder = placeholders[mode] || 'Type a question or command...';
             modeMenu.style.display = 'none';
+            // NOTE: Canvas mode no longer opens the full-screen panel. It stays in the chat.
         }
 
         function insertCmd(cmd) {
@@ -1206,9 +1362,6 @@ RULES:
             sidebar.style.width = sidebar.style.width === '280px' ? '0' : '280px';
         }
 
-        // ============================================================
-        // MAIN ACTION
-        // ============================================================
         // ============================================================
         // SLASH COMMANDS + EDIT MODE
         // ============================================================
@@ -1239,8 +1392,8 @@ RULES:
             document.querySelectorAll('[draggable-item]').forEach(el => {
                 el.addEventListener('pointerdown', e => {
                     if (!editMode) return;
-                    e.stopPropagation();   // only the innermost element under the pointer moves
-                    if (e.target.closest('textarea, input, button, a')) return;   // keep the input usable in edit mode
+                    e.stopPropagation();
+                    if (e.target.closest('textarea, input, button, a')) return;
                     e.preventDefault();
                     const start = layout[el.id] || { x: 0, y: 0 };
                     const sx = e.clientX, sy = e.clientY;
@@ -1342,16 +1495,20 @@ RULES:
                     </a>
                 `;
                 addMessage(imgHtml, 'bot', true);
-                isLoading = false;
+                return;
+            }
+
+            // CANVAS MODE: stay in chat, write code inline, show Copy All + Run buttons
+            if (currentMode === 'canvas') {
+                await handleInlineCanvas(raw);
                 return;
             }
 
             isLoading = true;
-            addMessage('<i class="fas fa-spinner fa-spin"></i> Thinking...', 'bot', true);
+            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Thinking...', 'bot', true);
 
             const reply = await chatResponseAsync(raw);
-            const lastMsg = chatBox.querySelector('.message-wrapper:last-child');
-            if (lastMsg && lastMsg.innerHTML.includes('fa-spinner')) lastMsg.remove();
+            thinking.remove();
             
             addMessage(reply, 'bot', true);
             isLoading = false;
