@@ -856,15 +856,15 @@
     <div id="settingsOverlay" class="settings-overlay" onclick="closeSettings()">
         <div class="settings-panel" onclick="event.stopPropagation()">
             <h2>
-                <span><i class="fas fa-cog mr-2 text-blue-400"></i>Ayarlar</span>
+                <span><i class="fas fa-cog mr-2 text-blue-400"></i>Settings</span>
                 <button class="close-settings" onclick="closeSettings()">✕</button>
             </h2>
 
             <!-- Animations -->
             <div class="settings-section">
-                <div class="settings-label">Performans</div>
+                <div class="settings-label">Performance</div>
                 <div class="settings-row">
-                    <label>Animasyonlar</label>
+                    <label>Animations</label>
                     <div id="animToggleSettings" class="toggle-track active" onclick="toggleAnimationsSetting()">
                         <div class="toggle-thumb"></div>
                     </div>
@@ -873,20 +873,20 @@
 
             <!-- Chat Container Size -->
             <div class="settings-section">
-                <div class="settings-label">Arayüz</div>
+                <div class="settings-label">Interface</div>
                 <div class="settings-row">
-                    <label>Pencere Genişliği</label>
+                    <label>Window Width</label>
                     <input type="range" id="containerWidthSlider" class="font-size-slider" min="500" max="1200" step="50" value="768">
                 </div>
             </div>
 
             <!-- Font settings -->
             <div class="settings-section">
-                <div class="settings-label">Yazı Ayarları</div>
+                <div class="settings-label">Text Settings</div>
                 <div class="settings-row">
-                    <label>Yazı Tipi</label>
+                    <label>Font</label>
                     <select id="fontFamilySelect" class="font-select">
-                        <option value="'Inter', system-ui, sans-serif">Inter (Varsayılan)</option>
+                        <option value="'Inter', system-ui, sans-serif">Inter (default)</option>
                         <option value="Arial, sans-serif">Arial</option>
                         <option value="'Courier New', monospace">Courier New</option>
                         <option value="Georgia, serif">Georgia</option>
@@ -895,7 +895,7 @@
                     </select>
                 </div>
                 <div class="settings-row">
-                    <label>Yazı Boyutu</label>
+                    <label>Font Size</label>
                     <input type="range" id="fontSizeSlider" class="font-size-slider" min="11" max="18" value="14">
                 </div>
             </div>
@@ -907,13 +907,13 @@
                     <span class="pro-badge"><i class="fas fa-star mr-1"></i>PRO</span>
                 </div>
                 <button class="pro-btn" onclick="alert('DEMO MOD — Pro abonelik yakında! 🚀')">
-                    <i class="fas fa-crown mr-2"></i>MSZ AI Pro Al
+                    <i class="fas fa-crown mr-2"></i>Get MSZ AI Pro
                 </button>
-                <div class="pro-price">Aylık 249.99₺</div>
+                <div class="pro-price">Monthly $4.99</div>
             </div>
 
             <button class="save-settings-btn" onclick="saveSettings()">
-                <i class="fas fa-save mr-2"></i>Kaydet
+                <i class="fas fa-save mr-2"></i>Save
             </button>
         </div>
     </div>
