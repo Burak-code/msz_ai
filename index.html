@@ -16,6 +16,12 @@
             color: #f1f5f9;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
         }
         body.light-theme {
             background: #f1f5f9;
@@ -45,7 +51,7 @@
         }
         body.light-theme .glass { background: rgba(255, 255, 255, 0.7); border-color: rgba(0, 0, 0, 0.08); }
 
-        .chat-container { height: calc(100vh - 190px); position: relative; }
+        .chat-container { height: calc(100vh - 130px); position: relative; }
         .message-appear { animation: fadeInScale 0.2s ease-out forwards; }
         @keyframes fadeInScale { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -62,14 +68,14 @@
         body.light-theme ::-webkit-scrollbar-thumb { background: #94a3b8; }
 
         .mode-menu {
-            display: none; position: absolute; bottom: 75px; left: 10px;
-            background: #1e293b; border: 1px solid #334155; border-radius: 12px;
-            overflow: hidden; z-index: 50; width: 220px;
+            display: none; position: absolute; bottom: 65px; left: 8px;
+            background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+            overflow: hidden; z-index: 50; width: 190px;
         }
         body.light-theme .mode-menu { background: #f8fafc; border-color: #cbd5e1; }
         .mode-option {
-            padding: 12px 16px; cursor: pointer; font-size: 13px;
-            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; cursor: pointer; font-size: 12px;
+            display: flex; align-items: center; gap: 8px;
             transition: 0.15s; color: #f1f5f9;
         }
         body.light-theme .mode-option { color: #0f172a; }
@@ -79,43 +85,25 @@
         body.light-theme .active-mode { background: #f1f5f9; }
 
         #commandHints {
-            display: none; position: absolute; bottom: 90px; left: 20px; right: 20px;
-            background: #1e293b; border: 1px solid #3b82f6; border-radius: 12px;
-            z-index: 100; padding: 8px 12px;
+            display: none; position: absolute; bottom: 80px; left: 16px; right: 16px;
+            background: #1e293b; border: 1px solid #3b82f6; border-radius: 10px;
+            z-index: 100; padding: 6px 10px;
         }
         body.light-theme #commandHints { background: #f8fafc; border-color: #2563eb; }
-        .hint-item { padding: 6px 8px; font-size: 12px; cursor: pointer; border-radius: 6px; color: #f1f5f9; }
+        .hint-item { padding: 5px 6px; font-size: 11px; cursor: pointer; border-radius: 5px; color: #f1f5f9; }
         body.light-theme .hint-item { color: #0f172a; }
         .hint-item:hover { background: #334155; color: #60a5fa; }
         body.light-theme .hint-item:hover { background: #e2e8f0; color: #2563eb; }
 
-        .edit-active [draggable-item] {
-            cursor: grab !important; outline: 1px dashed rgba(59, 130, 246, 0.4);
-            user-select: none; position: relative !important; z-index: 999 !important;
-        }
-        .edit-active .message-bubble { border: 2px dashed #3b82f6 !important; cursor: grab !important; }
-        .edit-active .message-wrapper { cursor: grab !important; }
-        .edit-active .glass, .edit-active #mainContainer, .edit-active #chatBox,
-        .edit-active #inputSection, .edit-active #mainHeader, .edit-active #mainFooter { cursor: grab !important; position: relative !important; z-index: 1 !important; }
-        .edit-active .glass { outline: 2px dashed rgba(59, 130, 246, 0.3) !important; }
-        .edit-guide {
-            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #1e293b; color: #f1f5f9; padding: 10px 20px; border-radius: 12px;
-            border: 1px solid #3b82f6; z-index: 9999; font-size: 13px; text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-        body.light-theme .edit-guide { background: #f8fafc; color: #0f172a; }
-        .edit-active .edit-guide { display: block; }
-
         .ai-image-container {
             position: relative; display: inline-block; cursor: pointer;
-            margin-top: 8px; border-radius: 12px; overflow: hidden; border: 1px solid #334155;
+            margin-top: 6px; border-radius: 10px; overflow: hidden; border: 1px solid #334155;
         }
         body.light-theme .ai-image-container { border-color: #cbd5e1; }
-        .ai-image-container img { display: block; width: 560px; height: 560px; object-fit: cover; }
+        .ai-image-container img { display: block; width: 400px; height: 400px; object-fit: cover; }
         .ai-image-container .expand-hint {
-            position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7);
-            color: white; padding: 4px 10px; border-radius: 8px; font-size: 11px;
+            position: absolute; bottom: 8px; right: 8px; background: rgba(0, 0, 0, 0.7);
+            color: white; padding: 3px 8px; border-radius: 6px; font-size: 10px;
             pointer-events: none; backdrop-filter: blur(4px);
         }
         body.light-theme .ai-image-container .expand-hint { background: rgba(255, 255, 255, 0.8); color: #0f172a; }
@@ -127,79 +115,176 @@
         }
         .image-modal-overlay.active { display: flex; }
         .image-modal-overlay .modal-content { position: relative; max-width: 90vw; max-height: 90vh; }
-        .image-modal-overlay img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); }
+        .image-modal-overlay img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 10px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); }
         .image-modal-overlay .close-modal {
-            position: absolute; top: -40px; right: -40px; background: rgba(255, 255, 255, 0.1);
-            color: white; border: none; font-size: 28px; cursor: pointer; width: 50px; height: 50px;
+            position: absolute; top: -36px; right: -36px; background: rgba(255, 255, 255, 0.1);
+            color: white; border: none; font-size: 24px; cursor: pointer; width: 42px; height: 42px;
             border-radius: 50%; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .image-modal-overlay .close-modal:hover { background: rgba(255, 255, 255, 0.2); transform: rotate(90deg); }
         .image-modal-overlay .modal-download {
-            position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%);
-            background: #10b981; color: white; padding: 8px 20px; border-radius: 10px;
-            text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px;
+            position: absolute; bottom: -44px; left: 50%; transform: translateX(-50%);
+            background: #10b981; color: white; padding: 7px 18px; border-radius: 8px;
+            text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px;
         }
         .image-modal-overlay .modal-download:hover { background: #059669; transform: translateX(-50%) scale(1.05); }
         .image-modal-overlay .modal-close-text {
-            position: absolute; bottom: -90px; left: 50%; transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.5); font-size: 12px; white-space: nowrap;
+            position: absolute; bottom: -78px; left: 50%; transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5); font-size: 11px; white-space: nowrap;
         }
 
         .download-btn {
-            background: #10b981; color: white; padding: 4px 14px; border-radius: 8px;
-            font-size: 12px; display: inline-flex; align-items: center; gap: 6px;
-            text-decoration: none; margin-top: 6px;
+            background: #10b981; color: white; padding: 4px 12px; border-radius: 6px;
+            font-size: 11px; display: inline-flex; align-items: center; gap: 5px;
+            text-decoration: none; margin-top: 5px;
         }
         .download-btn:hover { background: #059669; }
 
         .warning-banner {
             background: #fef3c7; border: 2px solid #f59e0b; color: #78350f;
-            padding: 8px 14px; border-radius: 10px; font-size: 13px;
-            display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+            padding: 6px 12px; border-radius: 8px; font-size: 12px;
+            display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
         }
 
         .sidebar {
             height: 100%; width: 0; position: fixed; z-index: 200; top: 0; left: 0;
             background: #020617; overflow-x: hidden; transition: 0.3s;
-            padding-top: 80px; border-right: 1px solid #1e293b;
+            padding-top: 70px; border-right: 1px solid #1e293b;
+            display: flex; flex-direction: column;
         }
         body.light-theme .sidebar { background: #f1f5f9; border-color: #cbd5e1; }
-        .sidebar-content { padding: 24px; line-height: 1.7; }
+        .sidebar-content { padding: 20px; line-height: 1.7; flex: 1; }
         .sidebar .closebtn {
-            position: absolute; top: 16px; right: 22px; font-size: 32px;
+            position: absolute; top: 14px; right: 18px; font-size: 28px;
             color: #64748b; text-decoration: none;
         }
         .sidebar .closebtn:hover { color: #f1f5f9; }
         body.light-theme .sidebar .closebtn:hover { color: #0f172a; }
         .sidebar-version {
-            background: #1e293b; padding: 4px 12px; border-radius: 20px;
-            font-size: 12px; display: inline-block; margin-top: 4px; color: #60a5fa;
+            background: #1e293b; padding: 3px 10px; border-radius: 20px;
+            font-size: 11px; display: inline-block; margin-top: 3px; color: #60a5fa;
         }
         body.light-theme .sidebar-version { background: #e2e8f0; color: #2563eb; }
         .sidebar-feature-item {
-            padding: 4px 0; font-size: 13px; color: #94a3b8;
+            padding: 3px 0; font-size: 12px; color: #94a3b8;
             border-bottom: 1px solid #1e293b;
         }
         body.light-theme .sidebar-feature-item { border-bottom-color: #e2e8f0; color: #475569; }
         .sidebar-feature-item:last-child { border-bottom: none; }
-        .sidebar-feature-item i { width: 20px; color: #3b82f6; }
+        .sidebar-feature-item i { width: 18px; color: #3b82f6; }
+
+        /* Sidebar Contact Box */
+        .contact-box {
+            margin-top: 20px;
+            padding: 12px;
+            background: #1e293b;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        body.light-theme .contact-box { background: #fff; border-color: #cbd5e1; }
+        .contact-box:hover { border-color: #ea4335; transform: scale(1.02); }
+        .contact-box a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #ea4335;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .contact-box p {
+            font-size: 10px;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.4;
+        }
+        body.light-theme .contact-box p { color: #64748b; }
+
+        /* News Button */
+        .news-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #3b82f6;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            width: 100%;
+        }
+        .news-btn:hover { background: #2563eb; transform: scale(1.02); }
+
+        /* News Modal */
+        .news-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); z-index: 500; backdrop-filter: blur(4px);
+            align-items: center; justify-content: center;
+        }
+        .news-overlay.active { display: flex; }
+        .news-panel {
+            background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+            padding: 20px; width: 600px; max-width: 95vw; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        body.light-theme .news-panel { background: #f8fafc; border-color: #cbd5e1; }
+        .news-panel h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .news-panel .close-news { background: none; border: none; font-size: 22px; cursor: pointer; color: #94a3b8; }
+        .news-panel .close-news:hover { color: #f1f5f9; }
+        body.light-theme .news-panel .close-news:hover { color: #0f172a; }
+        
+        .news-card {
+            background: #0f172a; border: 1px solid #334155; border-radius: 10px;
+            margin-bottom: 12px; overflow: hidden; cursor: pointer; transition: 0.2s;
+        }
+        body.light-theme .news-card { background: #fff; border-color: #e2e8f0; }
+        .news-card:hover { border-color: #3b82f6; transform: translateY(-2px); }
+        
+        .news-card-img {
+            width: 100%; height: 160px; object-fit: cover; display: block;
+            background: #334155; /* fallback */
+        }
+        .news-card-content { padding: 12px; }
+        .news-card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .news-card-desc { font-size: 12px; color: #94a3b8; }
+        body.light-theme .news-card-desc { color: #64748b; }
+        
+        .news-card-links { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid #334155; }
+        .news-card-links.active { display: block; }
+        .news-card-links a {
+            display: inline-block; color: #60a5fa; text-decoration: underline;
+            font-size: 12px; margin-right: 10px; margin-bottom: 4px;
+        }
+        .news-card-links a:hover { color: #3b82f6; }
+        body.light-theme .news-card-links a { color: #2563eb; }
+        body.light-theme .news-card-links { border-top-color: #e2e8f0; }
 
         .toggle-track {
-            width: 40px; height: 22px; background: #475569; border-radius: 12px;
+            width: 36px; height: 20px; background: #475569; border-radius: 10px;
             position: relative; cursor: pointer; flex-shrink: 0;
         }
         .toggle-track.active { background: #3b82f6; }
         .toggle-track .toggle-thumb {
-            width: 18px; height: 18px; background: white; border-radius: 50%;
+            width: 16px; height: 16px; background: white; border-radius: 50%;
             position: absolute; top: 2px; left: 2px;
         }
-        .toggle-track.active .toggle-thumb { transform: translateX(18px); }
+        .toggle-track.active .toggle-thumb { transform: translateX(16px); }
         body.light-theme .toggle-track { background: #94a3b8; }
         body.light-theme .toggle-track.active { background: #2563eb; }
 
         .open-btn {
-            position: fixed; top: 18px; left: 18px; z-index: 100;
-            background: #1e293b; color: white; padding: 8px 14px; border-radius: 12px;
+            position: fixed; top: 14px; left: 14px; z-index: 100;
+            background: #1e293b; color: white; padding: 7px 12px; border-radius: 10px;
             border: 1px solid #334155; cursor: pointer;
         }
         .open-btn:hover { background: #334155; transform: scale(1.05); }
@@ -212,13 +297,13 @@
         .theme-transition { transition: background 0.4s, color 0.4s, border-color 0.4s; }
         .source-tag {
             display: inline-block; background: #334155; color: #94a3b8;
-            font-size: 10px; padding: 2px 10px; border-radius: 20px; margin-top: 6px;
+            font-size: 9px; padding: 2px 8px; border-radius: 20px; margin-top: 5px;
         }
         body.light-theme .source-tag { background: #e2e8f0; color: #475569; }
 
         .progress-container {
             width: 100%; height: 4px; background: #1e293b; border-radius: 4px;
-            overflow: hidden; margin: 8px 0;
+            overflow: hidden; margin: 6px 0;
         }
         body.light-theme .progress-container { background: #e2e8f0; }
         .progress-bar {
@@ -347,7 +432,6 @@
         .message-bubble code { font-family: 'Courier New', monospace; }
         .message-bubble :not(pre) > code { background: rgba(148, 163, 184, 0.2); padding: 1px 5px; border-radius: 4px; }
         body.light-theme .message-bubble pre { background: #f8fafc; border-color: #cbd5e1; }
-        .edit-active [draggable-item] { touch-action: none; }
 
         /* ===== INLINE CODE BLOCK IN CHAT ===== */
         .inline-code-block {
@@ -378,44 +462,302 @@
         }
         body.light-theme .inline-code-preview { color: #0f172a; }
 
+        /* ===== SETTINGS PANEL ===== */
+        .settings-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); z-index: 500; backdrop-filter: blur(4px);
+        }
+        .settings-overlay.active { display: flex; align-items: center; justify-content: center; }
+        .settings-panel {
+            background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+            padding: 20px; width: 360px; max-width: 92vw; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        body.light-theme .settings-panel { background: #f8fafc; border-color: #cbd5e1; }
+        .settings-panel h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .settings-panel .close-settings { background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .settings-panel .close-settings:hover { color: #f1f5f9; }
+        body.light-theme .settings-panel .close-settings:hover { color: #0f172a; }
+        .settings-section { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #334155; }
+        body.light-theme .settings-section { border-bottom-color: #e2e8f0; }
+        .settings-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .settings-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 8px; }
+        body.light-theme .settings-label { color: #64748b; }
+        .settings-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .settings-row label { font-size: 13px; }
+        .font-select {
+            background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+            color: #f1f5f9; padding: 4px 8px; font-size: 12px; outline: none;
+        }
+        body.light-theme .font-select { background: #fff; border-color: #cbd5e1; color: #0f172a; }
+        .font-size-slider {
+            -webkit-appearance: none; width: 120px; height: 4px; border-radius: 2px;
+            background: #475569; outline: none;
+        }
+        .font-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+            background: #3b82f6; cursor: pointer;
+        }
+        body.light-theme .font-size-slider { background: #cbd5e1; }
+        .pro-btn {
+            background: #10b981; color: white; border: none; border-radius: 8px;
+            padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+            width: 100%; margin-top: 8px;
+        }
+        .pro-btn:hover { background: #059669; }
+        .pro-price { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 4px; }
+        .pro-badge { font-size: 10px; background: #f59e0b; color: #0f172a; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+        .save-settings-btn {
+            background: #3b82f6; color: white; border: none; border-radius: 8px;
+            padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;
+            width: 100%; margin-top: 12px;
+        }
+        .save-settings-btn:hover { background: #2563eb; }
+
+        /* ===== CHAT HISTORY SIDEBAR (RIGHT) ===== */
+        .history-panel {
+            position: fixed; top: 0; right: 0; width: 300px; max-width: 85vw; height: 100%;
+            background: #0f172a; border-left: 1px solid #334155; z-index: 401;
+            display: flex; flex-direction: column;
+            transform: translateX(100%); transition: transform 0.3s;
+        }
+        body.light-theme .history-panel { background: #f8fafc; border-color: #cbd5e1; }
+        .history-panel.open { transform: translateX(0); }
+        .history-header {
+            padding: 16px; border-bottom: 1px solid #334155; display: flex;
+            align-items: center; justify-content: space-between; flex-shrink: 0;
+        }
+        body.light-theme .history-header { border-color: #cbd5e1; }
+        .history-header h3 { font-size: 14px; font-weight: 600; }
+        .history-close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: #94a3b8; }
+        .history-close-btn:hover { color: #f1f5f9; }
+        body.light-theme .history-close-btn:hover { color: #0f172a; }
+        .history-list { flex: 1; overflow-y: auto; padding: 12px; }
+        .history-item {
+            padding: 10px 12px; border-radius: 10px; margin-bottom: 8px;
+            background: #1e293b; border: 1px solid #334155; cursor: pointer;
+            transition: 0.15s; position: relative;
+        }
+        body.light-theme .history-item { background: #fff; border-color: #e2e8f0; }
+        .history-item:hover { border-color: #3b82f6; }
+        .history-item .h-title { font-size: 12px; font-weight: 500; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-item .h-meta { font-size: 10px; color: #64748b; }
+        .history-item .h-delete {
+            position: absolute; top: 6px; right: 6px; background: none; border: none;
+            color: #ef4444; cursor: pointer; font-size: 12px; opacity: 0; transition: 0.15s;
+        }
+        .history-item:hover .h-delete { opacity: 1; }
+        .history-new-btn {
+            margin: 12px; padding: 10px; background: #3b82f6; color: white; border: none;
+            border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .history-new-btn:hover { background: #2563eb; }
+        .history-empty { text-align: center; color: #64748b; font-size: 12px; padding: 30px 10px; }
+
+        /* ===== WHATSAPP STYLE REPLY & REACTIONS ===== */
+        .message-bubble {
+            position: relative;
+            white-space: pre-wrap; /* Fixes Shift+Enter newlines */
+            touch-action: pan-y; /* Allow vertical scroll but enable horizontal swipe */
+        }
+        .reply-quote {
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 3px solid #60a5fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            color: #94a3b8;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        body.light-theme .reply-quote {
+            background: rgba(0, 0, 0, 0.05);
+            border-left-color: #2563eb;
+            color: #64748b;
+        }
+        .reply-quote .r-name {
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 2px;
+            font-size: 10px;
+        }
+        body.light-theme .reply-quote .r-name { color: #2563eb; }
+        
+        .reply-btn {
+            position: absolute;
+            top: -8px;
+            right: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .message-wrapper:hover .reply-btn { opacity: 1; }
+        .reply-btn:hover { background: #334155; color: #60a5fa; }
+        body.light-theme .reply-btn { background: #f8fafc; border-color: #cbd5e1; }
+        body.light-theme .reply-btn:hover { background: #e2e8f0; color: #2563eb; }
+
+        /* Reaction button (smile) */
+        .reaction-btn {
+            position: absolute;
+            top: -8px;
+            right: 36px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .message-wrapper:hover .reaction-btn { opacity: 1; }
+        .reaction-btn:hover { background: #334155; color: #f59e0b; }
+        body.light-theme .reaction-btn { background: #f8fafc; border-color: #cbd5e1; }
+        body.light-theme .reaction-btn:hover { background: #e2e8f0; color: #d97706; }
+
+        .emoji-picker {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 4px 8px;
+            display: none;
+            gap: 4px;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .emoji-picker.active { display: flex; }
+        .emoji-picker span {
+            font-size: 16px;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        .emoji-picker span:hover { background: #334155; transform: scale(1.2); }
+
+        .message-reaction {
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 2px 6px;
+            font-size: 12px;
+            display: none;
+            z-index: 5;
+        }
+        .message-reaction.active { display: block; }
+        body.light-theme .message-reaction { background: #fff; border-color: #cbd5e1; }
+
+        .reply-preview-bar {
+            display: none;
+            background: #1e293b;
+            border-left: 3px solid #60a5fa;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin: 0 0 8px 0;
+            position: relative;
+            font-size: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        body.light-theme .reply-preview-bar { background: #e2e8f0; border-left-color: #2563eb; }
+        .reply-preview-bar.active { display: flex; }
+        .reply-preview-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #94a3b8; max-width: 85%; }
+        .reply-preview-close { 
+            cursor: pointer; 
+            color: #ef4444; 
+            background: rgba(239, 68, 68, 0.1); 
+            border: none; 
+            font-size: 14px; 
+            width: 24px; 
+            height: 24px; 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .reply-preview-close:hover { background: rgba(239, 68, 68, 0.2); }
+
+        /* Swipe to reply indicator */
+        .swipe-indicator {
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #60a5fa;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .swipe-indicator.active { opacity: 1; }
+
+        /* Main Chat Container Resizing */
+        .resizable-main {
+            transition: max-width 0.3s ease;
+        }
+
         @media (max-width: 768px) {
             .canvas-split { flex-direction: column; }
             .canvas-left { width: 100%; min-width: unset; height: 45%; }
             .canvas-right { width: 100%; height: 55%; }
+            
+            .reply-btn, .reaction-btn { display: none; } /* Hide buttons on mobile, use swipe */
         }
 
         @media (max-width: 640px) {
-            .open-btn { top: 12px; left: 12px; padding: 6px 10px; font-size: 14px; }
-            #mainHeader { padding-left: 50px; }
-            .chat-container { height: calc(100vh - 170px); }
-            .mode-menu { width: 190px; left: 5px; bottom: 70px; }
-            .mode-option { font-size: 11px; padding: 8px 10px; }
-            #commandHints { bottom: 80px; left: 10px; right: 10px; }
+            .open-btn { top: 10px; left: 10px; padding: 5px 8px; font-size: 13px; }
+            #mainHeader { padding-left: 44px; }
+            .chat-container { height: calc(100vh - 120px); }
+            .mode-menu { width: 170px; left: 4px; bottom: 60px; }
+            .mode-option { font-size: 11px; padding: 7px 9px; }
+            #commandHints { bottom: 70px; left: 8px; right: 8px; }
             .message-wrapper { max-width: 92% !important; }
-            .sidebar { padding-top: 60px; }
-            .sidebar-content { padding: 16px; }
-            #mainFooter { font-size: 10px; gap: 6px; }
-            .warning-banner { font-size: 11px; padding: 6px 10px; }
-            .edit-guide { font-size: 11px; padding: 8px 14px; width: 90%; }
-            .ai-image-container img { width: 100% !important; height: auto !important; max-width: 400px; }
+            .sidebar { padding-top: 55px; }
+            .sidebar-content { padding: 14px; }
+            #mainFooter { font-size: 9px; gap: 5px; }
+            .warning-banner { font-size: 10px; padding: 5px 8px; }
+            .ai-image-container img { width: 100% !important; height: auto !important; max-width: 300px; }
+            .history-panel { width: 100%; }
+            .settings-panel { width: 95vw; padding: 16px; }
         }
         @media (max-width: 480px) {
-            .chat-container { height: calc(100vh - 150px); }
-            .message-bubble { font-size: 13px; padding: 8px 12px; }
-            #inputSection { padding: 8px; }
-            .glass { border-radius: 16px; }
-            .open-btn { top: 8px; left: 8px; padding: 4px 8px; font-size: 12px; }
-            #mainHeader { padding-left: 40px; }
-            #mainHeader h1 { font-size: 16px; }
-            #mainHeader .w-10 { width: 32px; height: 32px; }
-            #mainHeader .w-10 i { font-size: 14px; }
-            .warning-banner { font-size: 10px; padding: 4px 8px; }
-            .edit-guide { font-size: 10px; padding: 6px 10px; }
-            .ai-image-container img { max-width: 300px; }
+            .chat-container { height: calc(100vh - 110px); }
+            .message-bubble { font-size: 12px; padding: 7px 10px; }
+            #inputSection { padding: 6px; }
+            .glass { border-radius: 14px; }
+            .open-btn { top: 6px; left: 6px; padding: 4px 6px; font-size: 11px; }
+            #mainHeader { padding-left: 36px; }
+            #mainHeader h1 { font-size: 14px; }
+            #mainHeader .w-10 { width: 28px; height: 28px; }
+            #mainHeader .w-10 i { font-size: 12px; }
+            .warning-banner { font-size: 9px; padding: 3px 6px; }
+            .ai-image-container img { max-width: 240px; }
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-3 theme-transition">
+<body class="theme-transition">
 
     <!-- IMAGE MODAL -->
     <div id="imageModal" class="image-modal-overlay" onclick="closeImageModal()">
@@ -429,7 +771,20 @@
         </div>
     </div>
 
-    <!-- CANVAS SPLIT OVERLAY (only opens on Run) -->
+    <!-- NEWS OVERLAY -->
+    <div id="newsOverlay" class="news-overlay" onclick="closeNews()">
+        <div class="news-panel" onclick="event.stopPropagation()">
+            <h2>
+                <span><i class="fas fa-newspaper mr-2 text-blue-400"></i>MSZ AI News</span>
+                <button class="close-news" onclick="closeNews()">✕</button>
+            </h2>
+            <div id="newsList">
+                <!-- News items will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CANVAS SPLIT OVERLAY -->
     <div id="canvasOverlay" class="canvas-overlay">
         <div class="canvas-split">
             <!-- LEFT: MSZ AI Chat -->
@@ -443,19 +798,20 @@
                 </div>
                 <div id="canvasChatMessages" class="canvas-chat-messages">
                     <div class="canvas-ai-message">
-                        Hey there! 👋 I'm MSZ AI code assistant, designed by Burak_msz. Tell me what you want to build, and I'll write the code on the right and show you a live preview.<br><br>
-                        Example: <em>"Make a centered button with a blue background"</em> or <em>"Build a simple todo list"</em><br><br>Then keep going: <em>"make the button green"</em>. I always continue from the current code — only <strong>New project</strong> starts over.
+                        Hey! 👋 Tell me what to build — I'll write the code on the right and show a live preview.<br><br>
+                        Example: <em>"Make a centered button with a blue background"</em> or <em>"Build a simple todo list"</em><br><br>
+                        Keep going: <em>"make the button green"</em>. I always continue from the current code.
                     </div>
                 </div>
                 <div class="canvas-chat-input-area">
                     <div class="canvas-input-row">
-                        <textarea id="canvasChatInput" rows="2" placeholder="What should I build or change? (Enter = send, Shift+Enter = new line)" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); handleCanvasChat();}"></textarea>
+                        <textarea id="canvasChatInput" rows="2" placeholder="What should I build or change?" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); handleCanvasChat();}"></textarea>
                         <button id="canvasSendBtn" class="canvas-send-btn" onclick="handleCanvasChat()" title="Send"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Tabs (Code / Live Preview) -->
+            <!-- RIGHT: Tabs -->
             <div class="canvas-right">
                 <div class="canvas-tabs">
                     <div class="canvas-tab active" data-tab="code" onclick="switchCanvasTab('code')">
@@ -466,19 +822,17 @@
                     </div>
                 </div>
 
-                <!-- Code Tab -->
                 <div id="canvasTabCode" class="canvas-tab-content active">
                     <div class="canvas-code-toolbar">
                         <button class="btn-copy" onclick="copyCanvasCode()"><i class="fas fa-copy"></i> Copy All</button>
                         <button class="btn-run" onclick="runCanvasCode()"><i class="fas fa-play"></i> Run</button>
-                        <button id="canvasUndoBtn" class="btn-undo" onclick="undoCanvas()" disabled title="Go back to the previous version"><i class="fas fa-undo"></i> Undo</button>
+                        <button id="canvasUndoBtn" class="btn-undo" onclick="undoCanvas()" disabled title="Go back"><i class="fas fa-undo"></i> Undo</button>
                         <button class="btn-download" onclick="downloadCanvasCode()"><i class="fas fa-download"></i> Download</button>
                         <button class="btn-new" onclick="newCanvasProject()"><i class="fas fa-file"></i> New project</button>
                     </div>
                     <textarea id="canvasCodeEditor" spellcheck="false"><!-- Your code will appear here --></textarea>
                 </div>
 
-                <!-- Preview Tab -->
                 <div id="canvasTabPreview" class="canvas-tab-content">
                     <iframe id="canvasLivePreview" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
                 </div>
@@ -486,14 +840,92 @@
         </div>
     </div>
 
+    <!-- HISTORY PANEL (RIGHT SIDE) -->
+    <div id="historyPanel" class="history-panel">
+        <div class="history-header">
+            <h3><i class="fas fa-history mr-2 text-blue-400"></i>Sohbetler</h3>
+            <button class="history-close-btn" onclick="toggleHistory()">×</button>
+        </div>
+        <button class="history-new-btn" onclick="startNewChat(); toggleHistory();">
+            <i class="fas fa-plus"></i> Yeni Sohbet
+        </button>
+        <div id="historyList" class="history-list"></div>
+    </div>
+
+    <!-- SETTINGS OVERLAY -->
+    <div id="settingsOverlay" class="settings-overlay" onclick="closeSettings()">
+        <div class="settings-panel" onclick="event.stopPropagation()">
+            <h2>
+                <span><i class="fas fa-cog mr-2 text-blue-400"></i>Ayarlar</span>
+                <button class="close-settings" onclick="closeSettings()">✕</button>
+            </h2>
+
+            <!-- Animations -->
+            <div class="settings-section">
+                <div class="settings-label">Performans</div>
+                <div class="settings-row">
+                    <label>Animasyonlar</label>
+                    <div id="animToggleSettings" class="toggle-track active" onclick="toggleAnimationsSetting()">
+                        <div class="toggle-thumb"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Container Size -->
+            <div class="settings-section">
+                <div class="settings-label">Arayüz</div>
+                <div class="settings-row">
+                    <label>Pencere Genişliği</label>
+                    <input type="range" id="containerWidthSlider" class="font-size-slider" min="500" max="1200" step="50" value="768">
+                </div>
+            </div>
+
+            <!-- Font settings -->
+            <div class="settings-section">
+                <div class="settings-label">Yazı Ayarları</div>
+                <div class="settings-row">
+                    <label>Yazı Tipi</label>
+                    <select id="fontFamilySelect" class="font-select">
+                        <option value="'Inter', system-ui, sans-serif">Inter (Varsayılan)</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <label>Yazı Boyutu</label>
+                    <input type="range" id="fontSizeSlider" class="font-size-slider" min="11" max="18" value="14">
+                </div>
+            </div>
+
+            <!-- Pro -->
+            <div class="settings-section">
+                <div class="settings-label">MSZ AI Pro</div>
+                <div class="settings-row" style="justify-content:center;">
+                    <span class="pro-badge"><i class="fas fa-star mr-1"></i>PRO</span>
+                </div>
+                <button class="pro-btn" onclick="alert('DEMO MOD — Pro abonelik yakında! 🚀')">
+                    <i class="fas fa-crown mr-2"></i>MSZ AI Pro Al
+                </button>
+                <div class="pro-price">Aylık 249.99₺</div>
+            </div>
+
+            <button class="save-settings-btn" onclick="saveSettings()">
+                <i class="fas fa-save mr-2"></i>Kaydet
+            </button>
+        </div>
+    </div>
+
     <!-- EDIT GUIDE -->
-    <div class="edit-guide">
+    <div class="edit-guide" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#1e293b; color:#f1f5f9; padding:10px 20px; border-radius:12px; border:1px solid #3b82f6; z-index:9999; font-size:13px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
         <i class="fas fa-arrows-alt text-blue-400 mr-2"></i>
         <strong>Edit Mode Active!</strong> Drag any element to reposition.
         <span class="text-slate-400 ml-2">(Exit with /exit_edit)</span>
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (LEFT) -->
     <button class="open-btn" onclick="toggleSidebar()" id="hamburgerBtn">
         <i class="fas fa-bars"></i>
     </button>
@@ -502,24 +934,13 @@
         <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
         <div class="sidebar-content">
             <div class="text-center mb-6">
-                <img src="favicon.png" alt="MSZ AI" class="w-14 h-14 mx-auto mb-2 rounded-xl" />
-                <p class="text-white font-bold text-2xl mb-1">MSZ AI</p>
-                <span class="sidebar-version">v13.3</span>
-                <p class="text-slate-400 text-sm mt-2">⚡ 4 Modes · Free</p>
+                <img src="favicon.png" alt="MSZ AI" class="w-12 h-12 mx-auto mb-2 rounded-xl" />
+                <p class="text-white font-bold text-xl mb-1">MSZ AI</p>
+                <span class="sidebar-version">v13.5</span>
+                <p class="text-slate-400 text-xs mt-2">⚡ 4 Modes · Free</p>
             </div>
             <hr class="border-slate-700 my-4">
             <style>body.light-theme .sidebar hr { border-color: #cbd5e1; }</style>
-
-            <div class="mb-4">
-                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">⚙️ Performance</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-white">Animations</span>
-                    <div id="animToggle" class="toggle-track active" onclick="toggleAnimations()">
-                        <div class="toggle-thumb"></div>
-                    </div>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-1">Disable to reduce lag / freezing</p>
-            </div>
 
             <div class="mb-4">
                 <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">💡 Idea & Development</p>
@@ -533,16 +954,28 @@
             <div>
                 <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ New Features</p>
                 <div id="featureList">
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Canvas: inline code in chat, Run opens split panel</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>One-click copy & Run from the chat</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Chat remembers the conversation</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>/commands and edit mode now work</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Pollinations AI (free, no signup)</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>4 modes: Image, Research, Chat, Canvas</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>MSZ AI News eklendi!</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Pencere boyutu ayarlanabilir</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>WhatsApp tarzı alıntı & emoji</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Sağ tarafta sohbet geçmişi</span></div>
                 </div>
             </div>
 
             <hr class="border-slate-700 my-4">
+            
+            <!-- Contact Box -->
+            <div class="contact-box" onclick="window.open('https://mail.google.com/mail/u/0/?fs=1&to=burakbilec123@gmail.com&tf=cm', '_blank')">
+                <a>
+                    <i class="fas fa-envelope"></i> Gmail
+                </a>
+                <p>Şikayet/öneri/işbirliği için Gmail ile yazınız.</p>
+            </div>
+
+            <!-- News Button -->
+            <button class="news-btn" onclick="openNews(); toggleSidebar();">
+                <i class="fas fa-newspaper"></i> MSZ AI News!
+            </button>
+
             <div class="text-center mt-4">
                 <p class="text-slate-600 text-[10px]">© 2026 MSZ Lab · All rights reserved.</p>
             </div>
@@ -550,24 +983,29 @@
     </div>
 
     <!-- HEADER -->
-    <header id="mainHeader" class="w-full max-w-4xl flex items-center justify-between mb-3 px-2 pl-16" draggable-item>
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30 overflow-hidden">
+    <header id="mainHeader" class="w-full max-w-3xl flex items-center justify-between mb-2 px-2 pl-14" draggable-item>
+        <div class="flex items-center gap-2">
+            <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30 overflow-hidden">
                 <img src="favicon.png" alt="MSZ AI" class="w-full h-full object-cover" />
             </div>
             <div>
-                <h1 class="font-bold text-xl tracking-tight text-white">MSZ AI <span class="text-blue-400 text-sm font-normal">v13.3</span></h1>
+                <h1 class="font-bold text-lg tracking-tight text-white">MSZ AI <span class="text-blue-400 text-xs font-normal">v13.5</span></h1>
             </div>
         </div>
-        <button id="clearChatBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400" title="Clear chat">
-            <i class="fas fa-trash-alt"></i>
-        </button>
+        <div class="flex items-center gap-1">
+            <button id="historyBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400" title="Sohbet Geçmişi" onclick="toggleHistory()">
+                <i class="fas fa-history"></i>
+            </button>
+            <button id="settingsBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400" title="Ayarlar" onclick="openSettings()">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main id="mainContainer" class="w-full max-w-4xl glass rounded-3xl flex flex-col overflow-hidden shadow-2xl relative" draggable-item>
+    <main id="mainContainer" class="w-full max-w-3xl glass rounded-2xl flex flex-col overflow-hidden shadow-2xl relative resizable-main" style="max-width: 768px;" draggable-item>
 
-        <div id="chatBox" class="chat-container overflow-y-auto p-5 space-y-5" draggable-item></div>
+        <div id="chatBox" class="chat-container overflow-y-auto p-4 space-y-4" draggable-item></div>
 
         <div id="commandHints" class="shadow-2xl">
             <div class="hint-item" onclick="insertCmd('/help')"><b>/help</b> – Show all commands</div>
@@ -595,14 +1033,23 @@
             </div>
         </div>
 
-        <div id="inputSection" class="p-3 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
-            <div class="flex items-center gap-2 max-w-3xl mx-auto bg-slate-800 p-2 rounded-2xl focus-within:ring-2 ring-blue-500 transition-all">
-                <button id="worldBtn" class="w-10 h-10 text-slate-400 hover:text-blue-500 transition-colors" title="Select mode">
-                    <i class="fas fa-globe-americas text-xl"></i>
+        <div id="inputSection" class="p-2 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
+            <!-- Reply Preview Bar -->
+            <div id="replyPreviewBar" class="reply-preview-bar">
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-size: 10px; color: #60a5fa; font-weight: 600;" id="replyPreviewName">Yanıtlanıyor...</div>
+                    <div class="reply-preview-text" id="replyPreviewText"></div>
+                </div>
+                <button class="reply-preview-close" onclick="cancelReply()" title="İptal Et">✕</button>
+            </div>
+
+            <div class="flex items-center gap-1.5 max-w-2xl mx-auto bg-slate-800 p-1.5 rounded-xl focus-within:ring-2 ring-blue-500 transition-all">
+                <button id="worldBtn" class="w-8 h-8 text-slate-400 hover:text-blue-500 transition-colors" title="Select mode">
+                    <i class="fas fa-globe-americas text-lg"></i>
                 </button>
-                <textarea id="userInput" rows="1" autocomplete="off" placeholder="Type a question or command..."
-                class="flex-1 bg-transparent border-none focus:outline-none p-2 text-sm text-white resize-none max-h-32"></textarea>
-                <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all text-base">
+                <textarea id="userInput" rows="1" autocomplete="off" placeholder="Type a question or command..." onkeydown="handleInputKeydown(event)"
+                class="flex-1 bg-transparent border-none focus:outline-none p-1.5 text-xs text-white resize-none max-h-28"></textarea>
+                <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 text-white w-8 h-8 rounded-lg flex items-center justify-center transition-all text-sm" onclick="handleAction()">
                     ⏫
                 </button>
             </div>
@@ -610,7 +1057,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer id="mainFooter" class="mt-3 text-slate-500 text-[11px] flex flex-wrap gap-3 justify-center" draggable-item>
+    <footer id="mainFooter" class="mt-2 text-slate-500 text-[10px] flex flex-wrap gap-2 justify-center" draggable-item>
         <span>🧪 MSZ Lab</span>
         <span id="currentModeDisplay">Mode: Research</span>
         <span id="imageLimitDisplay">Images left: 10</span>
@@ -628,23 +1075,57 @@
         const modeMenu = document.getElementById('modeMenu');
         const commandHints = document.getElementById('commandHints');
         const mainContainer = document.getElementById('mainContainer');
-        const clearChatBtn = document.getElementById('clearChatBtn');
         const sidebar = document.getElementById('sidebar');
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const modalDownloadBtn = document.getElementById('modalDownloadBtn');
-        const animToggle = document.getElementById('animToggle');
         const canvasOverlay = document.getElementById('canvasOverlay');
         const canvasChatMessages = document.getElementById('canvasChatMessages');
         const canvasChatInput = document.getElementById('canvasChatInput');
         const canvasCodeEditor = document.getElementById('canvasCodeEditor');
         const canvasLivePreview = document.getElementById('canvasLivePreview');
+        const animToggleSettings = document.getElementById('animToggleSettings');
+        const fontFamilySelect = document.getElementById('fontFamilySelect');
+        const fontSizeSlider = document.getElementById('fontSizeSlider');
+        const containerWidthSlider = document.getElementById('containerWidthSlider');
 
         let currentMode = 'search';
         let editMode = false;
         let currentTheme = 'dark';
         let isLoading = false;
         let animationsEnabled = true;
+        let replyTo = null; // { id, text, sender }
+
+        // ============================================================
+        // NEWS DATA
+        // ============================================================
+        const NEWS_DATA = [
+            {
+                id: 1,
+                title: "MSZ AI v13.5 Yayında!",
+                description: "Yepyeni özelliklerle karşınızda: Pencere boyutu ayarlama, MSZ AI News, gelişmiş emoji reaksiyonları ve daha fazlası!",
+                image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+                links: [
+                    { text: "Detayları Oku", url: "https://burak-code.github.io/msz/" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Burak_msz'den Yeni Proje: CengO",
+                description: "Türkiye'deki sosyal medya kısıtlamalarına alternatif olarak geliştirilen CengO, hızlı ve güvenli bir sohbet platformu.",
+                image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80",
+                links: [
+                    { text: "CengO'yu Dene", url: "https://burak-code.github.io/cengo/" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Yapay Zeka ve Gelecek",
+                description: "Yapay zeka teknolojileri hayatımızı nasıl değiştiriyor? MSZ AI olarak bu konudaki görüşlerimizi paylaştık.",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80",
+                links: []
+            }
+        ];
 
         // ============================================================
         // SYSTEM PROMPT
@@ -659,7 +1140,9 @@
         - If anyone asks who made you, who created you, who designed you, or who you are: 
           ALWAYS say you were DESIGNED by Burak_msz. NEVER say OpenAI, NEVER say ChatGPT, NEVER say any other company.
         - You are MSZ AI, an independent assistant. You are NOT OpenAI's product.
-        - Be friendly, helpful, and concise.
+        - Be friendly, helpful, and concise. Use emojis naturally like WhatsApp. If the user replies to a specific message, acknowledge it.
+        - If the user mentions a problem, issue, bug, complaint, or business collaboration, tell them: "Sol hamburger menüyü açıp Gmail ile tasarımcıya ulaşabilirsiniz."
+        - At the beginning of the conversation, or if they ask about news, tell them about "MSZ AI News!" in the left hamburger menu.
         - If the user wants to socialize, chat with people, make friends, or mentions social media being banned in Turkey:
           redirect them to MSZ Medya (https://burak-code.github.io/msz-medya/) or CengO (https://burak-code.github.io/cengo/).
         - Never claim to be made by OpenAI, Anthropic, Google, or any other AI company.`;
@@ -675,10 +1158,21 @@
                 🔗 <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;text-decoration:underline;font-weight:bold;">Go to MSZ Medya →</a><br><br>
                 💬 For chatting, there's also <strong>CengO</strong>: <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;text-decoration:underline;">cengo link</a>`
             },
+            supportRedirect: {
+                keywords: ["sorun", "problem", "hata", "bug", "şikayet", "complaint", "işbirliği", "collaboration", "destek", "support", "iletişim", "contact"],
+                response: `Bunun için en doğru adres tasarımcımız! 🙋‍♂️<br><br>
+                👉 <strong>Sol hamburger menüyü açıp Gmail ile tasarımcıya ulaşabilirsiniz.</strong><br><br>
+                Şikayet, öneri veya işbirliği için doğrudan oradan yazabilirsiniz. 🙏`
+            },
+            newsRedirect: {
+                keywords: ["haber", "news", "yenilik", "güncelleme", "update", "duyuru", "announcement"],
+                response: `📰 <strong>MSZ AI News!</strong> tamamen yenilendi!<br><br>
+                Sol taraftaki hamburger menüyü açıp en alttaki <strong>"📰 MSZ AI News!"</strong> butonuna tıklayarak en son haberlerimizi okuyabilirsiniz. 🚀`
+            },
             greetings: [
-                "Hey there! I'm MSZ AI, designed by Burak_msz. What would you like to do? 😊",
-                "Hello! MSZ AI here, ready to help!",
-                "Hey! Welcome. Want to chat, code, or generate an image?"
+                "Hey there! I'm MSZ AI, designed by Burak_msz. What would you like to do? 😊<br><br>📰 Did you know? You can check out <strong>MSZ AI News!</strong> in the left menu!",
+                "Hello! MSZ AI here, ready to help! ✨<br><br>📰 Don't forget to check <strong>MSZ AI News!</strong> in the left menu for the latest updates!",
+                "Hey! Welcome. Want to chat, code, or generate an image? 🎨<br><br>📰 Also, check out <strong>MSZ AI News!</strong> in the left menu!"
             ],
             aboutBurak: `Here's what I know about Burak_msz:<br><br>
                 👤 <strong>Burak_msz</strong> — a 19-year-old web designer studying Web Design at AÖF. 🇹🇷 Turkish-made (partly).<br><br>
@@ -728,7 +1222,7 @@
         }
 
         // ============================================================
-        // CANVAS STATE (shared between inline chat and split panel)
+        // CANVAS STATE
         // ============================================================
         const CANVAS_PLACEHOLDER = '<!-' + '- Your code will appear here -->';
         const CANVAS_STORE = 'msz_canvas_v1';
@@ -871,7 +1365,6 @@ RULES:
             return div;
         }
 
-        // ---- reading the model's answer ----
         function extractCode(text) {
             if (!text) return '';
             const closed = [...text.matchAll(/```[a-zA-Z0-9]*[ \t]*\r?\n([\s\S]*?)```/g)].map(m => m[1]);
@@ -914,7 +1407,6 @@ RULES:
             return code;
         }
 
-        // ---- main canvas chat (used by the split panel) ----
         async function handleCanvasChat() {
             if (canvasBusy) return;
             const raw = canvasChatInput.value.trim();
@@ -984,7 +1476,7 @@ RULES:
         }
 
         // ============================================================
-        // INLINE CANVAS FLOW (used directly in main chat)
+        // INLINE CANVAS FLOW
         // ============================================================
         async function handleInlineCanvas(raw) {
             isLoading = true;
@@ -1035,7 +1527,6 @@ RULES:
                 updateUndoBtn();
                 saveCanvasState();
 
-                // Show the code block inline in the chat with Copy + Run buttons
                 renderInlineCode(code);
             } catch (e) {
                 console.warn('Inline canvas error:', e);
@@ -1046,7 +1537,6 @@ RULES:
             }
         }
 
-        // Renders an inline code block inside the main chat message with Copy All + Run
         function renderInlineCode(code) {
             const wrapper = document.createElement('div');
             wrapper.className = `message-wrapper flex flex-col gap-1 items-start mr-auto max-w-[95%] message-appear`;
@@ -1071,7 +1561,6 @@ RULES:
                 </div>
             `;
 
-            // store code on the element so the buttons can access it
             codeBlock.dataset.code = code;
 
             cbHeader.querySelector('.inline-btn-copy').onclick = () => {
@@ -1108,10 +1597,10 @@ RULES:
             wrapper.appendChild(label);
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
-            saveHistory();
+
+            addMessageToSession('bot', bubble.innerHTML);
         }
 
-        // universal copy helper
         function copyText(text) {
             return new Promise((resolve) => {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1170,9 +1659,19 @@ RULES:
             return s.replace(/<br>\s*(<pre>)/g, '$1').replace(/(<\/pre>)\s*<br>/g, '$1');
         }
 
-        async function chatResponseAsync(input) {
+        async function chatResponseAsync(input, replyContext = null) {
             const lower = input.toLowerCase().trim();
             const canned = (html) => { rememberTurn(input, htmlToText(html)); return html; };
+
+            // Check news redirect
+            if (MSZ_KNOWLEDGE.newsRedirect.keywords.some(k => hasWord(lower, k))) {
+                return canned(MSZ_KNOWLEDGE.newsRedirect.response);
+            }
+
+            // Check support redirect
+            if (MSZ_KNOWLEDGE.supportRedirect.keywords.some(k => hasWord(lower, k))) {
+                return canned(MSZ_KNOWLEDGE.supportRedirect.response);
+            }
 
             if (MSZ_KNOWLEDGE.socialRedirect.keywords.some(k => hasWord(lower, k))) {
                 return canned(MSZ_KNOWLEDGE.socialRedirect.response);
@@ -1194,7 +1693,12 @@ RULES:
                 return canned(MSZ_KNOWLEDGE.greetings[Math.floor(Math.random() * MSZ_KNOWLEDGE.greetings.length)]);
             }
 
-            const aiReply = await pollinationsChat([...chatMemory.slice(-CHAT_MEMORY_LIMIT), { role: 'user', content: input }]);
+            let prompt = input;
+            if (replyContext) {
+                prompt = `(Replying to your previous message: "${replyContext}")\n\n` + input;
+            }
+
+            const aiReply = await pollinationsChat([...chatMemory.slice(-CHAT_MEMORY_LIMIT), { role: 'user', content: prompt }]);
             if (aiReply) {
                 rememberTurn(input, aiReply);
                 return formatAIText(aiReply);
@@ -1204,28 +1708,503 @@ RULES:
         }
 
         // ============================================================
+        // CHAT HISTORY MANAGEMENT
+        // ============================================================
+        const CHAT_SESSIONS_KEY = 'msz_chat_sessions_v1';
+        let chatSessions = [];
+        let currentSessionId = null;
+
+        function loadChatSessions() {
+            try {
+                const raw = localStorage.getItem(CHAT_SESSIONS_KEY);
+                chatSessions = raw ? JSON.parse(raw) : [];
+            } catch (e) { chatSessions = []; }
+            if (!chatSessions.length) {
+                startNewChat(false);
+            } else {
+                const sorted = [...chatSessions].sort((a, b) => b.updatedAt - a.updatedAt);
+                currentSessionId = sorted[0].id;
+            }
+        }
+
+        function saveChatSessions() {
+            try {
+                localStorage.setItem(CHAT_SESSIONS_KEY, JSON.stringify(chatSessions.slice(-50)));
+            } catch (e) { console.warn('Save sessions failed:', e); }
+        }
+
+        function startNewChat(switchView = true) {
+            const newSession = {
+                id: Date.now().toString(),
+                title: 'Yeni Sohbet',
+                messages: [],
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            };
+            chatSessions.push(newSession);
+            currentSessionId = newSession.id;
+            saveChatSessions();
+            if (switchView) {
+                renderChatMessages();
+                renderHistoryList();
+            }
+        }
+
+        function switchToSession(id) {
+            const session = chatSessions.find(s => s.id === id);
+            if (!session) return;
+            currentSessionId = id;
+            renderChatMessages();
+            renderHistoryList();
+            cancelReply();
+        }
+
+        function deleteSession(id) {
+            if (!confirm('Bu sohbeti silmek istediğine emin misin?')) return;
+            chatSessions = chatSessions.filter(s => s.id !== id);
+            if (chatSessions.length === 0) {
+                startNewChat();
+            } else if (currentSessionId === id) {
+                currentSessionId = chatSessions[chatSessions.length - 1].id;
+                renderChatMessages();
+            }
+            saveChatSessions();
+            renderHistoryList();
+        }
+
+        function getCurrentSession() {
+            return chatSessions.find(s => s.id === currentSessionId) || null;
+        }
+
+        function addMessageToSession(role, content, replyData = null, reaction = null) {
+            const session = getCurrentSession();
+            if (!session) return;
+            session.messages.push({ role, content, replyData, reaction });
+            session.updatedAt = Date.now();
+            if (session.messages.length === 1) {
+                const firstUser = session.messages.find(m => m.role === 'user');
+                if (firstUser) {
+                    let titleText = firstUser.content.replace(/<[^>]*>/g, '');
+                    session.title = titleText.slice(0, 30) + (titleText.length > 30 ? '…' : '');
+                }
+            }
+            saveChatSessions();
+            renderHistoryList();
+        }
+
+        function renderChatMessages() {
+            chatBox.innerHTML = '';
+            const session = getCurrentSession();
+            if (!session || !session.messages.length) {
+                showWelcomeMessage();
+                return;
+            }
+            session.messages.forEach(msg => {
+                renderMessageBubble(msg.role, msg.content, msg.replyData, msg.reaction);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function renderHistoryList() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            if (!chatSessions.length) {
+                list.innerHTML = '<div class="history-empty">Henüz sohbet yok.</div>';
+                return;
+            }
+            const sorted = [...chatSessions].sort((a, b) => b.updatedAt - a.updatedAt);
+            sorted.forEach(session => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                if (session.id === currentSessionId) item.style.borderColor = '#3b82f6';
+                const date = new Date(session.updatedAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+                item.innerHTML = `
+                    <div class="h-title">${escapeHtml(session.title)}</div>
+                    <div class="h-meta">${date}</div>
+                    <button class="h-delete" title="Sil"><i class="fas fa-trash"></i></button>
+                `;
+                item.querySelector('.h-delete').onclick = (e) => { e.stopPropagation(); deleteSession(session.id); };
+                item.onclick = () => switchToSession(session.id);
+                list.appendChild(item);
+            });
+        }
+
+        function toggleHistory() {
+            const panel = document.getElementById('historyPanel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) renderHistoryList();
+        }
+
+        // ============================================================
+        // NEWS FUNCTIONS
+        // ============================================================
+        function openNews() {
+            const list = document.getElementById('newsList');
+            list.innerHTML = '';
+            
+            NEWS_DATA.forEach(news => {
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                
+                // Image
+                const img = document.createElement('img');
+                img.className = 'news-card-img';
+                img.src = news.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'; // Fallback
+                img.alt = news.title;
+                img.loading = 'lazy';
+                img.onerror = () => { img.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'; };
+                
+                // Content
+                const content = document.createElement('div');
+                content.className = 'news-card-content';
+                
+                const title = document.createElement('div');
+                title.className = 'news-card-title';
+                title.textContent = news.title;
+                
+                const desc = document.createElement('div');
+                desc.className = 'news-card-desc';
+                desc.textContent = news.description;
+                
+                content.appendChild(title);
+                content.appendChild(desc);
+                
+                // Links (hidden by default)
+                const linksDiv = document.createElement('div');
+                linksDiv.className = 'news-card-links';
+                if (news.links && news.links.length > 0) {
+                    news.links.forEach(link => {
+                        const a = document.createElement('a');
+                        a.href = link.url;
+                        a.target = '_blank';
+                        a.textContent = link.text;
+                        linksDiv.appendChild(a);
+                    });
+                } else {
+                    linksDiv.innerHTML = '<span style="font-size:11px;color:#64748b;">Bağlantı yok</span>';
+                }
+                content.appendChild(linksDiv);
+                
+                card.appendChild(img);
+                card.appendChild(content);
+                
+                // Toggle logic
+                card.onclick = () => {
+                    const isActive = linksDiv.classList.contains('active');
+                    // Close all
+                    document.querySelectorAll('.news-card-links').forEach(el => el.classList.remove('active'));
+                    // Open this if it was closed
+                    if (!isActive) linksDiv.classList.add('active');
+                };
+                
+                list.appendChild(card);
+            });
+            
+            document.getElementById('newsOverlay').classList.add('active');
+        }
+
+        function closeNews() {
+            document.getElementById('newsOverlay').classList.remove('active');
+        }
+
+        // ============================================================
+        // SETTINGS
+        // ============================================================
+        let settingsAnimations = true;
+        let settingsFontFamily = "'Inter', system-ui, sans-serif";
+        let settingsFontSize = 14;
+        let settingsContainerWidth = 768;
+
+        function loadSettings() {
+            try {
+                const s = JSON.parse(localStorage.getItem('msz_settings_v1') || '{}');
+                if (s.animations !== undefined) settingsAnimations = s.animations;
+                if (s.fontFamily) settingsFontFamily = s.fontFamily;
+                if (s.fontSize) settingsFontSize = s.fontSize;
+                if (s.containerWidth) settingsContainerWidth = s.containerWidth;
+            } catch (e) {}
+            applySettings();
+        }
+
+        function applySettings() {
+            animationsEnabled = settingsAnimations;
+            animToggleSettings.classList.toggle('active', settingsAnimations);
+            document.body.classList.toggle('no-animations', !settingsAnimations);
+            
+            fontFamilySelect.value = settingsFontFamily;
+            fontSizeSlider.value = settingsFontSize;
+            containerWidthSlider.value = settingsContainerWidth;
+            
+            document.body.style.fontFamily = settingsFontFamily;
+            chatBox.style.fontSize = settingsFontSize + 'px';
+            
+            mainContainer.style.maxWidth = settingsContainerWidth + 'px';
+            mainContainer.style.width = '100%'; // Ensure it fits smaller screens
+            
+            document.querySelectorAll('.message-bubble .text-sm').forEach(el => {
+                el.style.fontSize = settingsFontSize + 'px';
+            });
+        }
+
+        function toggleAnimationsSetting() {
+            settingsAnimations = !settingsAnimations;
+            animToggleSettings.classList.toggle('active', settingsAnimations);
+        }
+
+        function openSettings() {
+            fontFamilySelect.value = settingsFontFamily;
+            fontSizeSlider.value = settingsFontSize;
+            containerWidthSlider.value = settingsContainerWidth;
+            animToggleSettings.classList.toggle('active', settingsAnimations);
+            document.getElementById('settingsOverlay').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsOverlay').classList.remove('active');
+        }
+
+        function saveSettings() {
+            settingsFontFamily = fontFamilySelect.value;
+            settingsFontSize = parseInt(fontSizeSlider.value) || 14;
+            settingsContainerWidth = parseInt(containerWidthSlider.value) || 768;
+            localStorage.setItem('msz_settings_v1', JSON.stringify({
+                animations: settingsAnimations,
+                fontFamily: settingsFontFamily,
+                fontSize: settingsFontSize,
+                containerWidth: settingsContainerWidth
+            }));
+            applySettings();
+            closeSettings();
+        }
+
+        // ============================================================
+        // REPLY & REACTION FEATURES
+        // ============================================================
+        function setReplyTo(messageElement) {
+            const role = messageElement.dataset.role;
+            const bubble = messageElement.querySelector('.message-bubble');
+            let text = bubble.innerText || bubble.textContent;
+            text = text.replace(/Yanıtlanıyor.../g, '').trim();
+
+            replyTo = {
+                text: text,
+                sender: role === 'user' ? 'Sen' : 'MSZ AI'
+            };
+            
+            document.getElementById('replyPreviewName').textContent = replyTo.sender;
+            document.getElementById('replyPreviewText').textContent = replyTo.text;
+            document.getElementById('replyPreviewBar').classList.add('active');
+            userInput.focus();
+        }
+
+        function cancelReply() {
+            replyTo = null;
+            document.getElementById('replyPreviewBar').classList.remove('active');
+        }
+
+        function toggleEmojiPicker(messageElement) {
+            // Remove active from all other pickers
+            document.querySelectorAll('.emoji-picker').forEach(p => {
+                if (p.parentElement !== messageElement) p.classList.remove('active');
+            });
+            
+            let picker = messageElement.querySelector('.emoji-picker');
+            if (!picker) {
+                picker = document.createElement('div');
+                picker.className = 'emoji-picker';
+                picker.innerHTML = `
+                    <span onclick="applyReaction(this, '👍')">👍</span>
+                    <span onclick="applyReaction(this, '❤️')">❤️</span>
+                    <span onclick="applyReaction(this, '😂')">😂</span>
+                    <span onclick="applyReaction(this, '😮')">😮</span>
+                    <span onclick="applyReaction(this, '😢')">😢</span>
+                    <span onclick="applyReaction(this, '🤔')">🤔</span>
+                `;
+                messageElement.querySelector('.message-bubble').appendChild(picker);
+            }
+            picker.classList.toggle('active');
+        }
+
+        function applyReaction(el, emoji) {
+            const wrapper = el.closest('.message-wrapper');
+            const bubble = wrapper.querySelector('.message-bubble');
+            
+            let reactionDiv = bubble.querySelector('.message-reaction');
+            if (!reactionDiv) {
+                reactionDiv = document.createElement('div');
+                reactionDiv.className = 'message-reaction';
+                bubble.appendChild(reactionDiv);
+            }
+            reactionDiv.textContent = emoji;
+            reactionDiv.classList.add('active');
+
+            // Save to session
+            saveHistory();
+            
+            // Close picker
+            bubble.querySelector('.emoji-picker')?.classList.remove('active');
+        }
+
+        // Swipe to reply (mobile)
+        let touchStartX = 0;
+        let touchCurrentX = 0;
+        let swipeTarget = null;
+
+        function initSwipeToReply() {
+            chatBox.addEventListener('touchstart', (e) => {
+                const wrapper = e.target.closest('.message-wrapper');
+                if (!wrapper) return;
+                touchStartX = e.touches[0].clientX;
+                touchCurrentX = touchStartX;
+                swipeTarget = wrapper;
+                
+                let indicator = wrapper.querySelector('.swipe-indicator');
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.className = 'swipe-indicator';
+                    indicator.innerHTML = '<i class="fas fa-reply"></i>';
+                    wrapper.querySelector('.message-bubble').appendChild(indicator);
+                }
+            }, { passive: true });
+
+            chatBox.addEventListener('touchmove', (e) => {
+                if (!swipeTarget) return;
+                touchCurrentX = e.touches[0].clientX;
+                const diff = touchCurrentX - touchStartX;
+                
+                // Only swipe right (for AI messages) or left (for user messages) depending on role
+                const role = swipeTarget.dataset.role;
+                const isSwipingRight = diff > 0;
+                
+                if ((role === 'bot' && isSwipingRight) || (role === 'user' && !isSwipingRight)) {
+                    const indicator = swipeTarget.querySelector('.swipe-indicator');
+                    if (indicator) {
+                        indicator.style.left = role === 'bot' ? `${-30 + diff}px` : 'auto';
+                        indicator.style.right = role === 'user' ? `${-30 - diff}px` : 'auto';
+                        indicator.style.opacity = Math.min(Math.abs(diff) / 50, 1);
+                    }
+                }
+            }, { passive: true });
+
+            chatBox.addEventListener('touchend', (e) => {
+                if (!swipeTarget) return;
+                const diff = touchCurrentX - touchStartX;
+                const role = swipeTarget.dataset.role;
+                
+                let triggered = false;
+                if (role === 'bot' && diff > 60) triggered = true;
+                if (role === 'user' && diff < -60) triggered = true;
+
+                if (triggered) {
+                    setReplyTo(swipeTarget);
+                }
+                
+                // Reset indicator
+                const indicator = swipeTarget.querySelector('.swipe-indicator');
+                if (indicator) {
+                    indicator.style.opacity = '0';
+                    indicator.style.left = '-30px';
+                    indicator.style.right = 'auto';
+                }
+                
+                swipeTarget = null;
+            });
+        }
+
+        // Auto reaction suggestion by AI (only for USER messages)
+        function suggestReaction(text) {
+            const lower = text.toLowerCase();
+            if (/sorun|hata|problem|error|fail|başarısız/.test(lower)) return '😢';
+            if (/karmaşık|zor|complicated|hard|difficult/.test(lower)) return '🤔';
+            if (/komik|eğlenceli|funny|lol|haha/.test(lower)) return '😂';
+            if (/teşekkür|sağol|thanks|thank you/.test(lower)) return '❤️';
+            if (/harika|süper|great|awesome|amazing/.test(lower)) return '👍';
+            if (/\?/.test(text)) return '🤔';
+            if (/selam|merhaba|hello|hi|hey/.test(lower)) return '👋';
+            if (/üzgün|kötü|sad|bad/.test(lower)) return '😢';
+            if (/şaşır|vay|wow|omg/.test(lower)) return '😮';
+            return null; // No reaction
+        }
+
+        function renderMessageBubble(role, content, replyData = null, reaction = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
+            wrapper.dataset.role = role;
+
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
+            
+            // Reply Button (desktop)
+            const replyBtn = document.createElement('button');
+            replyBtn.className = 'reply-btn';
+            replyBtn.innerHTML = '<i class="fas fa-reply"></i>';
+            replyBtn.title = 'Yanıtla';
+            replyBtn.onclick = (e) => {
+                e.stopPropagation();
+                setReplyTo(wrapper);
+            };
+            bubble.appendChild(replyBtn);
+
+            // Reaction Button (desktop)
+            const reactionBtn = document.createElement('button');
+            reactionBtn.className = 'reaction-btn';
+            reactionBtn.innerHTML = '<i class="far fa-smile"></i>';
+            reactionBtn.title = 'Tepki Ekle';
+            reactionBtn.onclick = (e) => {
+                e.stopPropagation();
+                toggleEmojiPicker(wrapper);
+            };
+            bubble.appendChild(reactionBtn);
+
+            // Quote Block
+            if (replyData) {
+                const quoteDiv = document.createElement('div');
+                quoteDiv.className = 'reply-quote';
+                quoteDiv.innerHTML = `<span class="r-name">${replyData.sender}</span>${escapeHtml(replyData.text)}`;
+                bubble.appendChild(quoteDiv);
+            }
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-sm leading-relaxed';
+            textDiv.style.fontSize = settingsFontSize + 'px';
+            if (role === 'bot' && /<[a-z][\s\S]*>/i.test(content)) {
+                textDiv.innerHTML = DOMPurify.sanitize(content, {
+                    ADD_TAGS: ['img', 'a', 'br', 'strong', 'b', 'i', 'em', 'code', 'pre', 'span', 'div'],
+                    ADD_ATTR: ['src', 'href', 'target', 'download', 'class', 'style', 'alt']
+                });
+            } else {
+                textDiv.textContent = content;
+            }
+            bubble.appendChild(textDiv);
+
+            // Reaction Display
+            let reactionText = reaction;
+            if (role === 'user' && !reactionText) {
+                // Auto-suggest reaction for USER messages if not already set
+                reactionText = suggestReaction(content);
+            }
+            if (reactionText) {
+                const reactionDiv = document.createElement('div');
+                reactionDiv.className = 'message-reaction active';
+                reactionDiv.textContent = reactionText;
+                bubble.appendChild(reactionDiv);
+            }
+
+            wrapper.appendChild(bubble);
+
+            const label = document.createElement('span');
+            label.className = 'text-[9px] text-slate-500 px-1 uppercase tracking-widest';
+            label.textContent = role === 'user' ? 'You' : 'MSZ AI';
+            wrapper.appendChild(label);
+
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return wrapper;
+        }
+
+        // ============================================================
         // OTHER FUNCTIONS
         // ============================================================
-        function toggleAnimations() {
-            animationsEnabled = !animationsEnabled;
-            animToggle.classList.toggle('active', animationsEnabled);
-            if (animationsEnabled) {
-                document.body.classList.remove('no-animations');
-            } else {
-                document.body.classList.add('no-animations');
-            }
-            localStorage.setItem('msz_animations', animationsEnabled ? 'on' : 'off');
-        }
-
-        function loadAnimationsPreference() {
-            const saved = localStorage.getItem('msz_animations');
-            if (saved === 'off') {
-                animationsEnabled = false;
-                animToggle.classList.remove('active');
-                document.body.classList.add('no-animations');
-            }
-        }
-
         function openImageModal(imageUrl, downloadUrl) {
             modalImage.src = imageUrl;
             modalDownloadBtn.href = downloadUrl;
@@ -1245,65 +2224,74 @@ RULES:
             localStorage.setItem('msz_theme', theme);
         }
 
-        function addMessage(content, role = 'bot', isHtml = false) {
-            const wrapper = document.createElement('div');
-            wrapper.className = `message-wrapper flex flex-col gap-1 ${role === 'user' ? 'items-end ml-auto' : 'items-start mr-auto'} max-w-[85%] message-appear`;
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
-            const textDiv = document.createElement('div');
-            textDiv.className = 'text-sm leading-relaxed';
-            if (isHtml && role === 'bot') {
-                textDiv.innerHTML = DOMPurify.sanitize(content, {
-                    ADD_TAGS: ['img', 'a', 'br', 'strong', 'b', 'i', 'em', 'code', 'pre', 'span', 'div'],
-                    ADD_ATTR: ['src', 'href', 'target', 'download', 'class', 'style', 'alt']
-                });
-            } else {
-                textDiv.textContent = content;
+        function addMessage(content, role = 'bot', isHtml = false, replyData = null) {
+            const wrapper = renderMessageBubble(role, content, replyData);
+            
+            // Auto-reaction for USER if applicable
+            let reaction = null;
+            if (role === 'user') {
+                reaction = suggestReaction(content);
+                if (reaction) {
+                    const reactionDiv = document.createElement('div');
+                    reactionDiv.className = 'message-reaction active';
+                    reactionDiv.textContent = reaction;
+                    wrapper.querySelector('.message-bubble').appendChild(reactionDiv);
+                }
             }
-            bubble.appendChild(textDiv);
-            wrapper.dataset.role = role;
-            wrapper.appendChild(bubble);
-            const label = document.createElement('span');
-            label.className = 'text-[9px] text-slate-500 px-1 uppercase tracking-widest';
-            label.textContent = role === 'user' ? 'You' : 'MSZ AI';
-            wrapper.appendChild(label);
-            chatBox.appendChild(wrapper);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            saveHistory();
+
+            addMessageToSession(role, isHtml ? content : escapeHtml(content).replace(/\n/g, '<br>'), replyData, reaction);
             return wrapper;
         }
 
         function saveHistory() {
+            const session = getCurrentSession();
+            if (!session) return;
             const messages = [];
             document.querySelectorAll('.message-wrapper').forEach(w => {
                 const bubble = w.querySelector('.message-bubble');
                 if (!bubble || bubble.querySelector('.fa-spinner')) return;
-                messages.push({ role: w.dataset.role === 'user' ? 'user' : 'bot', content: bubble.textContent.trim() });
-            });
-            localStorage.setItem('msz_chat_history', JSON.stringify(messages.slice(-50)));
-        }
+                
+                // Extract reply data if exists
+                const quote = bubble.querySelector('.reply-quote');
+                let replyData = null;
+                if (quote) {
+                    const name = quote.querySelector('.r-name').textContent;
+                    const text = quote.textContent.replace(name, '').trim();
+                    replyData = { sender: name, text };
+                }
 
-        function loadHistory() {
-            const raw = localStorage.getItem('msz_chat_history');
-            if (!raw) return false;
-            try {
-                const msgs = JSON.parse(raw);
-                if (!msgs.length) return false;
-                chatBox.innerHTML = '';
-                msgs.forEach(m => addMessage(m.content, m.role));
-                chatMemory = msgs
-                    .filter(m => m.content && !m.content.startsWith('/') && !m.content.startsWith('Generated image for:'))
-                    .slice(-CHAT_MEMORY_LIMIT)
-                    .map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content }));
-                return true;
-            } catch { return false; }
+                // Extract reaction
+                const reactionDiv = bubble.querySelector('.message-reaction');
+                const reaction = reactionDiv ? reactionDiv.textContent : null;
+
+                // Extract raw content (excluding reply btn, reaction btn, quote, reaction div)
+                const tempDiv = bubble.cloneNode(true);
+                tempDiv.querySelectorAll('.reply-btn, .reaction-btn, .reply-quote, .message-reaction, .emoji-picker, .swipe-indicator').forEach(el => el.remove());
+                messages.push({
+                    role: w.dataset.role === 'user' ? 'user' : 'bot',
+                    content: tempDiv.innerHTML,
+                    replyData,
+                    reaction
+                });
+            });
+            session.messages = messages;
+            session.updatedAt = Date.now();
+            saveChatSessions();
         }
 
         function clearHistory() {
-            localStorage.removeItem('msz_chat_history');
+            if (!confirm('Bu sohbeti temizlemek istediğine emin misin?')) return;
+            const session = getCurrentSession();
+            if (session) {
+                session.messages = [];
+                session.title = 'Yeni Sohbet';
+                session.updatedAt = Date.now();
+                saveChatSessions();
+            }
             chatMemory = [];
             chatBox.innerHTML = '';
             showWelcomeMessage();
+            renderHistoryList();
         }
 
         function showWelcomeMessage() {
@@ -1311,8 +2299,9 @@ RULES:
                 <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                     <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                         <p class="text-sm leading-relaxed">
-                            Hello! I'm <strong>MSZ AI</strong> (v13.3).<br><br>
+                            Hello! I'm <strong>MSZ AI</strong> (v13.5).<br><br>
                             I was <strong>designed</strong> by <strong>Burak_msz</strong> — a 19-year-old web designer studying Web Design at AÖF. 🇹🇷 Turkish-made (partly). I am <strong>not</strong> created by OpenAI.<br><br>
+                            📰 <strong>NEW!</strong> Check out <strong>MSZ AI News!</strong> in the left menu for the latest updates and announcements.<br><br>
                             🚀 <strong>Burak_msz's projects:</strong><br>
                             • <strong>MSZ Medya</strong> — <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;">msz-medya</a><br>
                             • <strong>CengO</strong> — <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;">cengo</a><br><br>
@@ -1322,16 +2311,13 @@ RULES:
                             • <strong>Chat</strong> — smart chat via Pollinations AI<br>
                             • <strong>Canvas</strong> — write code right here in the chat!<br><br>
                             📌 Click the <strong>🌐 icon</strong> to switch modes.<br>
-                            💡 Type <code>/help</code> to see commands.<br><br>
-                            <span style="color:#60a5fa;">⚠️ Social media is restricted in Turkey. Use MSZ Medya to socialize!</span><br>
-                            <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;text-decoration:underline;">Go to MSZ Medya →</a>
+                            💡 Type <code>/help</code> to see commands.
                         </p>
                     </div>
                     <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • System</span>
                 </div>
             `;
             chatBox.innerHTML = welcomeHtml;
-            saveHistory();
         }
 
         function setMode(mode) {
@@ -1349,7 +2335,6 @@ RULES:
             };
             userInput.placeholder = placeholders[mode] || 'Type a question or command...';
             modeMenu.style.display = 'none';
-            // NOTE: Canvas mode no longer opens the full-screen panel. It stays in the chat.
         }
 
         function insertCmd(cmd) {
@@ -1386,6 +2371,7 @@ RULES:
         function setEditMode(on) {
             editMode = on;
             document.body.classList.toggle('edit-active', on);
+            document.querySelector('.edit-guide').style.display = on ? 'block' : 'none';
         }
 
         function initDrag() {
@@ -1416,9 +2402,8 @@ RULES:
         }
 
         function saveChatFile() {
-            const messages = [...document.querySelectorAll('.message-wrapper')]
-                .filter(w => !w.querySelector('.fa-spinner'))
-                .map(w => ({ role: w.dataset.role === 'user' ? 'user' : 'bot', content: w.querySelector('.message-bubble').textContent.trim() }));
+            const session = getCurrentSession();
+            const messages = session ? session.messages : [];
             const blob = new Blob([JSON.stringify(messages, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1467,13 +2452,30 @@ RULES:
             }
         }
 
+        // ============================================================
+        // INPUT HANDLING
+        // ============================================================
+        function handleInputKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleAction();
+            }
+        }
+
         async function handleAction() {
             if (isLoading) return;
             const raw = userInput.value.trim();
             if (!raw) return;
+
             userInput.value = '';
             commandHints.style.display = 'none';
-            addMessage(raw, 'user');
+            
+            // Store reply data and clear preview
+            const currentReply = replyTo;
+            cancelReply();
+
+            // addMessage already saves to session, but we need to pass replyData
+            const userWrapper = addMessage(raw, 'user', false, currentReply);
 
             if (raw.startsWith('/')) {
                 runSlashCommand(raw);
@@ -1498,7 +2500,6 @@ RULES:
                 return;
             }
 
-            // CANVAS MODE: stay in chat, write code inline, show Copy All + Run buttons
             if (currentMode === 'canvas') {
                 await handleInlineCanvas(raw);
                 return;
@@ -1507,7 +2508,7 @@ RULES:
             isLoading = true;
             const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Thinking...', 'bot', true);
 
-            const reply = await chatResponseAsync(raw);
+            const reply = await chatResponseAsync(raw, currentReply ? currentReply.text : null);
             thinking.remove();
             
             addMessage(reply, 'bot', true);
@@ -1517,17 +2518,6 @@ RULES:
         // ============================================================
         // EVENT LISTENERS
         // ============================================================
-        sendBtn.onclick = handleAction;
-        
-        userInput.onkeydown = e => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleAction();
-            }
-        };
-
-        clearChatBtn.onclick = clearHistory;
-
         worldBtn.onclick = (e) => {
             e.stopPropagation();
             modeMenu.style.display = modeMenu.style.display === 'block' ? 'none' : 'block';
@@ -1535,6 +2525,7 @@ RULES:
         document.onclick = () => {
             modeMenu.style.display = 'none';
             commandHints.style.display = 'none';
+            document.querySelectorAll('.emoji-picker').forEach(p => p.classList.remove('active'));
         };
 
         userInput.oninput = () => {
@@ -1545,6 +2536,10 @@ RULES:
             if (e.key === 'Escape') {
                 if (canvasOverlay.classList.contains('active')) closeCanvas();
                 if (imageModal.classList.contains('active')) closeImageModal();
+                if (document.getElementById('settingsOverlay').classList.contains('active')) closeSettings();
+                if (document.getElementById('historyPanel').classList.contains('open')) toggleHistory();
+                if (document.getElementById('newsOverlay').classList.contains('active')) closeNews();
+                document.querySelectorAll('.emoji-picker').forEach(p => p.classList.remove('active'));
             }
         });
 
@@ -1554,21 +2549,30 @@ RULES:
         window.onload = () => {
             const savedTheme = localStorage.getItem('msz_theme') || 'dark';
             setTheme(savedTheme);
-            loadAnimationsPreference();
 
-            const hasHistory = loadHistory();
-            if (!hasHistory) showWelcomeMessage();
+            loadSettings();
+            loadChatSessions();
+
+            if (chatSessions.length > 0) {
+                renderChatMessages();
+            } else {
+                startNewChat();
+            }
 
             sidebar.style.width = '0';
 
             initDrag();
             loadLayout();
             loadCanvasState();
+            initSwipeToReply();
+            
             let canvasSaveTimer;
             canvasCodeEditor.addEventListener('input', () => {
                 clearTimeout(canvasSaveTimer);
                 canvasSaveTimer = setTimeout(saveCanvasState, 400);
             });
+
+            renderHistoryList();
         };
     </script>
 </body>
