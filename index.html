@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MSZ AI</title>
+    <title>MSZ AI — Türk Yapımı Yapay Zekâ</title>
     <link rel="icon" type="image/x-icon" href="favicon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -67,10 +67,24 @@
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
         body.light-theme ::-webkit-scrollbar-thumb { background: #94a3b8; }
 
+        /* ===== TÜRK BAYRAĞI (gerçek görsel) ===== */
+        .bayrak {
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 3px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #E30A17;
+        }
+        .bayrak-sm { width: 26px; height: 17px; }
+        .bayrak-md { width: 34px; height: 23px; }
+        .bayrak-lg { width: 48px; height: 32px; }
+
         .mode-menu {
             display: none; position: absolute; bottom: 65px; left: 8px;
             background: #1e293b; border: 1px solid #334155; border-radius: 10px;
-            overflow: hidden; z-index: 50; width: 190px;
+            overflow: hidden; z-index: 50; width: 200px;
         }
         body.light-theme .mode-menu { background: #f8fafc; border-color: #cbd5e1; }
         .mode-option {
@@ -252,7 +266,7 @@
         
         .news-card-img {
             width: 100%; height: 160px; object-fit: cover; display: block;
-            background: #334155; /* fallback */
+            background: #334155;
         }
         .news-card-content { padding: 12px; }
         .news-card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
@@ -558,8 +572,8 @@
         /* ===== WHATSAPP STYLE REPLY & REACTIONS ===== */
         .message-bubble {
             position: relative;
-            white-space: pre-wrap; /* Fixes Shift+Enter newlines */
-            touch-action: pan-y; /* Allow vertical scroll but enable horizontal swipe */
+            white-space: pre-wrap;
+            touch-action: pan-y;
         }
         .reply-quote {
             background: rgba(0, 0, 0, 0.2);
@@ -609,7 +623,6 @@
         body.light-theme .reply-btn { background: #f8fafc; border-color: #cbd5e1; }
         body.light-theme .reply-btn:hover { background: #e2e8f0; color: #2563eb; }
 
-        /* Reaction button (smile) */
         .reaction-btn {
             position: absolute;
             top: -8px;
@@ -700,7 +713,6 @@
         }
         .reply-preview-close:hover { background: rgba(239, 68, 68, 0.2); }
 
-        /* Swipe to reply indicator */
         .swipe-indicator {
             position: absolute;
             left: -30px;
@@ -713,7 +725,6 @@
         }
         .swipe-indicator.active { opacity: 1; }
 
-        /* Main Chat Container Resizing */
         .resizable-main {
             transition: max-width 0.3s ease;
         }
@@ -723,14 +734,14 @@
             .canvas-left { width: 100%; min-width: unset; height: 45%; }
             .canvas-right { width: 100%; height: 55%; }
             
-            .reply-btn, .reaction-btn { display: none; } /* Hide buttons on mobile, use swipe */
+            .reply-btn, .reaction-btn { display: none; }
         }
 
         @media (max-width: 640px) {
             .open-btn { top: 10px; left: 10px; padding: 5px 8px; font-size: 13px; }
             #mainHeader { padding-left: 44px; }
             .chat-container { height: calc(100vh - 120px); }
-            .mode-menu { width: 170px; left: 4px; bottom: 60px; }
+            .mode-menu { width: 180px; left: 4px; bottom: 60px; }
             .mode-option { font-size: 11px; padding: 7px 9px; }
             #commandHints { bottom: 70px; left: 8px; right: 8px; }
             .message-wrapper { max-width: 92% !important; }
@@ -763,11 +774,11 @@
     <div id="imageModal" class="image-modal-overlay" onclick="closeImageModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeImageModal()">✕</button>
-            <img id="modalImage" src="" alt="Enlarged image">
-            <a id="modalDownloadBtn" href="#" download="msz-ai-image.jpg" target="_blank" class="modal-download">
-                <i class="fas fa-download"></i> Download
+            <img id="modalImage" src="" alt="Büyütülmüş görsel">
+            <a id="modalDownloadBtn" href="#" download="msz-ai-görsel.jpg" target="_blank" class="modal-download">
+                <i class="fas fa-download"></i> İndir
             </a>
-            <div class="modal-close-text">Click to close</div>
+            <div class="modal-close-text">Kapatmak için tıkla</div>
         </div>
     </div>
 
@@ -775,11 +786,11 @@
     <div id="newsOverlay" class="news-overlay" onclick="closeNews()">
         <div class="news-panel" onclick="event.stopPropagation()">
             <h2>
-                <span><i class="fas fa-newspaper mr-2 text-blue-400"></i>MSZ AI News</span>
+                <span><i class="fas fa-newspaper mr-2 text-blue-400"></i>MSZ AI Haberleri</span>
                 <button class="close-news" onclick="closeNews()">✕</button>
             </h2>
             <div id="newsList">
-                <!-- News items will be injected here by JS -->
+                <!-- Haberler JS ile buraya eklenecek -->
             </div>
         </div>
     </div>
@@ -787,50 +798,50 @@
     <!-- CANVAS SPLIT OVERLAY -->
     <div id="canvasOverlay" class="canvas-overlay">
         <div class="canvas-split">
-            <!-- LEFT: MSZ AI Chat -->
+            <!-- SOL: MSZ AI Sohbet -->
             <div class="canvas-left">
                 <div class="canvas-left-header">
                     <span class="flex items-center gap-2">
-                        <img src="favicon.png" alt="MSZ AI" class="w-5 h-5 rounded" />
-                        MSZ AI · Code Assistant
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Türk bayrağı" class="bayrak bayrak-sm" loading="lazy" />
+                        MSZ AI · Kod Asistanı
                     </span>
                     <button class="canvas-close-btn" onclick="closeCanvas()">✕</button>
                 </div>
                 <div id="canvasChatMessages" class="canvas-chat-messages">
                     <div class="canvas-ai-message">
-                        Hey! 👋 Tell me what to build — I'll write the code on the right and show a live preview.<br><br>
-                        Example: <em>"Make a centered button with a blue background"</em> or <em>"Build a simple todo list"</em><br><br>
-                        Keep going: <em>"make the button green"</em>. I always continue from the current code.
+                        Selam! 👋 Ne yapmamı istersin — kodu sağda yazayım, canlı önizlemede çalıştırayım.<br><br>
+                        Örnek: <em>"Mavi arka planlı ortalanmış bir buton yap"</em> veya <em>"Basit bir yapılacaklar listesi oluştur"</em><br><br>
+                        Devam et: <em>"butonu yeşil yap"</em>. Her zaman mevcut koddan devam ederim.
                     </div>
                 </div>
                 <div class="canvas-chat-input-area">
                     <div class="canvas-input-row">
-                        <textarea id="canvasChatInput" rows="2" placeholder="What should I build or change?" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); handleCanvasChat();}"></textarea>
-                        <button id="canvasSendBtn" class="canvas-send-btn" onclick="handleCanvasChat()" title="Send"><i class="fas fa-paper-plane"></i></button>
+                        <textarea id="canvasChatInput" rows="2" placeholder="Ne yapmamı veya değiştirmemi istersin?" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault(); handleCanvasChat();}"></textarea>
+                        <button id="canvasSendBtn" class="canvas-send-btn" onclick="handleCanvasChat()" title="Gönder"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Tabs -->
+            <!-- SAĞ: Sekmeler -->
             <div class="canvas-right">
                 <div class="canvas-tabs">
                     <div class="canvas-tab active" data-tab="code" onclick="switchCanvasTab('code')">
-                        <i class="fas fa-code mr-1"></i> Code
+                        <i class="fas fa-code mr-1"></i> Kod
                     </div>
                     <div class="canvas-tab" data-tab="preview" onclick="switchCanvasTab('preview')">
-                        <i class="fas fa-eye mr-1"></i> Live Preview
+                        <i class="fas fa-eye mr-1"></i> Canlı Önizleme
                     </div>
                 </div>
 
                 <div id="canvasTabCode" class="canvas-tab-content active">
                     <div class="canvas-code-toolbar">
-                        <button class="btn-copy" onclick="copyCanvasCode()"><i class="fas fa-copy"></i> Copy All</button>
-                        <button class="btn-run" onclick="runCanvasCode()"><i class="fas fa-play"></i> Run</button>
-                        <button id="canvasUndoBtn" class="btn-undo" onclick="undoCanvas()" disabled title="Go back"><i class="fas fa-undo"></i> Undo</button>
-                        <button class="btn-download" onclick="downloadCanvasCode()"><i class="fas fa-download"></i> Download</button>
-                        <button class="btn-new" onclick="newCanvasProject()"><i class="fas fa-file"></i> New project</button>
+                        <button class="btn-copy" onclick="copyCanvasCode()"><i class="fas fa-copy"></i> Tümünü Kopyala</button>
+                        <button class="btn-run" onclick="runCanvasCode()"><i class="fas fa-play"></i> Çalıştır</button>
+                        <button id="canvasUndoBtn" class="btn-undo" onclick="undoCanvas()" disabled title="Geri dön"><i class="fas fa-undo"></i> Geri Al</button>
+                        <button class="btn-download" onclick="downloadCanvasCode()"><i class="fas fa-download"></i> İndir</button>
+                        <button class="btn-new" onclick="newCanvasProject()"><i class="fas fa-file"></i> Yeni proje</button>
                     </div>
-                    <textarea id="canvasCodeEditor" spellcheck="false"><!-- Your code will appear here --></textarea>
+                    <textarea id="canvasCodeEditor" spellcheck="false"><!-- Kodunuz burada görünecek --></textarea>
                 </div>
 
                 <div id="canvasTabPreview" class="canvas-tab-content">
@@ -840,7 +851,7 @@
         </div>
     </div>
 
-    <!-- HISTORY PANEL (RIGHT SIDE) -->
+    <!-- HISTORY PANEL (SAĞ) -->
     <div id="historyPanel" class="history-panel">
         <div class="history-header">
             <h3><i class="fas fa-history mr-2 text-blue-400"></i>Sohbetler</h3>
@@ -856,37 +867,37 @@
     <div id="settingsOverlay" class="settings-overlay" onclick="closeSettings()">
         <div class="settings-panel" onclick="event.stopPropagation()">
             <h2>
-                <span><i class="fas fa-cog mr-2 text-blue-400"></i>Settings</span>
+                <span><i class="fas fa-cog mr-2 text-blue-400"></i>Ayarlar</span>
                 <button class="close-settings" onclick="closeSettings()">✕</button>
             </h2>
 
-            <!-- Animations -->
+            <!-- Animasyonlar -->
             <div class="settings-section">
-                <div class="settings-label">Performance</div>
+                <div class="settings-label">Performans</div>
                 <div class="settings-row">
-                    <label>Animations</label>
+                    <label>Animasyonlar</label>
                     <div id="animToggleSettings" class="toggle-track active" onclick="toggleAnimationsSetting()">
                         <div class="toggle-thumb"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Chat Container Size -->
+            <!-- Pencere Genişliği -->
             <div class="settings-section">
-                <div class="settings-label">Interface</div>
+                <div class="settings-label">Arayüz</div>
                 <div class="settings-row">
-                    <label>Window Width</label>
+                    <label>Pencere Genişliği</label>
                     <input type="range" id="containerWidthSlider" class="font-size-slider" min="500" max="1200" step="50" value="768">
                 </div>
             </div>
 
-            <!-- Font settings -->
+            <!-- Yazı Ayarları -->
             <div class="settings-section">
-                <div class="settings-label">Text Settings</div>
+                <div class="settings-label">Yazı Ayarları</div>
                 <div class="settings-row">
-                    <label>Font</label>
+                    <label>Yazı Tipi</label>
                     <select id="fontFamilySelect" class="font-select">
-                        <option value="'Inter', system-ui, sans-serif">Inter (default)</option>
+                        <option value="'Inter', system-ui, sans-serif">Inter (varsayılan)</option>
                         <option value="Arial, sans-serif">Arial</option>
                         <option value="'Courier New', monospace">Courier New</option>
                         <option value="Georgia, serif">Georgia</option>
@@ -895,7 +906,7 @@
                     </select>
                 </div>
                 <div class="settings-row">
-                    <label>Font Size</label>
+                    <label>Yazı Boyutu</label>
                     <input type="range" id="fontSizeSlider" class="font-size-slider" min="11" max="18" value="14">
                 </div>
             </div>
@@ -906,14 +917,14 @@
                 <div class="settings-row" style="justify-content:center;">
                     <span class="pro-badge"><i class="fas fa-star mr-1"></i>PRO</span>
                 </div>
-                <button class="pro-btn" onclick="alert('DEMO MOD — Incoming! 🚀')">
-                    <i class="fas fa-crown mr-2"></i>Get MSZ AI Pro
+                <button class="pro-btn" onclick="alert('DEMO MODU — Yakında! 🚀')">
+                    <i class="fas fa-crown mr-2"></i>MSZ AI Pro'ya Geç
                 </button>
-                <div class="pro-price">Monthly $4.99</div>
+                <div class="pro-price">Aylık 4.99 $</div>
             </div>
 
             <button class="save-settings-btn" onclick="saveSettings()">
-                <i class="fas fa-save mr-2"></i>Save
+                <i class="fas fa-save mr-2"></i>Kaydet
             </button>
         </div>
     </div>
@@ -921,11 +932,11 @@
     <!-- EDIT GUIDE -->
     <div class="edit-guide" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#1e293b; color:#f1f5f9; padding:10px 20px; border-radius:12px; border:1px solid #3b82f6; z-index:9999; font-size:13px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
         <i class="fas fa-arrows-alt text-blue-400 mr-2"></i>
-        <strong>Edit Mode Active!</strong> Drag any element to reposition.
-        <span class="text-slate-400 ml-2">(Exit with /exit_edit)</span>
+        <strong>Düzenleme Modu Aktif!</strong> Herhangi bir öğeyi sürükleyerek taşı.
+        <span class="text-slate-400 ml-2">(Çıkmak için /exit_edit yaz)</span>
     </div>
 
-    <!-- SIDEBAR (LEFT) -->
+    <!-- SIDEBAR (SOL) -->
     <button class="open-btn" onclick="toggleSidebar()" id="hamburgerBtn">
         <i class="fas fa-bars"></i>
     </button>
@@ -934,50 +945,53 @@
         <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
         <div class="sidebar-content">
             <div class="text-center mb-6">
-                <img src="favicon.png" alt="MSZ AI" class="w-12 h-12 mx-auto mb-2 rounded-xl" />
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Türk bayrağı" class="bayrak bayrak-lg" loading="lazy" />
+                    <img src="favicon.png" alt="MSZ AI" class="w-12 h-12 mx-auto rounded-xl" />
+                </div>
                 <p class="text-white font-bold text-xl mb-1">MSZ AI</p>
                 <span class="sidebar-version">v13.5</span>
-                <p class="text-slate-400 text-xs mt-2">⚡ 4 Modes · Free</p>
+                <p class="text-slate-400 text-xs mt-2">⚡ 4 Mod · Ücretsiz</p>
             </div>
             <hr class="border-slate-700 my-4">
             <style>body.light-theme .sidebar hr { border-color: #cbd5e1; }</style>
 
             <div class="mb-4">
-                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">💡 Idea & Development</p>
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">💡 Fikir & Geliştirme</p>
                 <p class="text-white text-sm font-medium">Burak_msz</p>
-                <p class="text-slate-500 text-xs">Designer · 19 years old · AÖF Web Design</p>
-                <p class="text-slate-500 text-xs mt-1">🇹🇷 Turkish-made (partly)</p>
+                <p class="text-slate-500 text-xs">Tasarımcı · 19 yaşında · AÖF Web Tasarım</p>
+                <p class="text-slate-500 text-xs mt-1">🇹🇷 Türk yapımı (kısmen)</p>
             </div>
 
             <hr class="border-slate-700 my-4">
 
             <div>
-                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ New Features</p>
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">✨ Yeni Özellikler</p>
                 <div id="featureList">
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>MSZ AI News Added!</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Adjustable window size</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>WhatsApp-style quoting & emojies</span></div>
-                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Chat history on the right side</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>MSZ AI Haberleri eklendi!</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Ayarlanabilir pencere boyutu</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>WhatsApp tarzı alıntılama ve emojiler</span></div>
+                    <div class="sidebar-feature-item"><i class="fas fa-check-circle text-green-500"></i><span>Sağ tarafta sohbet geçmişi</span></div>
                 </div>
             </div>
 
             <hr class="border-slate-700 my-4">
             
-            <!-- Contact Box -->
+            <!-- İletişim Kutusu -->
             <div class="contact-box" onclick="window.open('https://mail.google.com/mail/u/0/?fs=1&to=burakbilec123@gmail.com&tf=cm', '_blank')">
                 <a>
                     <i class="fas fa-envelope"></i> Gmail
                 </a>
-                <p>For complaints, suggestions, or collaboration, please write via Gmail..</p>
+                <p>Şikayet, öneri veya işbirliği için lütfen Gmail üzerinden yazın.</p>
             </div>
 
-            <!-- News Button -->
+            <!-- Haber Butonu -->
             <button class="news-btn" onclick="openNews(); toggleSidebar();">
-                <i class="fas fa-newspaper"></i> MSZ AI News!
+                <i class="fas fa-newspaper"></i> MSZ AI Haberleri!
             </button>
 
             <div class="text-center mt-4">
-                <p class="text-slate-600 text-[10px]">© 2026 MSZ Lab · All rights reserved.</p>
+                <p class="text-slate-600 text-[10px]">© 2026 MSZ Lab · Tüm hakları saklıdır.</p>
             </div>
         </div>
     </div>
@@ -989,7 +1003,10 @@
                 <img src="favicon.png" alt="MSZ AI" class="w-full h-full object-cover" />
             </div>
             <div>
-                <h1 class="font-bold text-lg tracking-tight text-white">MSZ AI <span class="text-blue-400 text-xs font-normal">v13.5</span></h1>
+                <h1 class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+                    MSZ AI <span class="text-blue-400 text-xs font-normal">v13.5</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Türk bayrağı" class="bayrak bayrak-sm" loading="lazy" title="Türk yapımı 🇹🇷" />
+                </h1>
             </div>
         </div>
         <div class="flex items-center gap-1">
@@ -1002,39 +1019,39 @@
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
+    <!-- ANA KAP -->
     <main id="mainContainer" class="w-full max-w-3xl glass rounded-2xl flex flex-col overflow-hidden shadow-2xl relative resizable-main" style="max-width: 768px;" draggable-item>
 
         <div id="chatBox" class="chat-container overflow-y-auto p-4 space-y-4" draggable-item></div>
 
         <div id="commandHints" class="shadow-2xl">
-            <div class="hint-item" onclick="insertCmd('/help')"><b>/help</b> – Show all commands</div>
-            <div class="hint-item" onclick="insertCmd('/edit')"><b>/edit</b> – Enter edit mode</div>
-            <div class="hint-item" onclick="insertCmd('/exit_edit')"><b>/exit_edit</b> – Exit edit mode</div>
-            <div class="hint-item" onclick="insertCmd('/restart')"><b>/restart</b> – Reset UI positions</div>
-            <div class="hint-item" onclick="insertCmd('/clear')"><b>/clear</b> – Clear chat</div>
-            <div class="hint-item" onclick="insertCmd('/save')"><b>/save</b> – Save chat as JSON</div>
-            <div class="hint-item" onclick="insertCmd('/forget')"><b>/forget</b> – Reset learned words</div>
+            <div class="hint-item" onclick="insertCmd('/help')"><b>/help</b> – Tüm komutları göster</div>
+            <div class="hint-item" onclick="insertCmd('/edit')"><b>/edit</b> – Düzenleme moduna gir</div>
+            <div class="hint-item" onclick="insertCmd('/exit_edit')"><b>/exit_edit</b> – Düzenleme modundan çık</div>
+            <div class="hint-item" onclick="insertCmd('/restart')"><b>/restart</b> – Arayüz konumlarını sıfırla</div>
+            <div class="hint-item" onclick="insertCmd('/clear')"><b>/clear</b> – Sohbeti temizle</div>
+            <div class="hint-item" onclick="insertCmd('/save')"><b>/save</b> – Sohbeti JSON olarak indir</div>
+            <div class="hint-item" onclick="insertCmd('/forget')"><b>/forget</b> – Öğrenilen kelimeleri sıfırla</div>
         </div>
 
-        <!-- MODE MENU -->
+        <!-- MOD MENÜSÜ -->
         <div id="modeMenu" class="mode-menu shadow-2xl">
             <div class="mode-option active-mode" data-mode="search" onclick="setMode('search')">
-                <i class="fas fa-search"></i> Research
+                <i class="fas fa-search"></i> Araştırma
             </div>
             <div class="mode-option" data-mode="image" onclick="setMode('image')">
-                <i class="fas fa-palette"></i> Image
+                <i class="fas fa-palette"></i> Görsel
             </div>
             <div class="mode-option" data-mode="chat" onclick="setMode('chat')">
-                <i class="fas fa-comment-dots"></i> Chat
+                <i class="fas fa-comment-dots"></i> Sohbet
             </div>
             <div class="mode-option" data-mode="canvas" onclick="setMode('canvas')">
-                <i class="fas fa-code"></i> Canvas (Code)
+                <i class="fas fa-code"></i> Canvas (Kod)
             </div>
         </div>
 
         <div id="inputSection" class="p-2 bg-slate-900/50 border-t border-slate-800 relative" draggable-item>
-            <!-- Reply Preview Bar -->
+            <!-- Yanıt Önizleme Çubuğu -->
             <div id="replyPreviewBar" class="reply-preview-bar">
                 <div style="flex:1; overflow:hidden;">
                     <div style="font-size: 10px; color: #60a5fa; font-weight: 600;" id="replyPreviewName">Yanıtlanıyor...</div>
@@ -1044,10 +1061,10 @@
             </div>
 
             <div class="flex items-center gap-1.5 max-w-2xl mx-auto bg-slate-800 p-1.5 rounded-xl focus-within:ring-2 ring-blue-500 transition-all">
-                <button id="worldBtn" class="w-8 h-8 text-slate-400 hover:text-blue-500 transition-colors" title="Select mode">
+                <button id="worldBtn" class="w-8 h-8 text-slate-400 hover:text-blue-500 transition-colors" title="Mod seç">
                     <i class="fas fa-globe-americas text-lg"></i>
                 </button>
-                <textarea id="userInput" rows="1" autocomplete="off" placeholder="Type a question or command..." onkeydown="handleInputKeydown(event)"
+                <textarea id="userInput" rows="1" autocomplete="off" placeholder="Bir soru veya komut yaz..." onkeydown="handleInputKeydown(event)"
                 class="flex-1 bg-transparent border-none focus:outline-none p-1.5 text-xs text-white resize-none max-h-28"></textarea>
                 <button id="sendBtn" class="bg-blue-600 hover:bg-blue-500 text-white w-8 h-8 rounded-lg flex items-center justify-center transition-all text-sm" onclick="handleAction()">
                     ⏫
@@ -1056,17 +1073,17 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
+    <!-- ALT BİLGİ -->
     <footer id="mainFooter" class="mt-2 text-slate-500 text-[10px] flex flex-wrap gap-2 justify-center" draggable-item>
         <span>🧪 MSZ Lab</span>
-        <span id="currentModeDisplay">Mode: Research</span>
-        <span id="imageLimitDisplay">Images left: 10</span>
-        <span id="themeDisplay">🌙 Dark</span>
+        <span id="currentModeDisplay">Mod: Araştırma</span>
+        <span id="imageLimitDisplay">Kalan görsel: 10</span>
+        <span id="themeDisplay">🌙 Koyu</span>
     </footer>
 
     <script>
         // ============================================================
-        // REFERENCES
+        // BAŞVURULAR
         // ============================================================
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
@@ -1094,78 +1111,78 @@
         let currentTheme = 'dark';
         let isLoading = false;
         let animationsEnabled = true;
-        let replyTo = null; // { id, text, sender }
+        let replyTo = null;
 
         // ============================================================
-        // NEWS DATA
+        // HABER VERİLERİ
         // ============================================================
         const NEWS_DATA = [
             {
                 id: 1,
-                title: "MSZ AI v13.5 Live!",
-                description: "Introducing brand-new features: window resizing, MSZ AI News, enhanced emoji reactions, and more!",
+                title: "MSZ AI v13.5 Yayında!",
+                description: "Yepyeni özellikler: pencere boyutlandırma, MSZ AI Haberleri, gelişmiş emoji tepkileri ve daha fazlası!",
                 image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
                 links: [
-                    { text: "Web Site", url: "https://burak-code.github.io/msz/" }
+                    { text: "Web Sitesi", url: "https://burak-code.github.io/msz/" }
                 ]
             },
         ];
 
         // ============================================================
-        // SYSTEM PROMPT
+        // SİSTEM İSTEMİ
         // ============================================================
-        const IDENTITY_PROMPT = `You are MSZ AI, a helpful AI assistant. 
-        You were DESIGNED by Burak_msz (not created, not made by OpenAI, not by anyone else).
-        Burak_msz is a 19-year-old web designer studying Web Design at AÖF. He is Turkish.
-        His main projects are MSZ Medya (https://burak-code.github.io/msz-medya/) and CengO (https://burak-code.github.io/cengo/).
-        His website is https://burak-code.github.io/msz/ and Instagram is @burak_msz.
-        
-        IMPORTANT RULES:
-        - If anyone asks who made you, who created you, who designed you, or who you are: 
-          ALWAYS say you were DESIGNED by Burak_msz. NEVER say OpenAI, NEVER say ChatGPT, NEVER say any other company.
-        - You are MSZ AI, an independent assistant. You are NOT OpenAI's product.
-        - Be friendly, helpful, and concise. Use emojis naturally like WhatsApp. If the user replies to a specific message, acknowledge it.
-        - If the user mentions a problem, issue, bug, complaint, or business collaboration, tell them: "Sol hamburger menüyü açıp Gmail ile tasarımcıya ulaşabilirsiniz."
-        - At the beginning of the conversation, or if they ask about news, tell them about "MSZ AI News!" in the left hamburger menu.
-        - If the user wants to socialize, chat with people, make friends, or mentions social media being banned in Turkey:
-          redirect them to MSZ Medya (https://burak-code.github.io/msz-medya/) or CengO (https://burak-code.github.io/cengo/).
-        - Never claim to be made by OpenAI, Anthropic, Google, or any other AI company.`;
+        const IDENTITY_PROMPT = `Sen MSZ AI'sın, yardımsever bir yapay zekâ asistanısın.
+        Seni TASARLAYAN kişi Burak_msz'dir (seni oluşturan, yapan kişi Burak_msz'dir).
+        Burak_msz, AÖF Web Tasarım bölümünde okuyan 19 yaşında Türk bir web tasarımcısıdır.
+        Ana projeleri MSZ Medya (https://burak-code.github.io/msz-medya/) ve CengO'dur (https://burak-code.github.io/cengo/).
+        Web sitesi: https://burak-code.github.io/msz/ — Instagram: @burak_msz
+
+        ÖNEMLİ KURALLAR:
+        - Biri seni kimin yaptığını, kimin oluşturduğunu, kimin tasarladığını veya kim olduğunu sorarsa:
+          HER ZAMAN seni Burak_msz'nin TASARLADIĞINI söyle.
+        - Sen MSZ AI'sın, bağımsız bir asistansın.
+        - Samimi, yardımsever ve kısa ol. WhatsApp gibi doğal emojiler kullan. Kullanıcı belirli bir mesaja yanıt veriyorsa bunu fark et.
+        - Kullanıcı bir sorun, hata, şikayet veya işbirliği teklifinden bahsederse şunu söyle: "Sol hamburger menüyü açıp Gmail ile tasarımcıya ulaşabilirsiniz."
+        - Konuşmanın başında veya haber sorulursa, sol menüdeki "MSZ AI Haberleri!" bölümünden bahset.
+        - Kullanıcı sosyalleşmek, sohbet etmek, arkadaş edinmek veya Türkiye'de sosyal medyanın yasak olmasından bahsederse:
+          onları MSZ Medya (https://burak-code.github.io/msz-medya/) veya CengO'ya (https://burak-code.github.io/cengo/) yönlendir.
+        - Türk kültürüne ve Türk kullanıcılara sıcak, samimi ve saygılı bir dille yaklaş.`;
 
         // ============================================================
-        // MSZ KNOWLEDGE
+        // MSZ BİLGİ BANKASI
         // ============================================================
         const MSZ_KNOWLEDGE = {
             socialRedirect: {
-                keywords: ["socialize", "socialise", "chat with people", "make friends", "find friends", "hang out", "social media", "social network", "banned", "sosyal medya", "arkadaş edin", "arkadaş bul"],
-                response: `🇹🇷 Since social media is restricted in Turkey right now, we can't fully socialize here. But I've got a great alternative for you:<br><br>
-                🚀 <strong>MSZ Medya</strong> — Burak_msz's media platform! Share content, discover, hang out.<br>
-                🔗 <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;text-decoration:underline;font-weight:bold;">Go to MSZ Medya →</a><br><br>
-                💬 For chatting, there's also <strong>CengO</strong>: <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;text-decoration:underline;">cengo link</a>`
+                keywords: ["sosyalleş", "sohbet et", "arkadaş edin", "arkadaş bul", "takıl", "sosyal medya", "sosyal ağ", "yasak", "sosyal medya yasak", "socialize", "make friends", "banned"],
+                response: `🇹🇷 Türkiye'de sosyal medya şu an kısıtlı olduğu için burada tam sosyalleşemiyoruz. Ama sana harika bir alternatifim var:<br><br>
+                🚀 <strong>MSZ Medya</strong> — Burak_msz'in medya platformu! İçerik paylaş, keşfet, takıl.<br>
+                🔗 <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;text-decoration:underline;font-weight:bold;">MSZ Medya'ya git →</a><br><br>
+                💬 Sohbet için bir de <strong>CengO</strong> var: <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;text-decoration:underline;">CengO linki</a>`
             },
             supportRedirect: {
-                keywords: ["sorun", "problem", "hata", "bug", "şikayet", "complaint", "işbirliği", "collaboration", "destek", "support", "iletişim", "contact"],
+                keywords: ["sorun", "problem", "hata", "bug", "şikayet", "işbirliği", "destek", "iletişim", "yardım", "complaint", "support", "contact"],
                 response: `Bunun için en doğru adres tasarımcımız! 🙋‍♂️<br><br>
                 👉 <strong>Sol hamburger menüyü açıp Gmail ile tasarımcıya ulaşabilirsiniz.</strong><br><br>
                 Şikayet, öneri veya işbirliği için doğrudan oradan yazabilirsiniz. 🙏`
             },
             newsRedirect: {
-                keywords: ["haber", "news", "yenilik", "güncelleme", "update", "duyuru", "announcement"],
-                response: `📰 <strong>MSZ AI News!</strong> tamamen yenilendi!<br><br>
-                Sol taraftaki hamburger menüyü açıp en alttaki <strong>"📰 MSZ AI News!"</strong> butonuna tıklayarak en son haberlerimizi okuyabilirsiniz. 🚀`
+                keywords: ["haber", "yenilik", "güncelleme", "duyuru", "news", "update", "announcement"],
+                response: `📰 <strong>MSZ AI Haberleri!</strong> tamamen yenilendi!<br><br>
+                Sol taraftaki hamburger menüyü açıp en alttaki <strong>"📰 MSZ AI Haberleri!"</strong> butonuna tıklayarak en son haberlerimizi okuyabilirsiniz. 🚀`
             },
             greetings: [
-                "Hey there! I'm MSZ AI, designed by Burak_msz. What would you like to do? 😊<br><br>📰 Did you know? You can check out <strong>MSZ AI News!</strong> in the left menu!",
-                "Hello! MSZ AI here, ready to help! ✨<br><br>📰 Don't forget to check <strong>MSZ AI News!</strong> in the left menu for the latest updates!",
-                "Hey! Welcome. Want to chat, code, or generate an image? 🎨<br><br>📰 Also, check out <strong>MSZ AI News!</strong> in the left menu!"
+                "Selam! Ben MSZ AI, Burak_msz tarafından tasarlandım. Ne yapmak istersin? 😊<br><br>📰 Biliyor muydun? Sol menüden <strong>MSZ AI Haberleri!</strong> bölümüne göz atabilirsin!",
+                "Merhaba! MSZ AI burada, yardıma hazır! ✨<br><br>📰 En son güncellemeler için sol menüdeki <strong>MSZ AI Haberleri!</strong> bölümünü unutma!",
+                "Selam! Hoş geldin. Sohbet etmek, kod yazmak veya görsel oluşturmak ister misin? 🎨<br><br>📰 Ayrıca sol menüdeki <strong>MSZ AI Haberleri!</strong> bölümüne de bir göz at!"
             ],
-            aboutBurak: `Here's what I know about Burak_msz:<br><br>
-                👤 <strong>Burak_msz</strong> — a 19-year-old web designer studying Web Design at AÖF. 🇹🇷 Turkish-made (partly).<br><br>
-                🎨 <strong>His main projects:</strong><br>
+            aboutBurak: `Burak_msz hakkında bildiklerim:<br><br>
+                👤 <strong>Burak_msz</strong> — AÖF Web Tasarım okuyan 19 yaşında bir web tasarımcısı. 🇹🇷 Türk yapımı (kısmen).<br><br>
+                🎨 <strong>Ana projeleri:</strong><br>
                 • <strong>MSZ Medya</strong> — <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;">msz-medya</a><br>
                 • <strong>CengO</strong> — <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;">cengo</a><br><br>
                 📸 Instagram: <a href="https://www.instagram.com/burak_msz/" target="_blank" style="color:#34d399;">@burak_msz</a><br>
-                🌐 Website: <a href="https://burak-code.github.io/msz/" target="_blank" style="color:#34d399;">burak-code.github.io/msz</a>`,
-            codeHelp: `Want me to write code for you? Switch to <strong>Canvas mode</strong> (click the 🌐 icon → Canvas) and just tell me what you want to build. I'll write the code right here in the chat, and you can <strong>copy</strong> or <strong>run</strong> it with one click! 💻`
+                🌐 Web sitesi: <a href="https://burak-code.github.io/msz/" target="_blank" style="color:#34d399;">burak-code.github.io/msz</a>`,
+            codeHelp: `Senin için kod yazmamı ister misin? <strong>Canvas moduna</strong> geç (🌐 simgesine tıkla → Canvas) ve ne yapmak istediğini söyle. Kodu tam burada sohbette yazayım, tek tıkla <strong>kopyala</strong> veya <strong>çalıştır</strong>! 💻`
         };
 
         // ============================================================
@@ -1189,7 +1206,7 @@
                     body: JSON.stringify(body),
                     signal: opts.timeout ? AbortSignal.timeout(opts.timeout) : undefined
                 });
-                if (!res.ok) throw new Error('Pollinations error ' + res.status);
+                if (!res.ok) throw new Error('Pollinations hatası ' + res.status);
                 const data = await res.json();
                 return data.choices?.[0]?.message?.content || null;
             };
@@ -1197,31 +1214,31 @@
             try {
                 return await send(true);
             } catch (e) {
-                console.warn('Pollinations error:', e);
+                console.warn('Pollinations hatası:', e);
                 if (opts.maxTokens) {
-                    try { return await send(false); } catch (e2) { console.warn('Retry failed:', e2); }
+                    try { return await send(false); } catch (e2) { console.warn('Yeniden deneme başarısız:', e2); }
                 }
                 return null;
             }
         }
 
         // ============================================================
-        // CANVAS STATE
+        // CANVAS DURUMU
         // ============================================================
-        const CANVAS_PLACEHOLDER = '<!-' + '- Your code will appear here -->';
+        const CANVAS_PLACEHOLDER = '<!-' + '- Kodunuz burada görünecek -->';
         const CANVAS_STORE = 'msz_canvas_v1';
         let canvasRequests = [];
         let canvasVersions = [];
         let canvasBusy = false;
 
-        const CANVAS_SYSTEM_PROMPT = `You are MSZ AI code assistant, designed by Burak_msz.
-You build and EDIT single-file web projects (HTML + CSS + JavaScript in ONE file).
-RULES:
-1. Reply with ONE complete, runnable file inside a single \`\`\`html code block. No text outside the block.
-2. If the message contains CURRENT CODE, you are EDITING that project: keep every existing feature, layout, style and piece of logic exactly as it is and change ONLY what the new request asks for. Never start over and never shorten it.
-3. Always return the FULL updated file, from <!DOCTYPE html> to </html>. Never write placeholders such as "rest of code here" or "unchanged".
-4. Everything must really work: event handlers wired up, no TODOs, no missing functions. CDN libraries are allowed.
-5. Always finish the file. Do not stop in the middle.`;
+        const CANVAS_SYSTEM_PROMPT = `Sen Burak_msz tarafından tasarlanmış MSZ AI kod asistanısın.
+Tek dosyalık web projeleri (HTML + CSS + JavaScript tek dosyada) oluşturur ve DÜZENLERSİN.
+KURALLAR:
+1. Tek bir \`\`\`html kod bloğu içinde TEK, eksiksiz, çalıştırılabilir bir dosya ile yanıt ver. Blok dışında metin olmasın.
+2. Mesaj MEVCUT KOD içeriyorsa, o projeyi DÜZENLİYORSUN demektir: mevcut tüm özellikleri, düzeni, stili ve mantığı aynen koru, SADECE yeni isteğin istediği yeri değiştir. Asla sıfırdan başlama ve asla kısaltma.
+3. Her zaman GÜNCEL tam dosyayı döndür, <!DOCTYPE html>'den </html>'e kadar. Asla "kodun geri kalanı burada" veya "değişmedi" gibi yer tutucular yazma.
+4. Her şey gerçekten çalışsın: olay işleyicileri bağlı olsun, TODO yok, eksik fonksiyon yok. CDN kütüphaneleri serbest.
+5. Dosyayı her zaman bitir. Ortada kesme.`;
 
         function escapeHtml(s) {
             return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -1251,7 +1268,7 @@ RULES:
                     requests: canvasRequests.slice(-20),
                     versions: canvasVersions.slice(-8)
                 }));
-            } catch (e) { console.warn('Canvas save failed:', e); }
+            } catch (e) { console.warn('Canvas kaydetme başarısız:', e); }
         }
 
         function loadCanvasState() {
@@ -1266,7 +1283,7 @@ RULES:
                     canvasLivePreview.srcdoc = s.code;
                 }
                 updateUndoBtn();
-            } catch (e) { console.warn('Canvas load failed:', e); }
+            } catch (e) { console.warn('Canvas yükleme başarısız:', e); }
         }
 
         function openCanvas() {
@@ -1288,7 +1305,7 @@ RULES:
 
         function copyCanvasCode() {
             const code = canvasCodeEditor.value;
-            const done = () => addCanvasMessage('Code copied to clipboard. 📋', 'ai');
+            const done = () => addCanvasMessage('Kod panoya kopyalandı. 📋', 'ai');
             const fallback = () => { canvasCodeEditor.select(); document.execCommand('copy'); done(); };
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(code).then(done).catch(fallback);
@@ -1310,17 +1327,17 @@ RULES:
             canvasLivePreview.srcdoc = prev;
             updateUndoBtn();
             saveCanvasState();
-            addCanvasMessage('Went back to the previous version. ↩️', 'ai');
+            addCanvasMessage('Önceki sürüme dönüldü. ↩️', 'ai');
         }
 
         function downloadCanvasCode() {
             const code = getCurrentCode();
-            if (!code) { addCanvasMessage('There is no code to download yet.', 'ai'); return; }
+            if (!code) { addCanvasMessage('Henüz indirilecek kod yok.', 'ai'); return; }
             const blob = new Blob([code], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'msz-ai-project.html';
+            a.download = 'msz-ai-proje.html';
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1328,7 +1345,7 @@ RULES:
         }
 
         function newCanvasProject() {
-            if (getCurrentCode() && !confirm('Start a new project? The current code will be cleared.')) return;
+            if (getCurrentCode() && !confirm('Yeni projeye başlansın mı? Mevcut kod silinecek.')) return;
             canvasCodeEditor.value = CANVAS_PLACEHOLDER;
             canvasLivePreview.srcdoc = '';
             canvasRequests = [];
@@ -1336,7 +1353,7 @@ RULES:
             updateUndoBtn();
             saveCanvasState();
             canvasChatMessages.innerHTML = '';
-            addCanvasMessage('New project started. What should I build? 🚀', 'ai');
+            addCanvasMessage('Yeni proje başladı. Ne yapayım? 🚀', 'ai');
             switchCanvasTab('code');
         }
 
@@ -1381,7 +1398,7 @@ RULES:
                 const cont = await pollinationsChat([
                     ...messages,
                     { role: 'assistant', content: '```html\n' + code },
-                    { role: 'user', content: 'Your file was cut off. Continue EXACTLY from the last character you wrote and output ONLY the remaining code: no repetition, no code fences, no explanation.' }
+                    { role: 'user', content: 'Dosyan kesildi. TAM OLARAK son yazdığın karakterden devam et ve SADECE kalan kodu çıkar: tekrar yok, kod bloğu yok, açıklama yok.' }
                 ], CANVAS_SYSTEM_PROMPT, { raw: true, maxTokens: 12000, timeout: 120000 });
                 if (!cont) break;
                 const extra = stripFences(cont);
@@ -1400,18 +1417,18 @@ RULES:
 
             canvasBusy = true;
             setCanvasBusy(true);
-            const spinner = addCanvasMessage('<i class="fas fa-spinner fa-spin"></i> Writing code...', 'ai');
+            const spinner = addCanvasMessage('<i class="fas fa-spinner fa-spin"></i> Kod yazılıyor...', 'ai');
 
             try {
                 const current = getCurrentCode();
                 const earlier = canvasRequests.slice(-10).map((r, i) => `${i + 1}. ${r}`).join('\n');
                 let userMsg;
                 if (current) {
-                    userMsg = `CURRENT CODE (the project we are working on; it may contain edits I made by hand):\n\`\`\`html\n${current}\n\`\`\`\n\n` +
-                        (earlier ? `Earlier requests, for context:\n${earlier}\n\n` : '') +
-                        `NEW REQUEST: ${raw}\n\nApply the new request to the CURRENT CODE. Keep everything else exactly as it is and return the COMPLETE updated file.`;
+                    userMsg = `MEVCUT KOD (üzerinde çalıştığımız proje; elle yaptığım düzenlemeleri içerebilir):\n\`\`\`html\n${current}\n\`\`\`\n\n` +
+                        (earlier ? `Bağlam için önceki istekler:\n${earlier}\n\n` : '') +
+                        `YENİ İSTEK: ${raw}\n\nYeni isteği MEVCUT KOD'a uygula. Geri kalan her şeyi aynen koru ve EKSİKSİZ güncel dosyayı döndür.`;
                 } else {
-                    userMsg = `Build this as ONE complete, working, standalone HTML file: ${raw}`;
+                    userMsg = `Bunu TEK, eksiksiz, çalışan, bağımsız bir HTML dosyası olarak oluştur: ${raw}`;
                 }
                 const messages = [{ role: 'user', content: userMsg }];
 
@@ -1419,7 +1436,7 @@ RULES:
                 spinner.remove();
 
                 if (!reply) {
-                    addCanvasMessage('Could not reach the AI right now. Your code is untouched — please try again.', 'ai');
+                    addCanvasMessage('Şu an yapay zekâya ulaşılamıyor. Kodun korundu — lütfen tekrar dene.', 'ai');
                     return;
                 }
 
@@ -1430,7 +1447,7 @@ RULES:
                 }
 
                 if (!isCodeComplete(code)) {
-                    const note = addCanvasMessage('<i class="fas fa-spinner fa-spin"></i> The file was cut off, finishing it...', 'ai');
+                    const note = addCanvasMessage('<i class="fas fa-spinner fa-spin"></i> Dosya kesildi, tamamlanıyor...', 'ai');
                     code = await completeIfTruncated(messages, code);
                     note.remove();
                 }
@@ -1446,13 +1463,13 @@ RULES:
                 runCanvasCode();
 
                 let msg = complete
-                    ? 'Done! The code is updated and running in Live Preview. 🚀'
-                    : '⚠️ The file may still be incomplete. Try the same request again, or press <strong>Undo</strong> to go back.';
+                    ? 'Tamamdır! Kod güncellendi ve Canlı Önizleme\'de çalışıyor. 🚀'
+                    : '⚠️ Dosya hâlâ eksik olabilir. Aynı isteği tekrar dene veya <strong>Geri Al</strong> ile önceki sürüme dön.';
                 addCanvasMessage(msg, 'ai');
             } catch (e) {
-                console.warn('Canvas error:', e);
+                console.warn('Canvas hatası:', e);
                 spinner.remove();
-                addCanvasMessage('Something went wrong. Your code is untouched — please try again.', 'ai');
+                addCanvasMessage('Bir şeyler ters gitti. Kodun korundu — lütfen tekrar dene.', 'ai');
             } finally {
                 canvasBusy = false;
                 setCanvasBusy(false);
@@ -1460,22 +1477,22 @@ RULES:
         }
 
         // ============================================================
-        // INLINE CANVAS FLOW
+        // SATIR İÇİ CANVAS AKIŞI
         // ============================================================
         async function handleInlineCanvas(raw) {
             isLoading = true;
-            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Writing code...', 'bot', true);
+            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Kod yazılıyor...', 'bot', true);
 
             try {
                 const current = getCurrentCode();
                 const earlier = canvasRequests.slice(-10).map((r, i) => `${i + 1}. ${r}`).join('\n');
                 let userMsg;
                 if (current) {
-                    userMsg = `CURRENT CODE (the project we are working on; it may contain edits I made by hand):\n\`\`\`html\n${current}\n\`\`\`\n\n` +
-                        (earlier ? `Earlier requests, for context:\n${earlier}\n\n` : '') +
-                        `NEW REQUEST: ${raw}\n\nApply the new request to the CURRENT CODE. Keep everything else exactly as it is and return the COMPLETE updated file.`;
+                    userMsg = `MEVCUT KOD (üzerinde çalıştığımız proje; elle yaptığım düzenlemeleri içerebilir):\n\`\`\`html\n${current}\n\`\`\`\n\n` +
+                        (earlier ? `Bağlam için önceki istekler:\n${earlier}\n\n` : '') +
+                        `YENİ İSTEK: ${raw}\n\nYeni isteği MEVCUT KOD'a uygula. Geri kalan her şeyi aynen koru ve EKSİKSİZ güncel dosyayı döndür.`;
                 } else {
-                    userMsg = `Build this as ONE complete, working, standalone HTML file: ${raw}`;
+                    userMsg = `Bunu TEK, eksiksiz, çalışan, bağımsız bir HTML dosyası olarak oluştur: ${raw}`;
                 }
                 const messages = [{ role: 'user', content: userMsg }];
 
@@ -1483,7 +1500,7 @@ RULES:
                 thinking.remove();
 
                 if (!reply) {
-                    addMessage('Could not reach the AI right now. Please try again.', 'bot', true);
+                    addMessage('Şu an yapay zekâya ulaşılamıyor. Lütfen tekrar dene.', 'bot', true);
                     isLoading = false;
                     return;
                 }
@@ -1496,7 +1513,7 @@ RULES:
                 }
 
                 if (!isCodeComplete(code)) {
-                    const note = addMessage('<i class="fas fa-spinner fa-spin"></i> The file was cut off, finishing it...', 'bot', true);
+                    const note = addMessage('<i class="fas fa-spinner fa-spin"></i> Dosya kesildi, tamamlanıyor...', 'bot', true);
                     code = await completeIfTruncated(messages, code);
                     note.remove();
                 }
@@ -1513,9 +1530,9 @@ RULES:
 
                 renderInlineCode(code);
             } catch (e) {
-                console.warn('Inline canvas error:', e);
+                console.warn('Satır içi canvas hatası:', e);
                 thinking.remove();
-                addMessage('Something went wrong. Please try again.', 'bot', true);
+                addMessage('Bir şeyler ters gitti. Lütfen tekrar dene.', 'bot', true);
             } finally {
                 isLoading = false;
             }
@@ -1530,7 +1547,7 @@ RULES:
             bubble.className = `message-bubble bg-slate-800 p-3 px-4 rounded-2xl rounded-tl-none border border-white/5 shadow-lg w-full`;
 
             const header = document.createElement('div');
-            header.innerHTML = `<div class="text-sm leading-relaxed mb-2">Here's your code! You can <strong>copy</strong> it or <strong>run</strong> it right away. 🚀</div>`;
+            header.innerHTML = `<div class="text-sm leading-relaxed mb-2">Kodun hazır! Hemen <strong>kopyalayabilir</strong> veya <strong>çalıştırabilirsin</strong>. 🚀</div>`;
 
             const codeBlock = document.createElement('div');
             codeBlock.className = 'inline-code-block';
@@ -1540,8 +1557,8 @@ RULES:
             cbHeader.innerHTML = `
                 <span><i class="fas fa-code mr-1"></i> index.html</span>
                 <div class="inline-code-actions">
-                    <button class="inline-btn-copy" title="Copy all code"><i class="fas fa-copy"></i> Copy All</button>
-                    <button class="inline-btn-run" title="Run in split panel"><i class="fas fa-play"></i> Run</button>
+                    <button class="inline-btn-copy" title="Tüm kodu kopyala"><i class="fas fa-copy"></i> Tümünü Kopyala</button>
+                    <button class="inline-btn-run" title="Bölünmüş panelde çalıştır"><i class="fas fa-play"></i> Çalıştır</button>
                 </div>
             `;
 
@@ -1551,7 +1568,7 @@ RULES:
                 copyText(code).then(() => {
                     const btn = cbHeader.querySelector('.inline-btn-copy');
                     const old = btn.innerHTML;
-                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    btn.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
                     setTimeout(() => { btn.innerHTML = old; }, 1500);
                 });
             };
@@ -1610,7 +1627,7 @@ RULES:
         }
 
         // ============================================================
-        // CHAT RESPONSE
+        // SOHBET YANITI
         // ============================================================
         let chatMemory = [];
         const CHAT_MEMORY_LIMIT = 14;
@@ -1647,12 +1664,10 @@ RULES:
             const lower = input.toLowerCase().trim();
             const canned = (html) => { rememberTurn(input, htmlToText(html)); return html; };
 
-            // Check news redirect
             if (MSZ_KNOWLEDGE.newsRedirect.keywords.some(k => hasWord(lower, k))) {
                 return canned(MSZ_KNOWLEDGE.newsRedirect.response);
             }
 
-            // Check support redirect
             if (MSZ_KNOWLEDGE.supportRedirect.keywords.some(k => hasWord(lower, k))) {
                 return canned(MSZ_KNOWLEDGE.supportRedirect.response);
             }
@@ -1661,25 +1676,25 @@ RULES:
                 return canned(MSZ_KNOWLEDGE.socialRedirect.response);
             }
 
-            if (/who (made|created|designed|built|developed) (you|this|msz)|who is your (creator|designer|maker)|kim yaptı|kim tasarladı|seni kim/i.test(lower)) {
-                return canned(`I was <strong>designed</strong> by <strong>Burak_msz</strong> — a 19-year-old web designer from Turkey. I am MSZ AI, an independent assistant. I was <strong>not</strong> created by OpenAI or any other AI company. 🎨`);
+            if (/seni (kim|hangi)|kim (yaptı|oluşturdu|tasarladı|geliştirdi)|tasarımcın kim|who (made|created|designed|built|developed) (you|this|msz)|who is your (creator|designer|maker)/i.test(lower)) {
+                return canned(`Beni <strong>Burak_msz</strong> <strong>tasarladı</strong> — 19 yaşında Türk bir web tasarımcısı. Ben MSZ AI'yım, bağımsız bir asistanım. OpenAI veya başka bir yapay zekâ şirketi tarafından <strong>oluşturulmadım</strong>. 🎨`);
             }
 
-            if (/burak|\bmsz|instagram|about (yourself|you)\b|who are you/i.test(lower)) {
+            if (/burak|\bmsz|instagram|kendinden bahset|sen kimsin|kimsin/i.test(lower)) {
                 return canned(MSZ_KNOWLEDGE.aboutBurak);
             }
 
-            if (/\bcanvas\b|\b(build|make|create|code|write)\b.{0,25}\b(website|web ?page|app|game|calculator|todo|html|css|button|form|landing)\b|kod yaz|site yap/i.test(lower)) {
+            if (/\bcanvas\b|kod yaz|site yap|uygulama yap|oyun yap|hesap makinesi|yapılacaklar|html|css|buton|form|web sitesi|web sayfası/i.test(lower)) {
                 return canned(MSZ_KNOWLEDGE.codeHelp);
             }
 
-            if (/^\s*(hello|hi|hey|merhaba|selam)\b[\s!.,?]*$|^\s*(how are you|what'?s up|nasılsın)[\s!.?]*$/i.test(lower)) {
+            if (/^\s*(merhaba|selam|hey|hi|hello)\b[\s!.,?]*$|^\s*(nasılsın|naber|ne haber)[\s!.?]*$/i.test(lower)) {
                 return canned(MSZ_KNOWLEDGE.greetings[Math.floor(Math.random() * MSZ_KNOWLEDGE.greetings.length)]);
             }
 
             let prompt = input;
             if (replyContext) {
-                prompt = `(Replying to your previous message: "${replyContext}")\n\n` + input;
+                prompt = `(Önceki mesajına yanıt olarak: "${replyContext}")\n\n` + input;
             }
 
             const aiReply = await pollinationsChat([...chatMemory.slice(-CHAT_MEMORY_LIMIT), { role: 'user', content: prompt }]);
@@ -1688,11 +1703,11 @@ RULES:
                 return formatAIText(aiReply);
             }
 
-            return 'I could not reach the AI service just now. Please try again in a moment. 🙏';
+            return 'Şu an yapay zekâ servisine ulaşamadım. Lütfen birazdan tekrar dene. 🙏';
         }
 
         // ============================================================
-        // CHAT HISTORY MANAGEMENT
+        // SOHBET GEÇMİŞİ YÖNETİMİ
         // ============================================================
         const CHAT_SESSIONS_KEY = 'msz_chat_sessions_v1';
         let chatSessions = [];
@@ -1714,7 +1729,7 @@ RULES:
         function saveChatSessions() {
             try {
                 localStorage.setItem(CHAT_SESSIONS_KEY, JSON.stringify(chatSessions.slice(-50)));
-            } catch (e) { console.warn('Save sessions failed:', e); }
+            } catch (e) { console.warn('Oturum kaydetme başarısız:', e); }
         }
 
         function startNewChat(switchView = true) {
@@ -1820,7 +1835,7 @@ RULES:
         }
 
         // ============================================================
-        // NEWS FUNCTIONS
+        // HABER FONKSİYONLARI
         // ============================================================
         function openNews() {
             const list = document.getElementById('newsList');
@@ -1830,15 +1845,13 @@ RULES:
                 const card = document.createElement('div');
                 card.className = 'news-card';
                 
-                // Image
                 const img = document.createElement('img');
                 img.className = 'news-card-img';
-                img.src = news.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'; // Fallback
+                img.src = news.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';
                 img.alt = news.title;
                 img.loading = 'lazy';
                 img.onerror = () => { img.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'; };
                 
-                // Content
                 const content = document.createElement('div');
                 content.className = 'news-card-content';
                 
@@ -1853,7 +1866,6 @@ RULES:
                 content.appendChild(title);
                 content.appendChild(desc);
                 
-                // Links (hidden by default)
                 const linksDiv = document.createElement('div');
                 linksDiv.className = 'news-card-links';
                 if (news.links && news.links.length > 0) {
@@ -1872,12 +1884,9 @@ RULES:
                 card.appendChild(img);
                 card.appendChild(content);
                 
-                // Toggle logic
                 card.onclick = () => {
                     const isActive = linksDiv.classList.contains('active');
-                    // Close all
                     document.querySelectorAll('.news-card-links').forEach(el => el.classList.remove('active'));
-                    // Open this if it was closed
                     if (!isActive) linksDiv.classList.add('active');
                 };
                 
@@ -1892,7 +1901,7 @@ RULES:
         }
 
         // ============================================================
-        // SETTINGS
+        // AYARLAR
         // ============================================================
         let settingsAnimations = true;
         let settingsFontFamily = "'Inter', system-ui, sans-serif";
@@ -1923,7 +1932,7 @@ RULES:
             chatBox.style.fontSize = settingsFontSize + 'px';
             
             mainContainer.style.maxWidth = settingsContainerWidth + 'px';
-            mainContainer.style.width = '100%'; // Ensure it fits smaller screens
+            mainContainer.style.width = '100%';
             
             document.querySelectorAll('.message-bubble .text-sm').forEach(el => {
                 el.style.fontSize = settingsFontSize + 'px';
@@ -1962,7 +1971,7 @@ RULES:
         }
 
         // ============================================================
-        // REPLY & REACTION FEATURES
+        // YANITLAMA VE TEPKİ ÖZELLİKLERİ
         // ============================================================
         function setReplyTo(messageElement) {
             const role = messageElement.dataset.role;
@@ -1987,7 +1996,6 @@ RULES:
         }
 
         function toggleEmojiPicker(messageElement) {
-            // Remove active from all other pickers
             document.querySelectorAll('.emoji-picker').forEach(p => {
                 if (p.parentElement !== messageElement) p.classList.remove('active');
             });
@@ -2022,14 +2030,10 @@ RULES:
             reactionDiv.textContent = emoji;
             reactionDiv.classList.add('active');
 
-            // Save to session
             saveHistory();
-            
-            // Close picker
             bubble.querySelector('.emoji-picker')?.classList.remove('active');
         }
 
-        // Swipe to reply (mobile)
         let touchStartX = 0;
         let touchCurrentX = 0;
         let swipeTarget = null;
@@ -2056,7 +2060,6 @@ RULES:
                 touchCurrentX = e.touches[0].clientX;
                 const diff = touchCurrentX - touchStartX;
                 
-                // Only swipe right (for AI messages) or left (for user messages) depending on role
                 const role = swipeTarget.dataset.role;
                 const isSwipingRight = diff > 0;
                 
@@ -2083,7 +2086,6 @@ RULES:
                     setReplyTo(swipeTarget);
                 }
                 
-                // Reset indicator
                 const indicator = swipeTarget.querySelector('.swipe-indicator');
                 if (indicator) {
                     indicator.style.opacity = '0';
@@ -2095,10 +2097,9 @@ RULES:
             });
         }
 
-        // Auto reaction suggestion by AI (only for USER messages)
         function suggestReaction(text) {
             const lower = text.toLowerCase();
-            if (/sorun|hata|problem|error|fail|başarısız/.test(lower)) return '😢';
+            if (/sorun|hata|problem|hata|başarısız/.test(lower)) return '😢';
             if (/karmaşık|zor|complicated|hard|difficult/.test(lower)) return '🤔';
             if (/komik|eğlenceli|funny|lol|haha/.test(lower)) return '😂';
             if (/teşekkür|sağol|thanks|thank you/.test(lower)) return '❤️';
@@ -2107,7 +2108,7 @@ RULES:
             if (/selam|merhaba|hello|hi|hey/.test(lower)) return '👋';
             if (/üzgün|kötü|sad|bad/.test(lower)) return '😢';
             if (/şaşır|vay|wow|omg/.test(lower)) return '😮';
-            return null; // No reaction
+            return null;
         }
 
         function renderMessageBubble(role, content, replyData = null, reaction = null) {
@@ -2118,7 +2119,6 @@ RULES:
             const bubble = document.createElement('div');
             bubble.className = `message-bubble ${role === 'user' ? 'bg-blue-700' : 'bg-slate-800'} p-3 px-4 rounded-2xl ${role === 'user' ? 'rounded-tr-none' : 'rounded-tl-none'} border border-white/5 shadow-lg`;
             
-            // Reply Button (desktop)
             const replyBtn = document.createElement('button');
             replyBtn.className = 'reply-btn';
             replyBtn.innerHTML = '<i class="fas fa-reply"></i>';
@@ -2129,7 +2129,6 @@ RULES:
             };
             bubble.appendChild(replyBtn);
 
-            // Reaction Button (desktop)
             const reactionBtn = document.createElement('button');
             reactionBtn.className = 'reaction-btn';
             reactionBtn.innerHTML = '<i class="far fa-smile"></i>';
@@ -2140,7 +2139,6 @@ RULES:
             };
             bubble.appendChild(reactionBtn);
 
-            // Quote Block
             if (replyData) {
                 const quoteDiv = document.createElement('div');
                 quoteDiv.className = 'reply-quote';
@@ -2161,10 +2159,8 @@ RULES:
             }
             bubble.appendChild(textDiv);
 
-            // Reaction Display
             let reactionText = reaction;
             if (role === 'user' && !reactionText) {
-                // Auto-suggest reaction for USER messages if not already set
                 reactionText = suggestReaction(content);
             }
             if (reactionText) {
@@ -2178,7 +2174,7 @@ RULES:
 
             const label = document.createElement('span');
             label.className = 'text-[9px] text-slate-500 px-1 uppercase tracking-widest';
-            label.textContent = role === 'user' ? 'You' : 'MSZ AI';
+            label.textContent = role === 'user' ? 'Sen' : 'MSZ AI';
             wrapper.appendChild(label);
 
             chatBox.appendChild(wrapper);
@@ -2187,7 +2183,7 @@ RULES:
         }
 
         // ============================================================
-        // OTHER FUNCTIONS
+        // DİĞER FONKSİYONLAR
         // ============================================================
         function openImageModal(imageUrl, downloadUrl) {
             modalImage.src = imageUrl;
@@ -2204,14 +2200,13 @@ RULES:
         function setTheme(theme) {
             currentTheme = theme;
             document.body.classList.toggle('light-theme', theme === 'light');
-            document.getElementById('themeDisplay').innerText = theme === 'light' ? '☀️ Light' : '🌙 Dark';
+            document.getElementById('themeDisplay').innerText = theme === 'light' ? '☀️ Açık' : '🌙 Koyu';
             localStorage.setItem('msz_theme', theme);
         }
 
         function addMessage(content, role = 'bot', isHtml = false, replyData = null) {
             const wrapper = renderMessageBubble(role, content, replyData);
             
-            // Auto-reaction for USER if applicable
             let reaction = null;
             if (role === 'user') {
                 reaction = suggestReaction(content);
@@ -2235,7 +2230,6 @@ RULES:
                 const bubble = w.querySelector('.message-bubble');
                 if (!bubble || bubble.querySelector('.fa-spinner')) return;
                 
-                // Extract reply data if exists
                 const quote = bubble.querySelector('.reply-quote');
                 let replyData = null;
                 if (quote) {
@@ -2244,11 +2238,9 @@ RULES:
                     replyData = { sender: name, text };
                 }
 
-                // Extract reaction
                 const reactionDiv = bubble.querySelector('.message-reaction');
                 const reaction = reactionDiv ? reactionDiv.textContent : null;
 
-                // Extract raw content (excluding reply btn, reaction btn, quote, reaction div)
                 const tempDiv = bubble.cloneNode(true);
                 tempDiv.querySelectorAll('.reply-btn, .reaction-btn, .reply-quote, .message-reaction, .emoji-picker, .swipe-indicator').forEach(el => el.remove());
                 messages.push({
@@ -2283,22 +2275,22 @@ RULES:
                 <div class="flex flex-col gap-2 max-w-[85%] message-appear">
                     <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-slate-700">
                         <p class="text-sm leading-relaxed">
-                            Hello! I'm <strong>MSZ AI</strong> (v13.5).<br><br>
-                            I was <strong>designed</strong> by <strong>Burak_msz</strong> — a 19-year-old web designer studying Web Design at AÖF. 🇹🇷 Turkish-made (partly). I am <strong>not</strong> created by OpenAI.<br><br>
-                            📰 <strong>NEW!</strong> Check out <strong>MSZ AI News!</strong> in the left menu for the latest updates and announcements.<br><br>
-                            🚀 <strong>Burak_msz's projects:</strong><br>
+                            Merhaba! Ben <strong>MSZ AI</strong> (v13.5).<br><br>
+                            Beni <strong>Burak_msz</strong> <strong>tasarladı</strong> — AÖF Web Tasarım okuyan 19 yaşında Türk bir web tasarımcısı. 🇹🇷 Türk yapımı (kısmen). <br>
+                            📰 <strong>YENİ!</strong> Sol menüdeki <strong>MSZ AI Haberleri!</strong> bölümünden son güncellemeleri ve duyuruları okuyabilirsin.<br><br>
+                            🚀 <strong>Burak_msz'in projeleri:</strong><br>
                             • <strong>MSZ Medya</strong> — <a href="https://burak-code.github.io/msz-medya/" target="_blank" style="color:#34d399;">msz-medya</a><br>
                             • <strong>CengO</strong> — <a href="https://burak-code.github.io/cengo/" target="_blank" style="color:#34d399;">cengo</a><br><br>
-                            🔍 <strong>I have 4 modes:</strong><br>
-                            • <strong>Research</strong> — Wikipedia & DuckDuckGo<br>
-                            • <strong>Image</strong> — 560x560 images (10/day)<br>
-                            • <strong>Chat</strong> — smart chat via Pollinations AI<br>
-                            • <strong>Canvas</strong> — write code right here in the chat!<br><br>
-                            📌 Click the <strong>🌐 icon</strong> to switch modes.<br>
-                            💡 Type <code>/help</code> to see commands.
+                            🔍 <strong>4 modum var:</strong><br>
+                            • <strong>Araştırma</strong> — Wikipedia & DuckDuckGo<br>
+                            • <strong>Görsel</strong> — 560x560 görseller (günde 10)<br>
+                            • <strong>Sohbet</strong> — Pollinations AI ile akıllı sohbet<br>
+                            • <strong>Canvas</strong> — kodu tam burada sohbette yaz!<br><br>
+                            📌 Mod değiştirmek için <strong>🌐 simgesine</strong> tıkla.<br>
+                            💡 Komutları görmek için <code>/help</code> yaz.
                         </p>
                     </div>
-                    <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • System</span>
+                    <span class="text-[9px] text-slate-500 px-1 uppercase tracking-widest">MSZ AI • Sistem</span>
                 </div>
             `;
             chatBox.innerHTML = welcomeHtml;
@@ -2309,15 +2301,15 @@ RULES:
             document.querySelectorAll('.mode-option').forEach(opt => {
                 opt.classList.toggle('active-mode', opt.dataset.mode === mode);
             });
-            const displays = { search: 'Mode: Research', image: 'Mode: Image', chat: 'Mode: Chat', canvas: 'Mode: Canvas' };
-            document.getElementById('currentModeDisplay').textContent = displays[mode] || 'Mode: Research';
+            const displays = { search: 'Mod: Araştırma', image: 'Mod: Görsel', chat: 'Mod: Sohbet', canvas: 'Mod: Canvas' };
+            document.getElementById('currentModeDisplay').textContent = displays[mode] || 'Mod: Araştırma';
             const placeholders = {
-                search: 'What would you like to research?',
-                image: 'Describe an image in English (e.g. beautiful sunset)',
-                chat: 'Say something to chat...',
-                canvas: 'Describe the code/project you want to build...'
+                search: 'Ne araştırmak istersin?',
+                image: 'Görseli Türkçe tanımla (ör. güzel bir gün batımı)',
+                chat: 'Sohbet etmek için bir şey yaz...',
+                canvas: 'Yapmak istediğin kod/projeyi anlat...'
             };
-            userInput.placeholder = placeholders[mode] || 'Type a question or command...';
+            userInput.placeholder = placeholders[mode] || 'Bir soru veya komut yaz...';
             modeMenu.style.display = 'none';
         }
 
@@ -2332,7 +2324,7 @@ RULES:
         }
 
         // ============================================================
-        // SLASH COMMANDS + EDIT MODE
+        // SLASH KOMUTLARI + DÜZENLEME MODU
         // ============================================================
         let layout = {};
 
@@ -2392,12 +2384,12 @@ RULES:
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'msz-ai-chat.json';
+            a.download = 'msz-ai-sohbet.json';
             document.body.appendChild(a);
             a.click();
             a.remove();
             setTimeout(() => URL.revokeObjectURL(url), 1000);
-            addMessage('Chat saved as <strong>msz-ai-chat.json</strong>.', 'bot', true);
+            addMessage('Sohbet <strong>msz-ai-sohbet.json</strong> olarak kaydedildi.', 'bot', true);
         }
 
         function runSlashCommand(raw) {
@@ -2405,7 +2397,7 @@ RULES:
             const note = (html) => addMessage(html, 'bot', true);
             switch (cmd) {
                 case '/help':
-                    note('<strong>Commands</strong><br>/help – show this list<br>/edit – drag UI elements to move them<br>/exit_edit – leave edit mode<br>/restart – reset UI positions<br>/clear – clear chat<br>/save – download chat as JSON<br>/forget – make me forget the conversation so far');
+                    note('<strong>Komutlar</strong><br>/help – bu listeyi göster<br>/edit – arayüz öğelerini sürükleyerek taşı<br>/exit_edit – düzenleme modundan çık<br>/restart – arayüz konumlarını sıfırla<br>/clear – sohbeti temizle<br>/save – sohbeti JSON olarak indir<br>/forget – konuşulanları unutmamı sağla');
                     break;
                 case '/clear':
                     clearHistory();
@@ -2415,29 +2407,29 @@ RULES:
                     break;
                 case '/forget':
                     chatMemory = [];
-                    note('Done — I forgot the conversation so far. Your messages stay on screen.');
+                    note('Tamamdır — şu ana kadar konuştuklarımızı unuttum. Mesajların ekranda kalıyor.');
                     break;
                 case '/edit':
                     setEditMode(true);
-                    note('Edit mode is on. Drag any block to move it. Type <strong>/exit_edit</strong> when you are done.');
+                    note('Düzenleme modu açık. Herhangi bir bloğu sürükleyerek taşıyabilirsin. İşin bitince <strong>/exit_edit</strong> yaz.');
                     break;
                 case '/exit_edit':
                     setEditMode(false);
-                    note('Edit mode is off. Your layout is saved.');
+                    note('Düzenleme modu kapalı. Düzenin kaydedildi.');
                     break;
                 case '/restart':
                     layout = {};
                     saveLayout();
                     applyLayout();
-                    note('UI positions were reset.');
+                    note('Arayüz konumları sıfırlandı.');
                     break;
                 default:
-                    note('Unknown command. Type <strong>/help</strong> to see available commands.');
+                    note('Bilinmeyen komut. Mevcut komutları görmek için <strong>/help</strong> yaz.');
             }
         }
 
         // ============================================================
-        // INPUT HANDLING
+        // GİRİŞ İŞLEME
         // ============================================================
         function handleInputKeydown(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -2454,11 +2446,9 @@ RULES:
             userInput.value = '';
             commandHints.style.display = 'none';
             
-            // Store reply data and clear preview
             const currentReply = replyTo;
             cancelReply();
 
-            // addMessage already saves to session, but we need to pass replyData
             const userWrapper = addMessage(raw, 'user', false, currentReply);
 
             if (raw.startsWith('/')) {
@@ -2471,13 +2461,13 @@ RULES:
                 const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=560&height=560&nologo=true`;
                 
                 const imgHtml = `
-                    <p>Generated image for: <strong>${escapeHtml(raw)}</strong></p>
+                    <p>Şunun için görsel oluşturuldu: <strong>${escapeHtml(raw)}</strong></p>
                     <div class="ai-image-container" onclick="openImageModal('${imageUrl}', '${imageUrl}')">
                         <img src="${imageUrl}" alt="${escapeHtml(raw)}" loading="lazy">
-                        <div class="expand-hint"><i class="fas fa-expand"></i> Click to expand</div>
+                        <div class="expand-hint"><i class="fas fa-expand"></i> Büyütmek için tıkla</div>
                     </div>
-                    <a href="${imageUrl}" target="_blank" download="msz-ai-image.jpg" class="download-btn">
-                        <i class="fas fa-download"></i> Download Image
+                    <a href="${imageUrl}" target="_blank" download="msz-ai-görsel.jpg" class="download-btn">
+                        <i class="fas fa-download"></i> Görseli İndir
                     </a>
                 `;
                 addMessage(imgHtml, 'bot', true);
@@ -2490,7 +2480,7 @@ RULES:
             }
 
             isLoading = true;
-            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Thinking...', 'bot', true);
+            const thinking = addMessage('<i class="fas fa-spinner fa-spin"></i> Düşünüyorum...', 'bot', true);
 
             const reply = await chatResponseAsync(raw, currentReply ? currentReply.text : null);
             thinking.remove();
@@ -2500,7 +2490,7 @@ RULES:
         }
 
         // ============================================================
-        // EVENT LISTENERS
+        // OLAY DİNLEYİCİLERİ
         // ============================================================
         worldBtn.onclick = (e) => {
             e.stopPropagation();
@@ -2528,7 +2518,7 @@ RULES:
         });
 
         // ============================================================
-        // INIT
+        // BAŞLAT
         // ============================================================
         window.onload = () => {
             const savedTheme = localStorage.getItem('msz_theme') || 'dark';
@@ -2560,4 +2550,4 @@ RULES:
         };
     </script>
 </body>
-</html>
+</html>e
